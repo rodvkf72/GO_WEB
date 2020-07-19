@@ -18,7 +18,8 @@ func Login_Check(w http.ResponseWriter, r *http.Request) {
 			}
 		}
 	}*/
-
+	
+	// 아이디 비밀번호 확인
 	r.ParseForm()
 	if r.Method == "POST" {
 		resid := r.FormValue("id")

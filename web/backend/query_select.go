@@ -6,6 +6,7 @@ import (
 	"strings"
 )
 
+// DB select 문
 func SelectQuery(db dbInfo, query string) []notice_board_view {
 	dataSource := db.user + ":" + db.pwd + "@tcp(" + db.url + ")/" + db.database
 	conn, err := sql.Open(db.engine, dataSource)

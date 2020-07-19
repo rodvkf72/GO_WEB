@@ -5,6 +5,7 @@ import (
 	"html/template"
 )
 
+// 일반 사용자가 보게 될 첫 화면
 func User_Index(w http.ResponseWriter, r *http.Request) {
 	n := hostname{"Kim's"}
 	mainTemplate, _ := template.ParseFiles("frontend/main.html", "frontend/header.html", "frontend/footer.html")

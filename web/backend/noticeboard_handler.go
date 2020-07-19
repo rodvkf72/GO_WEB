@@ -4,6 +4,7 @@ import (
 	"net/http"
 )
 
+// 게시판 기능을 받은 Handler 값에 맞게 호출
 func Noticeboard_Handler(w http.ResponseWriter, r *http.Request) {
 	r.ParseForm()
 	reshandler := r.FormValue("Handler")
