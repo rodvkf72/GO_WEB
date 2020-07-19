@@ -1,0 +1,34 @@
+<html lang="ko">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html"; charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+        <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+        <link href="/static/css/materialize.css" type="text/css" rel="stylesheet" media="screen,projection" />
+        <link href="/static/css/style.css" type="text/css" rel="stylesheet" media="screen,projection" />
+        <title>Kim's Blog - Notice Board</title>
+    </head>
+    <body>
+      {{ template "header.html" }}
+
+        <div class="writestyle" id="write_form">
+            <form method="POST" action="/notice_board_write/" onsubmit="getText()">
+                <br>
+                <b>Title</b><input class="center" type="text" name="title"><br><br>
+                <b>Content</b><br><br>
+                <div class="selectable-icons" id="cont" contenteditable="true"></div><br>
+                <textarea id="con" name="content" rows="7" cols="40" hidden></textarea>
+                <!--Content : <textarea name="content" rows="7" cols="40"></textarea><br>-->
+                <input type="submit" value="게시글 등록">
+            </form>
+        </div>
+        <script>
+          function getText() {
+            document.getElementById('con').value = document.getElementById('cont').innerText;
+          }
+        </script>
+        <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+        <script src="/static/js/materialize.js"></script>
+        <script src="/static/js/init.js"></script>
+    </body>
+</html>

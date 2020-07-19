@@ -1,0 +1,74 @@
+<html lang="ko">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html"; charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+        <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+        <link href="/static/css/materialize.css" type="text/css" rel="stylesheet" media="screen,projection" />
+        <link href="/static/css/style.css" type="text/css" rel="stylesheet" media="screen,projection" />
+        <title>Kim's Blog - Notice Board</title>
+    </head>
+    <body>
+      {{ template "header.html" }}
+
+        <center><h3>게시판</h3></center>
+        <br>
+        <table width="60%">
+            <thread>
+                <tr>
+                    <th width="10%">번호</th> <!--materialize.css 2973 line and 3027 line-->
+                    <th width="60%">제목</th>
+                    <!--<th width="10%">작성자</th>-->
+                    <th width="15%">날짜</th>
+                    <th width="15%">조회 수</th>
+                </tr>
+            </thread>
+            {{ $no := 0 }}
+            {{ range . }}
+            {{ $no = .No }}
+            <br>
+            <tbody>
+                <td>{{ .No }}</td>
+                <td><a href="/notice_board_contents/?Handle=n_content&No={{ .No }}">{{ .Title }}</a></td>
+                <!--<td>{{ .Writer }}</td>-->
+                <td>{{ .Date }}</td>
+                <td>{{ .Click }}</td>
+            </tbody>
+            {{ end }}
+        </table>
+        <br>
+        <div id="b_dv" class="center"></div>
+        <br>
+
+        <input id="cnt" type='button' value='count' onclick='Count("{{ $no }}")' hidden>
+        <input id="alt" type='button' value='alt' onclick='Alt()' hidden>
+
+        <div class="divstyle">
+          <a href="/notice_board_write/?Handle=n_write">글쓰기</a>
+        </div>
+
+        <script>
+          var count = 0;
+          function Count(val) {
+            var devide = val/10
+            if (count <= 1) {
+              devide = 1
+            }
+            count = devide
+          }
+          function Alt() {
+            for(var i=1; i <= count; i++){
+              var list = document.querySelector("#b_dv");
+              list.innerHTML += "<input type='button' value=" + "'" + i + "'" + "onclick=" + "location.href='/notice_board/?Handler=n_main&Page=" + i + "&Count=" + count + "'" + "> &nbsp;";
+            }
+          }
+          var ele1 = document.getElementById('cnt');
+          var ele2 = document.getElementById('alt');
+          ele1.click();
+          ele2.click();
+        </script>
+        <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+        <script src="/static/js/materialize.js"></script>
+        <script src="/static/js/init.js"></script>
+    </body>
+</html>
