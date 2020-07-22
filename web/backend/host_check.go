@@ -24,7 +24,7 @@ func Login_Check(w http.ResponseWriter, r *http.Request) {
 	if r.Method == "POST" {
 		resid := r.FormValue("id")
 		respw := r.FormValue("pw")
-		if (resid == "rodvkf72") && (respw == "1463") {
+		if (resid == id) && (respw == pw) {
 			fmt.Println("OK")
 			http.Redirect(w, r, "/main/", http.StatusFound)
 		} else {

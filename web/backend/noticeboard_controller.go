@@ -72,9 +72,9 @@ func Noticeboard_Write_View(w http.ResponseWriter, r *http.Request) {
 
 		restitle := r.FormValue("title")
 		rescontent := r.FormValue("content")
-		var insert_string = "INSERT INTO notice_board_view (Title, Writer, Content, Date, Click) VALUES (" + "'" + restitle + "'" + ", 'Writer', " + "'" + rescontent + "'" + ", " + "'" + f_dt + "'" + ", " + "0" + ");"
+		var insert_string = "INSERT INTO notice_board_view (Title, Writer, Content, Date, Click) VALUES (" + "'" + restitle + "'" + ", '김광호', " + "'" + rescontent + "'" + ", " + "'" + f_dt + "'" + ", " + "0" + ");"
 		InsertQuery(db1, insert_string)
-		http.Redirect(w, r, "/notice_board/", http.StatusFound)
+		http.Redirect(w, r, "/notice_board/?Handler=n_main", http.StatusFound)
 	} else {
 		noticeboardwriteTemplate.Execute(w, nil)
 	}

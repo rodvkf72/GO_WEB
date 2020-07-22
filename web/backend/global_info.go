@@ -1,6 +1,10 @@
 package backend
 
 var db1 = dbInfo{"root", "1463", "localhost:3306", "mysql", "golang_web"}
+var id string = "rodvkf72"
+var pw string = "1463"
+var header string = "frontend/header.html"
+var footer string = "frontend/footer.html"
 
 type dbInfo struct {
 	user     string
@@ -19,6 +23,13 @@ type notice_board_view struct {
 	Click 	int //int
 }
 
+type project_view struct {
+	No string
+	Title string
+	Content string
+	Root string
+}
+
 type hostname struct {
 	Name string
 }
@@ -32,6 +43,12 @@ func static(handle string) string {
 		reshandle = "2"
 	case "n_write":
 		reshandle = "3"
+	case "p_main":
+		reshandle = "11"
+	case "p_content":
+		reshandle = "12"
+	case "p_write":
+		reshandle = "13"
 	}
 	return reshandle
 }
