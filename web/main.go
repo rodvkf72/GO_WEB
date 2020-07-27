@@ -18,12 +18,12 @@ func main() {
 	http.HandleFunc("/main/", backend.User_Index)
 	http.HandleFunc("/fail/", backend.Fail)
 
-	http.HandleFunc("/notice_board/", backend.Noticeboard_Handler)
-	http.HandleFunc("/notice_board_contents/", backend.Noticeboard_Content_View)
-	http.HandleFunc("/notice_board_write/", backend.Noticeboard_Write_View)
+	http.HandleFunc("/notice_board/", backend.Request_Handler)
+	http.HandleFunc("/notice_board_contents/", backend.Request_Handler)
+	http.HandleFunc("/notice_board_write/", backend.Request_Handler)
 
-	http.HandleFunc("/project/", backend.Project_Handler)
-	http.HandleFunc("/project_contents/", backend.Project_Content_View)
+	http.HandleFunc("/project/", backend.Request_Handler)
+	http.HandleFunc("/project_contents/", backend.Request_Handler)
 	
 
 	log.Println("Listening on : 9090...")

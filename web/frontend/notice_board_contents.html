@@ -12,7 +12,7 @@
       {{ template "header.html" }}
 
           
-        <center><h3>게시판 내용</h3></center>
+        <h3 class="center">게시판 내용</h3>
         <br>
         <table>
             
@@ -22,9 +22,10 @@
               <th><h5>{{ .Title }}</h5></th>
             </tr>
             <tbody>
-                <td style="white-space: pre-line">{{ .Content }}</td>
+                <td style="white-space: pre-line"><p>{{ .Content }}</p></td>
             </tbody>
             {{ end }}
+
         </table>
         
         <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>

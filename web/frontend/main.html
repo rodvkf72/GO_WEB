@@ -8,43 +8,41 @@
         <link href="/static/css/style.css" type="text/css" rel="stylesheet" media="screen,projection" />
         <title>Kim's Blog - Main</title>
     </head>
-    <body>
+    <body class="box">
       {{ template "header.html" }}
-
+      
         <div id="index-banner" class="parallax-container">
             <div class="section no-pad-bot">
                 <div class="container">
-                    <br><br>
-                    <h2 class="center"><br><br><br><br><br>Welcome To Kim's Blog !</h2>
-                    <br><br>
+                    <h2 class="center"><br><br><br>Welcome To Kim's Blog !</h2>
                 </div>
             </div>
-            <div class="parallax"><img src="/static/image/main_2.png" alt="Unsplashed comp1.png" width="100"></div>
+            <div class="parallax"><img src="/static/image/main_2.png" alt="Unsplashed comp1.png"></div>
         </div>
 
 
-    <div class="container">
-        <div class="section">
-        <!--   Icon Section   -->
-            <div class="row">
-                <div class="col s12">
-                    <div class="icon-block">
-                        <h1 class="center brown-text"><i class="material-icons">work</i></h1>
-                        <h5 class="center"><strong>Information</strong><hr></h5>
-                        <p class="center">He is a student at Dong-Eui University.<br>
-                        It is mainly coded with JAVA and GO<br>
-                        And it's a game enthusiast, regardless of CONSOLE or PC</p>
+        <div class="container">
+            <div class="section">
+            <!--   Icon Section   -->
+                <div class="row">
+                    <div class="col s12">
+                        <div class="icon-block">
+                            <h1 class="center brown-text"><i class="material-icons">work</i></h1>
+                            <h5 class="center"><strong>Information</strong><hr style="width: 10%;"></h5>
+                            <p class="center">Attending Dong-Eui University.<br>
+                            Favorite code is JAVA and GO<br>
+                            And it's a PC game enthusiast</p>
+                        </div>
                     </div>
                 </div>
+            <!--  End Icon Section  -->
             </div>
-        <!--  End Icon Section  -->
         </div>
-    </div>
-      {{ template "footer.html" }}
+        {{ template "footer.html" }}
   
 
-      <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
-      <script src="/static/js/materialize.js"></script>
-      <script src="/static/js/init.js"></script>
+        <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+        <script src="/static/js/materialize.js"></script>
+        <script src="/static/js/init.js"></script>
     </body>
 </html>

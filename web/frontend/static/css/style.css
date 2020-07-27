@@ -22,7 +22,7 @@
  .parallax-container {
    min-height: 500px;
    line-height: 0;
-   height: 90%;
+   height: 60%;
    color: rgb(255, 124, 72);
    background:rgba(255,255,255,.3);
  }
@@ -56,5 +56,17 @@
  footer.page-footer {
    margin:0;
    background-color:rgba(0,0,0,.4)
+ }
+
+ .box{
+   -ms-overflow-style: none;
+ }
+ .box::-webkit-scrollbar{
+   display: none;
+ }
+
+ hr.three {
+   height: 51%;
+   width: 0px;
  }
  

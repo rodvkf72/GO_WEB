@@ -11,7 +11,7 @@
     <body>
       {{ template "header.html" }}
 
-        <center><h3>게시판</h3></center>
+        <h3 class="center">게시판</h3>
         <br>
         <table width="60%">
             <thread>
@@ -29,7 +29,7 @@
             
             <tbody>
                 <td>{{ .No }}</td>
-                <td><a href="/notice_board_contents/?Handle=n_content&No={{ .No }}">{{ .Title }}</a></td>
+                <td><a href="/notice_board_contents/?Handler=n_content&No={{ .No }}">{{ .Title }}</a></td>
                 <!--<td>{{ .Writer }}</td>-->
                 <td>{{ .Date }}</td>
                 <td>{{ .Click }}</td>
@@ -44,7 +44,7 @@
         <input id="alt" type='button' value='alt' onclick='Alt()' hidden>
 
         <div class="divstyle">
-          <a href="/notice_board_write/?Handle=n_write">글쓰기</a>
+          <a href="/notice_board_write/?Handler=n_write">글쓰기</a>
         </div>
 
         <script>
