@@ -1,0 +1,30 @@
+<html lang="ko">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html"; charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+        <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+        <link href="/static/css/materialize.css" type="text/css" rel="stylesheet" media="screen,projection" />
+        <link href="/static/css/style.css" type="text/css" rel="stylesheet" media="screen,projection" />
+        <title>Kim's Blog - Notice Board</title>
+    </head>
+    <body>
+      {{ template "header.html" }}
+      <br><br><br>
+    
+        <div class="writestyle" id="write_form">
+            <form method="POST" action="/menu/?Handler=g_write">
+                <br>
+                <b>Game</b><input class="center" type="text" name="game">
+                <br><br><br>
+                <b>Src</b><input class="center" type="text" name="root">
+                <br><br>
+                <input type="submit" value="게임 등록">
+            </form>
+        </div>
+        
+        <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+        <script src="/static/js/materialize.js"></script>
+        <script src="/static/js/init.js"></script>
+    </body>
+</html>

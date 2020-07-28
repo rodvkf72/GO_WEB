@@ -29,7 +29,7 @@
             
             <tbody>
                 <td>{{ .No }}</td>
-                <td><a href="/notice_board_contents/?Handler=n_content&No={{ .No }}">{{ .Title }}</a></td>
+                <td><a href="/menu/?Handler=n_content&No={{ .No }}">{{ .Title }}</a></td>
                 <!--<td>{{ .Writer }}</td>-->
                 <td>{{ .Date }}</td>
                 <td>{{ .Click }}</td>
@@ -44,7 +44,7 @@
         <input id="alt" type='button' value='alt' onclick='Alt()' hidden>
 
         <div class="divstyle">
-          <a href="/notice_board_write/?Handler=n_write">글쓰기</a>
+          <a href="/menu/?Handler=n_write">글쓰기</a>
         </div>
 
         <script>
@@ -59,7 +59,7 @@
           function Alt() {
             for(var i=1; i <= count; i++){
               var list = document.querySelector("#b_dv");
-              list.innerHTML += "<input type='button' value=" + "'" + i + "'" + "onclick=" + "location.href='/notice_board/?Handler=n_main&Page=" + i + "&Count=" + count + "'" + "> &nbsp;";
+              list.innerHTML += "<input type='button' value=" + "'" + i + "'" + "onclick=" + "location.href='/menu/?Handler=n_main&Page=" + i + "&Count=" + count + "'" + "> &nbsp;";
             }
           }
           var ele1 = document.getElementById('cnt');

@@ -24,11 +24,13 @@ func Request_Handler(w http.ResponseWriter, r *http.Request) {
 	case "13":
 		Project_Write_View(w, r)
 
-	/*case "21":
+	case "21":
 		Game_Index(w, r)
+	/*
 	case "22":
 		Game_Content_View(w, r)
+	*/
 	case "23":
-		Game_Write_View(w, r)*/
+		Game_Write_View(w, r)
 	}
 }

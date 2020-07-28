@@ -37,6 +37,33 @@ func SelectQuery(db dbInfo, query string) []notice_board_view {
 	return Notice_board_views
 }
 
+func GameSelectQuery(db dbInfo, query string) []game_view {
+	dataSource := db.user + ":" + db.pwd + "@tcp(" + db.url + ")/" + db.database
+	conn, err := sql.Open(db.engine, dataSource)
+	if err != nil {
+		log.Fatal(err)
+	}
+	rows, err := conn.Query(query)
+
+	Game_view := game_view{}
+	Game_views := []game_view{}
+
+	for rows.Next() {
+		var no int
+		var name, root string
+		err := rows.Scan(&no, &name, &root)
+		if err != nil {
+			log.Fatal(err)
+		}
+		Game_view.No = no
+		Game_view.Name = name
+		Game_view.Root = root
+		Game_views = append(Game_views, Game_view)
+	}
+	defer conn.Close()
+	return Game_views
+}
+
 /* 단수 쿼리의 경우
 conn, err := sql.Open(db.engine, dataSource)
 if err != nil {

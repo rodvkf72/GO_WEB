@@ -10,21 +10,30 @@
     </head>
     <body>
       {{ template "header.html" }}
-
+      <br><br><br>
+    
         <div class="writestyle" id="write_form">
-            <form method="POST" action="/notice_board_write/?Handler=n_write" onsubmit="getText()">
+            <form method="POST" action="/menu/?Handler=n_write" onsubmit="getText()">
                 <br>
-                <b>Title</b><input class="center" type="text" name="title"><br><br>
+                <b>Title</b><input class="center" type="text" name="title"><br><br><br>
                 <b>Content</b><br><br>
-                <div class="selectable-icons" id="cont" contenteditable="true"></div><br>
+                <div class="selectable-icons autosize" onkeydown="resize(this)" onkeyup="resize(this)" id="cont" contenteditable="true"></div><br>
                 <textarea id="con" name="content" rows="7" cols="40" hidden></textarea>
                 <!--Content : <textarea name="content" rows="7" cols="40"></textarea><br>-->
+                <br>
                 <input type="submit" value="게시글 등록">
             </form>
         </div>
+        <style>
+          textarea.autosize { min-height: 50px; }
+        </style>
         <script>
           function getText() {
             document.getElementById('con').value = document.getElementById('cont').innerText;
+          }
+          function resize(obj) {
+            obj.style.height = "1px";
+            obj.style.height = (20+obj.scrollHeight)+"px";
           }
         </script>
         <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>

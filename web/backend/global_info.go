@@ -30,6 +30,12 @@ type project_view struct {
 	Root string
 }
 
+type game_view struct {
+	No int
+	Name string
+	Root string
+}
+
 type hostname struct {
 	Name string
 }
@@ -43,12 +49,20 @@ func static(handle string) string {
 		reshandle = "2"
 	case "n_write":
 		reshandle = "3"
+
 	case "p_main":
 		reshandle = "11"
 	case "p_content":
 		reshandle = "12"
 	case "p_write":
 		reshandle = "13"
+
+	case "g_main":
+		reshandle = "21"
+	case "g_content":
+		reshandle = "22"
+	case "g_write":
+		reshandle = "23"
 	}
 	return reshandle
 }
