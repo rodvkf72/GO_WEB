@@ -73,7 +73,6 @@
  .round {
    float: left;
    overflow: hidden;
-   box-sizing: border-box;
    width: 20%;
    height: auto;
    margin: 2.5%;

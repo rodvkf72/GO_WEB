@@ -37,6 +37,28 @@ func SelectQuery(db dbInfo, query string) []notice_board_view {
 	return Notice_board_views
 }
 
+func NoSelectQuery(db dbInfo, query string) []notice_board_total_no {
+	dataSource := db.user + ":" + db.pwd + "@tcp(" + db.url + ")/" + db.database
+	conn, err := sql.Open(db.engine, dataSource)
+	if err != nil {
+		log.Fatal(err)
+	}
+	rows, err := conn.Query(query)
+	Notice_board_total_no := notice_board_total_no{}
+	Notice_board_total_nos := []notice_board_total_no{}
+	for rows.Next(){
+		var total_no int
+		err := rows.Scan(&total_no)
+		if err != nil {
+			log.Fatal(err)
+		}
+		Notice_board_total_no.Total_no = total_no
+		Notice_board_total_nos = append(Notice_board_total_nos, Notice_board_total_no)
+	}
+	defer conn.Close()
+	return Notice_board_total_nos
+}
+
 func GameSelectQuery(db dbInfo, query string) []game_view {
 	dataSource := db.user + ":" + db.pwd + "@tcp(" + db.url + ")/" + db.database
 	conn, err := sql.Open(db.engine, dataSource)

@@ -6,7 +6,7 @@ import (
 )
 
 func Game_Index(w http.ResponseWriter, r *http.Request) {
-	gameTemplate, _ := template.ParseFiles("frontend/game.html", "frontend/header.html", "frontend/footer.html")
+	gameTemplate, _ := template.ParseFiles("frontend/game.html", header, footer)
 
 	var game_view_string = "SELECT * FROM game_view"
 	result := GameSelectQuery(db1, game_view_string)
@@ -14,7 +14,7 @@ func Game_Index(w http.ResponseWriter, r *http.Request) {
 }
 
 func Game_Write_View(w http.ResponseWriter, r *http.Request) {
-	gamewriteTemplate, _ := template.ParseFiles("frontend/game_write.html", "frontend/header.html", "frontend/footer.html")
+	gamewriteTemplate, _ := template.ParseFiles("frontend/game_write.html", header, footer)
 
 	r.ParseForm()
 	if r.Method == "POST" {

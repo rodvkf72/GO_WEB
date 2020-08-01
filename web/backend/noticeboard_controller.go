@@ -11,7 +11,7 @@ import (
 
 // 게시판 첫 화면 및 페이징 기능
 func Noticeboard_Index(w http.ResponseWriter, r *http.Request) {
-	noticeboardTemplate, _ := template.ParseFiles("frontend/notice_board.html", "frontend/header.html", "frontend/footer.html")
+	noticeboardTemplate, _ := template.ParseFiles("frontend/notice_board.html", header, footer)
 	r.ParseForm()
 	respage := r.FormValue("Page")
 	rescount := r.FormValue("Count")
@@ -27,7 +27,7 @@ func Noticeboard_Index(w http.ResponseWriter, r *http.Request) {
 		max_str := strconv.Itoa(max_int)
 		fmt.Println(min_str)
 		fmt.Println(max_str)
-		var notice_view_string = "SELECT * FROM notice_board_view WHERE No <=" + max_str + " AND No >=" + min_str + " ORDER BY No DESC limit 10;"
+		var notice_view_string = "SELECT * FROM notice_board_view WHERE No <=" + max_str + " AND No >" + min_str + " ORDER BY No DESC limit 10;"
 		result := SelectQuery(db1, notice_view_string)
 		noticeboardTemplate.Execute(w, result)
 	} else {
@@ -39,7 +39,7 @@ func Noticeboard_Index(w http.ResponseWriter, r *http.Request) {
 
 // 글을 클릭했을 때 보여지는 내용 및 조회 수 계산
 func Noticeboard_Content_View(w http.ResponseWriter, r *http.Request) {
-	noticeboardcontentsTemplate, _ := template.ParseFiles("frontend/notice_board_contents.html", "frontend/header.html", "frontend/footer.html")
+	noticeboardcontentsTemplate, _ := template.ParseFiles("frontend/notice_board_contents.html", header, footer)
 	r.ParseForm()
 	resno := r.FormValue("No")
 	if resno != "" {
@@ -63,7 +63,7 @@ func Noticeboard_Content_View(w http.ResponseWriter, r *http.Request) {
 
 // 게시글 작성 시 날짜형식을 기호에 맞게 포맷하여 데이터베이스에 삽입
 func Noticeboard_Write_View(w http.ResponseWriter, r *http.Request) {
-	noticeboardwriteTemplate, _ := template.ParseFiles("frontend/notice_board_write.html", "frontend/header.html", "frontend/footer.html")
+	noticeboardwriteTemplate, _ := template.ParseFiles("frontend/notice_board_write.html", header, footer)
 
 	r.ParseForm()
 	if r.Method == "POST" {

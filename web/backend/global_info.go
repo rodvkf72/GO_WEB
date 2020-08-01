@@ -23,6 +23,10 @@ type notice_board_view struct {
 	Click 	int //int
 }
 
+type notice_board_total_no struct {
+	Total_no int
+}
+
 type project_view struct {
 	No string
 	Title string
