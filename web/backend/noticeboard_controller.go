@@ -31,7 +31,7 @@ func Noticeboard_Index(w http.ResponseWriter, r *http.Request) {
 		result := SelectQuery(db1, notice_view_string)
 		noticeboardTemplate.Execute(w, result)
 	} else {
-		var notice_view_string = "SELECT * FROM notice_board_view ORDER BY No DESC limit 10;"
+		var notice_view_string = "SELECT * FROM notice_board_view WHERE No<=(SELECT MAX(No) FROM notice_board_view) AND No>(SELECT TRUNCATE((SELECT MAX(no) FROM notice_board_view), -1) FROM dual) ORDER BY No DESC limit 10;"
 		result := SelectQuery(db1, notice_view_string)
 		noticeboardTemplate.Execute(w, result)
 	}
