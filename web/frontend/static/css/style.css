@@ -44,6 +44,9 @@
    #index-banner .section {
      top: 0;
    }
+   .border {
+     margin-left: 2.5%;
+   }
  }
  
  .icon-block {
@@ -69,10 +72,18 @@
    height: 51%;
    width: 0px;
  }
+
+ .border {
+  overflow: hidden;
+  display: inline-block;
+  height: auto;
+  border: 1px solid gray;
+}
  
  .round {
    float: left;
    overflow: hidden;
+   display: block;
    width: 20%;
    height: auto;
    margin: 2.5%;
@@ -82,9 +93,42 @@
 
  .img-padding {
   width: 100%;
+  height: auto;
   border-radius: 20px;
   padding-top: 4%;
   padding-left: 4%;
   padding-right: 4%;
   padding-bottom: 4%;
+ }
+
+ .line {
+  text-align: left;
+  line-height: 25px;
+ }
+
+ .span-line {
+   text-align: left;
+   line-height: 30px;
+ }
+
+ .content-view {
+   text-align: center;
+   width: 60%;
+   margin-left: 20%;
+   height: auto;
+   overflow: hidden;
+   background-color: white;
+   border-left: 1px solid gray;
+   border-right: 1px solid gray;
+ }
+
+ .explanation {
+   text-align: left;
+   width: 80%;
+   margin-left: 10%;
+   height: auto;
+ }
+
+ .hr-color {
+   border-color: white;
  }

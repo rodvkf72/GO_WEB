@@ -8,9 +8,8 @@
         <link href="/static/css/style.css" type="text/css" rel="stylesheet" media="screen,projection" />
         <title>Kim's Blog - Notice Board</title>
     </head>
-    <body>
+    <body class="box">
       {{ template "header.html" }}
-
         <h3 class="center">게시판</h3>
         <br>
         <table width="60%">
@@ -46,7 +45,7 @@
         <div class="divstyle">
           <a href="/menu/?Handler=n_write">글쓰기</a>
         </div>
-
+        
         <script>
           var count = 0;
           var devide;
