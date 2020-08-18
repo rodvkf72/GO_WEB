@@ -14,13 +14,14 @@
         <br>
         <table width="60%">
             <thread>
-                <tr>
+                <tr style="background-color: rgb(230, 230, 230);">
                     <th width="10%">번호</th> <!--materialize.css 2973 line and 3027 line-->
                     <th width="60%">제목</th>
                     <!--<th width="10%">작성자</th>-->
                     <th width="15%">날짜</th>
                     <th width="15%">조회 수</th>
                 </tr>
+                <hr>
             </thread>
             {{ $no := 0 }}
             {{ range . }}
@@ -37,15 +38,15 @@
             {{ end }}
         </table>
         <br>
+        <div class="margin-auto">
+          <a href="/menu/?Handler=n_write">글쓰기</a>
+        </div>
+        <br>
+        <hr>
+        <br>
         <div id="b_dv" class="center"></div>
         <br>
 
-      
-
-        <div class="divstyle">
-          <a href="/menu/?Handler=n_write">글쓰기</a>
-        </div>
-        
         <script>
           var count = 0;
           var devide;

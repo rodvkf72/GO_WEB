@@ -132,3 +132,19 @@
  .hr-color {
    border-color: white;
  }
+
+ .margin-auto {
+  width: 60%;
+  margin: auto;
+  padding-right: 1%;
+  text-align: right;
+ }
+
+ @media only screen and (max-width: 992px) {
+  .margin-auto {
+    width: 100%;
+    padding-right: 2%;
+    margin: auto;
+    text-align: right;
+  }
+}
