@@ -1,8 +1,8 @@
 package backend
 
 import (
-	"net/http"
 	"html/template"
+	"net/http"
 )
 
 func Game_Index(w http.ResponseWriter, r *http.Request) {
@@ -19,8 +19,9 @@ func Game_Write_View(w http.ResponseWriter, r *http.Request) {
 	r.ParseForm()
 	if r.Method == "POST" {
 		resgame := r.FormValue("game")
+		restype := r.FormValue("type")
 		resroot := r.FormValue("root")
-		var insert_string = "INSERT INTO game_view (Game, Root) VALUES (" + "'" + resgame + "'" + "," + "'" + resroot + "'" + ");"
+		var insert_string = "INSERT INTO game_view (Game, Type, Root) VALUES (" + "'" + resgame + "'" + "," + "'" + restype + "'" + "," + "'" + resroot + "'" + ");"
 		InsertQuery(db1, insert_string)
 		http.Redirect(w, r, "/menu/?Handler=g_main", http.StatusFound)
 	} else {

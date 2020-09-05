@@ -1,37 +1,24 @@
-<html lang="ko">
-    <head>
-        <meta http-equiv="Content-Type" content="text/html"; charset="UTF-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1" />
+<div class="explanation hr-color">
+    <span id="filedisplayarea"></span>
 
-        <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-        <link href="/static/css/materialize.css" type="text/css" rel="stylesheet" media="screen,projection" />
-        <link href="/static/css/style.css" type="text/css" rel="stylesheet" media="screen,projection" />
-        <title>Kim's Blog - Project Content</title>
-    </head>
-    <body>
-      {{ template "header.html" }}
-
-          
-        <h3 class="center">프로젝트 내용</h3>
-        <br>
-        <table>
-
-            {{ range . }}
-            <br>
-            <tr>
-              <th><h5>{{ .Title }}</h5></th>
-            </tr>
-            <tbody>
-                <td style="white-space: pre-line"><p>{{ .Content }}</p>
-                    <img src="{{ .Root }}" alt="Unsplashed comp1.png" width="300">
-                </td>
-            </tbody>
-            {{ end }}
-
-        </table>
-        
-        <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
-        <script src="/static/js/materialize.js"></script>
-        <script src="/static/js/init.js"></script>
-    </body>
-</html>
+    <script>
+        var filedisplayarea = document.getElementById('filedisplayarea');
+        function readTextFile(file) {
+            var rawFile = new XMLHttpRequest();
+            rawFile.open("GET", file, false);
+            rawFile.onreadystatechange = function ()
+            {
+                if(rawFile.readyState === 4) {
+                    if(rawFile.status === 200 || rawFile.status == 0) {
+                        var allText = rawFile.responseText;
+                        filedisplayarea.innerHTML = allText;
+                    }
+                }
+            }
+            rawFile.send(null);
+        }
+        readTextFile("/static/test/project_contents.html");
+    </script>
+    <br>
+    <br>
+</div>

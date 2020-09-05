@@ -83,22 +83,22 @@
  .round {
    float: left;
    overflow: hidden;
-   display: block;
-   width: 20%;
+   width: 13.33%;
    height: auto;
-   margin: 2.5%;
-   border-radius: 20px;
+
+   margin-left: 0.83%;
+   margin-top: 0.83%;
+   border-radius: 5px;
    border: 1px solid black;
  }
 
  .img-padding {
   width: 100%;
-  height: auto;
-  border-radius: 20px;
-  padding-top: 4%;
-  padding-left: 4%;
-  padding-right: 4%;
-  padding-bottom: 4%;
+  height: 20%;
+ }
+
+ .test {
+  height: 3.5%;
  }
 
  .line {
@@ -146,5 +146,23 @@
     padding-right: 2%;
     margin: auto;
     text-align: right;
+  }
+  .round {
+    float: left;
+    overflow: hidden;
+    width: 19%;
+    height: auto;
+    margin-left: 0.83%;
+    margin-top: 0.83%;
+    border-radius: 5px;
+    border: 1px solid black;
+  }
+  .img-padding {
+   width: 100%;
+   height: 20%;
+   border-radius: 5px;
+  }
+  .test {
+    height: 5%;
   }
 }

@@ -15,12 +15,12 @@ type dbInfo struct {
 }
 
 type notice_board_view struct {
-	No 		int //int
-	Title 	string
-	Writer 	string
+	No      int //int
+	Title   string
+	Writer  string
 	Content string
-	Date 	string //date
-	Click 	int //int
+	Date    string //date
+	Click   int    //int
 }
 
 type notice_board_total_no struct {
@@ -28,15 +28,16 @@ type notice_board_total_no struct {
 }
 
 type project_view struct {
-	No string
-	Title string
+	No      string
+	Title   string
 	Content string
-	Root string
+	Root    string
 }
 
 type game_view struct {
-	No int
+	No   int
 	Name string
+	Type string
 	Root string
 }
 

@@ -6,26 +6,30 @@
         <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
         <link href="/static/css/materialize.css" type="text/css" rel="stylesheet" media="screen,projection" />
         <link href="/static/css/style.css" type="text/css" rel="stylesheet" media="screen,projection" />
-        <title>Kim's Blog - Project</title>
+        <title>Kim's Blog - Project Content</title>
     </head>
-    <body class="box">
-        {{ template "header.html" }}
-      
-        {{ range . }}
-        <div class="round center">
-            <img class="img-padding" src="{{ .Root }}" alter="{{ .Name }}.png">
-            <hr style="margin-top: 1%;">
-            <div style="background-color: black; color: red;">장르 : {{ .Type }} </div>
-            <hr>
-            <div style="background-color: black; color: white;">게임명 : {{ .Name }} </div>
-            <br style="line-height: 70%;">
-        </div>
-        {{ end }}
+    <body>
+      {{ template "header.html" }}
 
-        <div class="divstyle" onclick="location.href='/menu/?Handler=g_write'">
-            <a href="#">게임 추가</a>
-        </div>
+          
+        <h3 class="center">프로젝트 내용</h3>
+        <br>
+        <table>
 
+            {{ range . }}
+            <br>
+            <tr>
+              <th><h5>{{ .Title }}</h5></th>
+            </tr>
+            <tbody>
+                <td style="white-space: pre-line"><p>{{ .Content }}</p>
+                    <img src="{{ .Root }}" alt="Unsplashed comp1.png" width="300">
+                </td>
+            </tbody>
+            {{ end }}
+
+        </table>
+        
         <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
         <script src="/static/js/materialize.js"></script>
         <script src="/static/js/init.js"></script>
