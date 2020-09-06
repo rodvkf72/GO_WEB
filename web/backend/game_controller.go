@@ -1,7 +1,6 @@
 package backend
 
 import (
-	"fmt"
 	"html/template"
 	"net/http"
 )
@@ -16,7 +15,7 @@ func Game_Index(w http.ResponseWriter, r *http.Request) {
 
 func Game_Write_View(w http.ResponseWriter, r *http.Request) {
 	gamewriteTemplate, _ := template.ParseFiles("frontend/game_write.html", header, footer)
-	fmt.Println("test")
+
 	r.ParseForm()
 	if r.Method == "POST" {
 		resgame := r.FormValue("game")
