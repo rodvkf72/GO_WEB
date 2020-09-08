@@ -53,11 +53,13 @@
           function Count(val) {
             devide = val/10;
             if (devide < 1) {
-              devide = 1;
+                devide = 1;
             } else if (devide <= 2) {
-              devide = 2;
+                devide = 2;
             } else if (devide <= 3) {
-              devide = 3;
+                devide = 3;
+            } else if (devide <= 4) {
+                devide = 4;
             }
             count = parseInt(devide);
           }

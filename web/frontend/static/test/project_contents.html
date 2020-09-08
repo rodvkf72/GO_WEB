@@ -17,13 +17,9 @@ MySQL을 사용하였습니다.
 <br>
 <h5><b>1.2. 실행화면</b></h5>
 <hr class="hr-color">
-<img src="/static/image/web_code(go).png" style="width: 100%; height: auto;" class="center">
+<img src="/static/image/1.png" style="width: 100%; height: auto;" class="center">
 <br>
-<p class="center">↑ 블로그의 게시판 기능 중 페이징 구현 코드로서 Go언어의 Template를 사용하여 HTML에서 사용</p>
-<br>
-<img src="/static/image/web_code3(html).png" style="width: 100%; height: auto;" class="center">
-<br>
-<p class="center">↑ Template를 통해 전달받은 구조체 배열을 range/end 를 통해 반복 출력</p>
+<p class="center">↑ 블로그의 첫 화면</p>
 <br>
 <span style="float: right;">프로젝트 전체에 대한 내용이 궁금하시면 <a href="/menu/?Handler=p_content&No=1">여기</a> 를 눌러주세요.</span>
 <br>
@@ -54,12 +50,9 @@ MySQL을 사용하였습니다.
 <br>
 <h5><b>2.3. 실행화면</b></h5>
 <hr class="hr-color">
-<img src="/static/image/travel_code(go).png" style="width: 100%; height: auto;" class="center">
+<img src="/static/image/2.png" style="width: 100%; height: auto;" class="center">
 <br>
-<p class="center">↑ 주어진 쿼리문을 실행하고 나온 값과 인증 파일을 통해 FCM에 푸시 메시지를 요청</p>
-<br>
-<img src="/static/image/travel_code(java).png" style="width: 100%; height: auto;" class="center">
-<p class="center">↑ 구글맵 마커를 커스텀하여 해당 위치에 마커 대신 해당지역 이미지를 띄우고 클릭 시 해당 지역 내용을 출력</p>
+<p class="center">↑ 해당 지역 마커를 이미지로 표시</p>
 <br>
 <span style="float: right;">프로젝트 전체에 대한 내용이 궁금하시면 <a href="/menu/?Handler=p_content&No=2">여기</a> 를 눌러주세요.</span>
 <br>
@@ -73,29 +66,21 @@ MySQL을 사용하였습니다.
 <br>
 <h5><b>3.1. 예방 유지보수(XSS 공격)</b></h5>
 <hr class="hr-color">
-<img src="/static/image/protect(java).png" style="width: 100%; height: auto;" class="center">
+<img src="/static/image/3.1.png" style="width: 100%; height: auto;" class="center">
 <br>
-<p class="center">↑ XSS 필터 이외에도 request.getParameter를 직접적으로 사용하는 것은 공격 대상이 되기에 아래의 필터를 거치면서 문자열 변수에 넣고 해당 문자열 변수를 사용하였습니다.</p>
-<br>
-<img src="/static/image/protect2(java).png" style="width: 100%; height: auto;" class="center">
-<br>
-<p class="center">↑ Filter라는 메소드를 정의하여 필요한 곳에서 메소드를 호출하여 문자열을 파라미터로 받게 하였습니다.</p>
+<p class="center">↑ Filter라는 메소드를 정의하여 필요한 곳에서 메소드를 호출하여 문자열을 파라미터로 받음</p>
 <br>
 <h5><b>3.2. 완전화 유지보수(임시 보관함)</b></h5>
 <hr class="hr-color">
-<img src="/static/image/perfection(java).png" style="width: 100%; height: auto;" class="center">
+<img src="/static/image/3.2.png" style="width: 100%; height: auto;" class="center">
 <br>
-<p class="center">↑ 데이터베이스에 암호화된 내용들을 UNHEX로 복호화 하여 불러옵니다.</p>
-<br>
-<img src="/static/image/perfection(html).png" style="width: 100%; height: auto;" class="center">
-<br>
-<p class="center">↑ 복호화된 내용을 출력합니다.</p>
+<p class="center">↑ 메일 작성 중 페이지 전환 발생 시 알림팝업과 함께 데이터베이스에 해당 데이터 저장</p>
 <br>
 <h5><b>3.3. 수정 유지보수(Yasca, SonarQube)</b></h5>
 <hr class="hr-color">
-<img src="/static/image/modify(sonarqube).png" style="width: 100%; height: auto;" class="center">
+<img src="/static/image/3.3.png" style="width: 100%; height: auto;" class="center">
 <br>
-<p class="center">↑ 수정 유지보수를 위해 SonarQube 사용 모습입니다.</p>
+<p class="center">↑ 수정 유지보수를 위해 SonarQube 사용 모습</p>
 <br>
 <h5><b>3.4. 적응 유지보수(해당 없음)</b></h5>
 <br>
@@ -124,9 +109,9 @@ import 하여 인식률을 상승시켰습니다.
 <br>
 <h5><b>4.3. 실행화면</b></h5>
 <hr class="hr-color">
-<img src="/static/image/carpay(android).png" style="width: 100%; height: auto;" class="center">
+<img src="/static/image/4.png" style="width: 100%; height: auto;" class="center">
 <br>
-<p class="center">↑ OCR 기능을 통해 차량 번호판이 인식된 모습입니다.</p>
+<p class="center">↑ OCR 기능을 통해 차량 번호판이 인식되고 확인버튼 클릭 시 해당 차량주의 전화번호로 연결되는 모습</p>
 <br>
 <span style="float: right;">프로젝트 전체에 대한 내용이 궁금하시면 <a href="/menu/?Handler=p_content&No=4">여기</a> 를 눌러주세요.</span>
 <br>
@@ -145,9 +130,9 @@ import 하여 인식률을 상승시켰습니다.
 <br>
 <h5><b>5.2. 실행화면</b></h5>
 <hr class="hr-color">
-<img src="/" style="width: 100%; height: auto;" class="center">
+<img src="/static/image/5.png" style="width: 100%; height: auto;" class="center">
 <br>
-<p class="center">↑ 건축정보 모바일 서비스 이미지 삽입할 것</p>
+<p class="center">↑ 해당 기능 선택 시 지역, 구 를 빨간 테두리로 표시</p>
 <br>
 <span style="float: right;">프로젝트 전체에 대한 내용이 궁금하시면 <a href="/menu/?Handler=p_content&No=5">여기</a> 를 눌러주세요.</span>
 <br>
@@ -166,9 +151,9 @@ import 하여 인식률을 상승시켰습니다.
 <br>
 <h5><b>6.2. 실행화면</b></h5>
 <hr class="hr-color">
-<img src="/" style="width: 100%; height: auto;" class="center">
+<img src="/static/image/6.png" style="width: 100%; height: auto;" class="center">
 <br>
-<p class="center">↑ ROS 이미지 삽입할 것</p>
+<p class="center">↑ 터틀봇이 RGB 값을 가지고 정지판을 인식하고 정지판과의 거리를 출력하는 모습 (가까울 수록 숫자가 커짐)</p>
 <br>
 <span style="float: right;">프로젝트 전체에 대한 내용이 궁금하시면 <a href="/menu/?Handler=p_content&No=6">여기</a> 를 눌러주세요.</span>
 <br>
@@ -182,14 +167,14 @@ import 하여 인식률을 상승시켰습니다.
 <br>
 <h5><b>7.1. 데이터베이스 설계</b></h5>
 <hr class="hr-color">
-&nbsp;데이터베이스 설계 설명 작성
+&nbsp;가상의 전자 제품 기업을 상정하고 해당 기업에서 사용하는 서비스 소프트웨어를 개발한다는 내용이며 프로그램 자체 보다는 데이터베이스의 설계와 구현에 초점을 두었습니다.
 <br>
 <br>
 <h5><b>7.2. 실행화면</b></h5>
 <hr class="hr-color">
-<img src="/" style="width: 100%; height: auto;" class="center">
+<img src="/static/image/7.png" style="width: 100%; height: auto;" class="center">
 <br>
-<p class="center">↑ 서비스 센터 이미지1 삽입할 것</p>
+<p class="center">↑ 서비스 접수 시 일치하는 회원정보가 없을 경우 회원가입을 진행하는 화면</p>
 <br>
 <span style="float: right;">프로젝트 전체에 대한 내용이 궁금하시면 <a href="/menu/?Handler=p_content&No=7">여기</a> 를 눌러주세요.</span>
 <br>
@@ -213,7 +198,7 @@ import 하여 인식률을 상승시켰습니다.
 <br>
 <h5><b>8.2. 실행화면</b></h5>
 <hr class="hr-color">
-<img src="/static/image/command_pattern.png" style="width: 100%; height: auto;" class="center">
+<img src="/static/image/8.png" style="width: 100%; height: auto;" class="center">
 <br>
 <p class="center">↑ 커맨드 패턴이 실행된 화면</p>
 <br>
@@ -239,9 +224,9 @@ import 하여 인식률을 상승시켰습니다.
 <br>
 <h5><b>9.3. 실행화면</b></h5>
 <hr class="hr-color">
-<img src="/" style="width: 100%; height: auto;" class="center">
+<img src="/static/image/9.png" style="width: 100%; height: auto;" class="center">
 <br>
-<p class="center">↑ 장르 통합 웹 사이트 이미지</p>
+<p class="center">↑ 장르 통합 웹 사이트 첫 화면</p>
 <br>
 <span style="float: right;">프로젝트 전체에 대한 내용이 궁금하시면 <a href="/menu/?Handler=p_content&No=9">여기</a> 를 눌러주세요.</span>
 <br>
@@ -255,9 +240,9 @@ import 하여 인식률을 상승시켰습니다.
 <br>
 <h5><b>10.1. 설계내용</b></h5>
 <hr class="hr-color">
-<img src="/" style="width: 100%; height: auto;" class="center">
+<img src="/static/image/10.png" style="width: 100%; height: auto;" class="center">
 <br>
-<p class="center">↑ AR 구현동화 이미지 이미지</p>
+<p class="center">↑ vuforia를 사용하여 특정 이미지에 특정 캐릭터를 입체감 있게 보여줄 수 있다는 것을 확인</p>
 <br>
 <span style="float: right;">프로젝트 전체에 대한 내용이 궁금하시면 <a href="/menu/?Handler=p_content&No=10">여기</a> 를 눌러주세요.</span>
 <br>
@@ -276,9 +261,9 @@ import 하여 인식률을 상승시켰습니다.
 <br>
 <h5><b>11.2. 실행화면</b></h5>
 <hr class="hr-color">
-<img src="/" style="width: 100%; height: auto;" class="center">
+<img src="/static/image/11.png" style="width: 100%; height: auto;" class="center">
 <br>
-<p class="center">↑ JAVA 관광지 이미지 이미지</p>
+<p class="center">↑ 광안리를 입력하고 현재위치를 클릭한 화면</p>
 <br>
 <span style="float: right;">프로젝트 전체에 대한 내용이 궁금하시면 <a href="/menu/?Handler=p_content&No=11">여기</a> 를 눌러주세요.</span>
 <br>
