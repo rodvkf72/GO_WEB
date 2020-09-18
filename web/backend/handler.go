@@ -1,8 +1,36 @@
 package backend
 
 import (
+	"github.com/labstack/echo"
 	"net/http"
 )
+
+func Echo_Request_Handler(c echo.Context) error {
+	reshandler := c.FormValue("Handler")
+	s_handle := static(reshandler)
+
+	switch s_handle {
+	case "1":
+		return Echo_Noticeboard_Index(c)
+	case "2":
+		return Echo_Noticeboard_Content_View(c)
+	case "3":
+		return Echo_Noticeboard_Write_View(c)
+
+	case "11":
+		return Echo_Project_Index(c)
+	case "12":
+		return Echo_Project_Content_View(c)
+	case "13":
+		return Echo_Project_Write_View(c)
+
+	case "21":
+		return Echo_Game_Index(c)
+	case "23":
+		return Echo_Game_Write_View(c)
+	}
+	return c.String(0, "ERROR")
+}
 
 // 메뉴 버튼 클릭 시 화면을 지정해줌
 func Request_Handler(w http.ResponseWriter, r *http.Request) {

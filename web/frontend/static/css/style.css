@@ -22,7 +22,7 @@
  .parallax-container {
    min-height: 500px;
    line-height: 0;
-   height: 60%;
+   height: 70%;
    color: rgb(255, 124, 72);
    background:rgba(255,255,255,.3);
  }
@@ -112,6 +112,14 @@
  }
 
  .content-view {
+
+     text-align: center;
+     float: right;
+     width: 76%;
+     height: auto;
+     overflow: hidden;
+     background: white;
+      /*
    text-align: center;
    width: 60%;
    margin-left: 20%;
@@ -120,6 +128,7 @@
    background-color: white;
    border-left: 1px solid gray;
    border-right: 1px solid gray;
+      */
  }
 
  .explanation {
@@ -139,6 +148,87 @@
   padding-right: 1%;
   text-align: right;
  }
+
+ .border-hr {
+     width: 60%;
+ }
+ .left-side {
+     float: left;
+     position: fixed;
+     left:0;
+     z-index: 3;
+     width: 24%;
+     height: 100%;
+ }
+ .other-box1 {
+     float: right;
+     text-align: center;
+     width: 76%;
+ }
+ .other-box2 {
+     float: right;
+     text-align: center;
+     width: 76%;
+ }
+
+.blank {
+    float: left;
+    height: 50%;
+    margin-bottom: -50px;
+}
+
+.content {
+    position: relative;
+    clear: both;
+    height: 100px;
+}
+
+.opacity {
+    text-align: center;
+}
+
+.opacity::after {
+    background-image: url('/static/image/leftside.jpg');
+    width: 100%;
+    height: 150%;
+    top:0;
+    left:0;
+    position:absolute;
+    opacity: 0.5!important;
+    filter: alpha(opacity=50);
+    z-index: -1;
+    content:"";
+}
+
+.logo-image {
+    width: 150px;
+    height: 150px;
+    border-radius: 20%;
+    overflow: hidden;
+    border: 2px solid gray;
+    margin: auto;
+}
+
+.logo-link {
+    width: 50px;
+    height: 50px;
+    object-fit: cover;
+    border-radius: 20%;
+    /*border: 1px solid gray;*/
+}
+
+#blank {
+    float: left;
+    height: 20%;
+    margin-bottom: -50px;
+}
+
+#content {
+    position: relative;
+    clear: both;
+    height: 100px;
+}
+
 
  @media only screen and (max-width: 992px) {
   .margin-auto {
@@ -164,5 +254,45 @@
   }
   .test {
     height: 5%;
+  }
+  .border-hr {
+      width:100%;
+  }
+  .left-side {
+      position: fixed;
+      left:0;
+      z-index: 3;
+      width: 1%;
+      height: 100%;
+  }
+  .content-view {
+      text-align: center;
+      float: right;
+      width: 99%;
+      height: auto;
+      overflow: hidden;
+      background: white;
+  }
+
+  .other-box1 {
+      float: right;
+      width: 99%;
+  }
+  .other-box2 {
+      float: right;
+      width: 99%;
+  }
+  .logo-image {
+      width: 0px;
+      height: 0px;
+  }
+
+  .logo-text {
+      width: 0;
+      height: 0;
+      font-size: 0;
+      line-height: 0;
+      position:absolute;
+      overflow: hidden;
   }
 }

@@ -19,9 +19,9 @@ func SelectQuery(db dbInfo, query string) []notice_board_view {
 	Notice_board_views := []notice_board_view{}
 
 	for rows.Next() {
-		var no, click int
+		var no, click, maxno int
 		var title, writer, content, date string
-		err := rows.Scan(&no, &title, &writer, &content, &date, &click)
+		err := rows.Scan(&no, &title, &writer, &content, &date, &click, &maxno)
 		if err != nil {
 			log.Fatal(err)
 		}
@@ -31,6 +31,7 @@ func SelectQuery(db dbInfo, query string) []notice_board_view {
 		Notice_board_view.Content = strings.Replace(content, "\r\n", "\n", 1)
 		Notice_board_view.Date = date
 		Notice_board_view.Click = click
+		Notice_board_view.Maxno = maxno
 		Notice_board_views = append(Notice_board_views, Notice_board_view)
 	}
 	defer conn.Close()

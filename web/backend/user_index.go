@@ -1,13 +1,18 @@
 package backend
 
 import (
+	"github.com/labstack/echo"
 	"net/http"
 	"html/template"
 )
 
+func Echo_User_Index(c echo.Context) error {
+	return c.Render(http.StatusOK, "main.html", 0)
+}
+
 // 일반 사용자가 보게 될 첫 화면
 func User_Index(w http.ResponseWriter, r *http.Request) {
-	mainTemplate, _ := template.ParseFiles("frontend/main.html", header, footer)
+	mainTemplate, _ := template.ParseFiles("frontend/main.html", header, footer, leftside)
 	mainTemplate.Execute(w, nil)
 
 	//r.ParseForm()

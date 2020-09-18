@@ -6,36 +6,61 @@
         <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
         <link href="/static/css/materialize.css" type="text/css" rel="stylesheet" media="screen,projection" />
         <link href="/static/css/style.css" type="text/css" rel="stylesheet" media="screen,projection" />
+
+        <script type="text/javascript" src="/static/smarteditor2/js/HuskyEZCreator.js" charset="utf-8"></script>
+
         <title>Kim's Blog - Notice Board</title>
     </head>
     <body>
       {{ template "header.html" }}
+      {{ template "leftside.html" }}
+      <div class="center content-view">
       <br><br><br>
     
         <div class="writestyle" id="write_form">
-            <form method="POST" action="/menu/?Handler=n_write" onsubmit="getText()">
+            <form method="POST" action="/menu/n_write" onclick="getText()">
                 <br>
                 <b>Title</b><br>
                 <input class="center" type="text" name="title"><br><br><br>
                 <b>Content</b><br><br>
-                <div class="selectable-icons autosize" onkeydown="resize(this)" onkeyup="resize(this)" id="cont" contenteditable="true"></div><br>
-                <textarea id="con" name="content" rows="7" cols="40" hidden></textarea>
+
+                <textarea name="ir1" id="ir1" rows="20" cols="100"></textarea>
+
+                <!--<div class="selectable-icons autosize" onkeydown="resize(this)" onkeyup="resize(this)" id="cont" contenteditable="true"></div><br>
+                <textarea id="con" name="content" rows="7" cols="40" hidden></textarea>-->
                 <!--Content : <textarea name="content" rows="7" cols="40"></textarea><br>-->
-                <br>
-                <input type="submit" value="게시글 등록">
+                <br><br>
+                <input id="enroll" type="submit" value="게시글 등록">
             </form>
         </div>
+      </div>
         <style>
           textarea.autosize { min-height: 50px; }
         </style>
         <script>
+          var oEditors = [];
+          nhn.husky.EZCreator.createInIFrame({
+              oAppRef: oEditors,
+              elPlaceHolder: "ir1",
+              sSkinURI: "/static/smarteditor2/SmartEditor2Skin.html",
+              fCreator: "createSEditor2",
+              bSkipXssFilter : true,
+              htParams: { fOnBeforeUnload : function(){} }
+          });
+
           function getText() {
-            document.getElementById('con').value = document.getElementById('cont').innerText;
+              //document.getElementById('ir1').value = document.getElementById('ir1').innerText;
+              oEditors.getById["ir1"].exec("UPDATE_CONTENTS_FIELD", []);
+              //alert(document.getElementById('ir1').innerText);
+              //document.getElementById('ir1').value = oEditors;
           }
+          /*
           function resize(obj) {
             obj.style.height = "1px";
             obj.style.height = (20+obj.scrollHeight)+"px";
           }
+          */
+
         </script>
         <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
         <script src="/static/js/materialize.js"></script>

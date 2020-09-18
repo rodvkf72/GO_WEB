@@ -10,20 +10,23 @@
     </head>
     <body class="box">
         {{ template "header.html" }}
-      
-        {{ range . }}
-        <div class="round center">
-            <img class="img-padding" src="{{ .Root }}" alter="{{ .Name }}.png">
-            <hr style="margin-top: 1%;">
-            <div style="background-color: black; color: red;">장르 : {{ .Type }} </div>
-            <hr>
-            <div style="background-color: black; color: white;">게임명 : {{ .Name }} </div>
-            <br style="line-height: 70%;">
-        </div>
-        {{ end }}
+        {{ template "leftside.html" }}
 
-        <div class="divstyle" onclick="location.href='/menu/?Handler=g_write'">
-            <a href="#">게임 추가</a>
+        <div class="center content-view">
+            {{ range . }}
+            <div class="round center">
+                <img class="img-padding" src="{{ .Root }}" alter="{{ .Name }}.png">
+                <hr style="margin-top: 1%;">
+                <div style="background-color: black; color: red;">장르 : {{ .Type }} </div>
+                <hr>
+                <div style="background-color: black; color: white;">게임명 : {{ .Name }} </div>
+                <br style="line-height: 70%;">
+            </div>
+            {{ end }}
+
+            <div class="divstyle" onclick="location.href='/menu/?Handler=g_write'" style="border: 1px solid black; border-radius: 5%; background-color: mintcream">
+                <a href="#">게임 추가</a>
+            </div>
         </div>
 
         <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>

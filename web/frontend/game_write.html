@@ -10,10 +10,13 @@
     </head>
     <body>
       {{ template "header.html" }}
-      <br><br><br>
+      {{ template "leftside.html" }}
+
+      <div class="center content-view">
+        <br><br><br>
     
         <div class="writestyle" id="write_form">
-            <form method="POST" action="/menu/?Handler=g_write">
+            <form method="POST" action="/menu/g_write">
                 <br>
                 <b>Game : </b><input class="center" type="text" name="game">
                 <br><br><br>
@@ -24,7 +27,7 @@
                 <input type="submit" value="게임 등록">
             </form>
         </div>
-        
+      </div>
         <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
         <script src="/static/js/materialize.js"></script>
         <script src="/static/js/init.js"></script>

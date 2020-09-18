@@ -10,12 +10,23 @@
     </head>
     <body class="box" style="background-color: rgb(230,230,230);">
       {{ template "header.html" }}
+      {{ template "leftside.html" }}
       {{ template "project_list.html" }}
       {{ template "project_contents.html" }}
-    
 
-        <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
-        <script src="/static/js/materialize.js"></script>
-        <script src="/static/js/init.js"></script>
+
+      <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+      <script src="/static/js/materialize.js"></script>
+      <script src="/static/js/init.js"></script>
+
+      <script>
+          $(document).ready(function(){
+              $('#one').click(function(){
+                  var offset = $('#one_cont').offset(); //선택한 태그의 위치를 반환
+                  //animate()메서드를 이용해서 선택한 태그의 스크롤 위치를 지정해서 0.4초 동안 부드럽게 해당 위치로 이동함
+                  $('html').animate({scrollTop : offset.top}, 400);
+              });
+          });
+      </script>
     </body>
 </html>

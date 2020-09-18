@@ -1,6 +1,7 @@
 package backend
 
 import (
+	"github.com/labstack/echo"
 	"html/template"
 	"net/http"
 	"strconv"
@@ -9,9 +10,67 @@ import (
 	"time"
 )
 
+func Echo_Noticeboard_Index(c echo.Context) error {
+	c.Request().ParseForm()
+	respage := c.FormValue("Page")
+	rescount := c.FormValue("Count")
+	if respage != "" {
+		int_respage, err := strconv.Atoi(respage)
+		int_rescount, err := strconv.Atoi(rescount)
+		if err != nil {
+			log.Fatal(err)
+		}
+		min_int := (int_rescount * 10) - (int_respage * 10)
+		max_int := min_int + 10
+		min_str := strconv.Itoa(min_int)
+		max_str := strconv.Itoa(max_int)
+		fmt.Println(min_str)
+		fmt.Println(max_str)
+		var notice_view_string = "SELECT *, (SELECT MAX(No) FROM notice_board_view) FROM notice_board_view WHERE No <=" + max_str + " AND No >" + min_str + " ORDER BY No DESC limit 10;"
+		result := SelectQuery(db1, notice_view_string)
+		return c.Render(http.StatusOK, "notice_board.html", result)
+	} else {
+		//var notice_view_string = "SELECT * FROM notice_board_view WHERE No<=(SELECT MAX(No) FROM notice_board_view) AND No>(SELECT TRUNCATE((SELECT MAX(no)-1 FROM notice_board_view), -1) FROM dual) ORDER BY No DESC limit 10;"
+		var notice_view_string = "SELECT *, (SELECT MAX(No) FROM notice_board_view) FROM notice_board_view WHERE No>(SELECT TRUNCATE((SELECT MAX(no)-1 FROM notice_board_view), -1) FROM dual) ORDER BY No DESC limit 10;"
+		result := SelectQuery(db1, notice_view_string)
+		return c.Render(http.StatusOK, "notice_board.html", result)
+	}
+	return c.HTML(0, "ERROR")
+}
+
+func Echo_Noticeboard_Content_View(c echo.Context) error {
+	c.Request().ParseForm()
+	resno := c.Request().FormValue("No")
+	if resno != "" {
+		var notice_view_string = "SELECT *, (SELECT MAX(No) FROM notice_board_view) FROM notice_board_view WHERE No=" + resno + ";"
+		result := SelectQuery(db1, notice_view_string)
+		var notice_count_update = "UPDATE notice_board_view SET Click=Click+1 WHERE No=" + resno + ";"
+		UpdateQuery(db1, notice_count_update)
+		return c.Render(http.StatusOK, "notice_board_contents.html", result)
+	}
+	return c.HTML(0, "ERROR")
+}
+
+func Echo_Noticeboard_Write_View(c echo.Context) error {
+	if c.Request().Method == "POST" {
+		dt := time.Now()
+		f_dt := dt.Format("2006-01-02")
+
+		restitle := c.FormValue("title")
+		rescontent := c.FormValue("ir1")
+		fmt.Println(rescontent)
+		var insert_string = "INSERT INTO notice_board_view (Title, Writer, Content, Date, Click) VALUES (" + "'" + restitle + "'" + ", '김광호', " + "'" + rescontent + "'" + ", " + "'" + f_dt + "'" + ", " + "0" + ");"
+		InsertQuery(db1, insert_string)
+		http.Redirect(c.Response(), c.Request(), "/menu/?Handler=n_main", http.StatusFound)
+	} else {
+		return c.Render(http.StatusOK, "notice_board_write.html", "0")
+	}
+	return c.String(0, "ERROR")
+}
+
 // 게시판 첫 화면 및 페이징 기능
 func Noticeboard_Index(w http.ResponseWriter, r *http.Request) {
-	noticeboardTemplate, _ := template.ParseFiles("frontend/notice_board.html", header, footer)
+	noticeboardTemplate, _ := template.ParseFiles("frontend/notice_board.html", header, footer, leftside)
 	r.ParseForm()
 	respage := r.FormValue("Page")
 	rescount := r.FormValue("Count")
@@ -27,12 +86,12 @@ func Noticeboard_Index(w http.ResponseWriter, r *http.Request) {
 		max_str := strconv.Itoa(max_int)
 		fmt.Println(min_str)
 		fmt.Println(max_str)
-		var notice_view_string = "SELECT * FROM notice_board_view WHERE No <=" + max_str + " AND No >" + min_str + " ORDER BY No DESC limit 10;"
+		var notice_view_string = "SELECT *, (SELECT MAX(No) FROM notice_board_view) FROM notice_board_view WHERE No <=" + max_str + " AND No >" + min_str + " ORDER BY No DESC limit 10;"
 		result := SelectQuery(db1, notice_view_string)
 		noticeboardTemplate.Execute(w, result)
 	} else {
-		//SELECT * FROM notice_board_view WHERE No<=(SELECT MAX(No) FROM notice_board_view) AND No>(SELECT TRUNCATE((SELECT MAX(no)-1 FROM notice_board_view), -1) FROM dual) ORDER BY No DESC limit 10;
-		var notice_view_string = "SELECT * FROM notice_board_view WHERE No>(SELECT TRUNCATE((SELECT MAX(no)-1 FROM notice_board_view), -1) FROM dual) ORDER BY No DESC limit 10;"
+		//var notice_view_string = "SELECT * FROM notice_board_view WHERE No<=(SELECT MAX(No) FROM notice_board_view) AND No>(SELECT TRUNCATE((SELECT MAX(no)-1 FROM notice_board_view), -1) FROM dual) ORDER BY No DESC limit 10;"
+		var notice_view_string = "SELECT *, (SELECT MAX(No) FROM notice_board_view) FROM notice_board_view WHERE No>(SELECT TRUNCATE((SELECT MAX(no)-1 FROM notice_board_view), -1) FROM dual) ORDER BY No DESC limit 10;"
 		result := SelectQuery(db1, notice_view_string)
 		noticeboardTemplate.Execute(w, result)
 	}
@@ -40,11 +99,11 @@ func Noticeboard_Index(w http.ResponseWriter, r *http.Request) {
 
 // 글을 클릭했을 때 보여지는 내용 및 조회 수 계산
 func Noticeboard_Content_View(w http.ResponseWriter, r *http.Request) {
-	noticeboardcontentsTemplate, _ := template.ParseFiles("frontend/notice_board_contents.html", header, footer)
+	noticeboardcontentsTemplate, _ := template.ParseFiles("frontend/notice_board_contents.html", header, footer, leftside)
 	r.ParseForm()
 	resno := r.FormValue("No")
 	if resno != "" {
-		var notice_view_string = "SELECT * FROM notice_board_view WHERE No=" + resno + ";"
+		var notice_view_string = "SELECT *, (SELECT MAX(No) FROM notice_board_view) FROM notice_board_view WHERE No=" + resno + ";"
 		result := SelectQuery(db1, notice_view_string)
 		var notice_count_update = "UPDATE notice_board_view SET Click=Click+1 WHERE No=" + resno + ";"
 		UpdateQuery(db1, notice_count_update)
@@ -64,7 +123,7 @@ func Noticeboard_Content_View(w http.ResponseWriter, r *http.Request) {
 
 // 게시글 작성 시 날짜형식을 기호에 맞게 포맷하여 데이터베이스에 삽입
 func Noticeboard_Write_View(w http.ResponseWriter, r *http.Request) {
-	noticeboardwriteTemplate, _ := template.ParseFiles("frontend/notice_board_write.html", header, footer)
+	noticeboardwriteTemplate, _ := template.ParseFiles("frontend/notice_board_write.html", header, footer, leftside)
 
 	r.ParseForm()
 	if r.Method == "POST" {
@@ -72,7 +131,8 @@ func Noticeboard_Write_View(w http.ResponseWriter, r *http.Request) {
 		f_dt := dt.Format("2006-01-02")
 
 		restitle := r.FormValue("title")
-		rescontent := r.FormValue("content")
+		rescontent := r.FormValue("ir1")
+		fmt.Println(rescontent)
 		var insert_string = "INSERT INTO notice_board_view (Title, Writer, Content, Date, Click) VALUES (" + "'" + restitle + "'" + ", '김광호', " + "'" + rescontent + "'" + ", " + "'" + f_dt + "'" + ", " + "0" + ");"
 		InsertQuery(db1, insert_string)
 		http.Redirect(w, r, "/menu/?Handler=n_main", http.StatusFound)

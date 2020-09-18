@@ -1,9 +1,23 @@
 package backend
 
 import (
+	"github.com/labstack/echo"
 	"net/http"
 	"fmt"
 )
+
+func Echo_Login_Check(c echo.Context) error {
+	resid := c.FormValue("id")
+	respw := c.FormValue("pw")
+	if (resid == id) && (respw == pw) {
+		fmt.Println("OK")
+		http.Redirect(c.Response(), c.Request(), "/main/", http.StatusFound)
+	} else {
+		fmt.Println("U R Not Admin !")
+		http.Redirect(c.Response(), c.Request(), "/fail/", http.StatusFound)
+	}
+	return c.String(0, "ERROR")
+}
 
 func Login_Check(w http.ResponseWriter, r *http.Request) {
 	//ip 주소 검색

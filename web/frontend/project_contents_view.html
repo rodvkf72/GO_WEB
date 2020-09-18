@@ -10,8 +10,9 @@
     </head>
     <body>
       {{ template "header.html" }}
+      {{ template "leftside.html" }}
 
-          
+      <div class="center content-view">
         <h3 class="center">프로젝트 내용</h3>
         <br>
         <table>
@@ -29,7 +30,7 @@
             {{ end }}
 
         </table>
-        
+      </div>
         <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
         <script src="/static/js/materialize.js"></script>
         <script src="/static/js/init.js"></script>

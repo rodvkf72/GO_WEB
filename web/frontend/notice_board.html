@@ -10,9 +10,12 @@
     </head>
     <body class="box">
       {{ template "header.html" }}
+      {{ template "leftside.html" }}
+      <div class="center content-view">
         <h3 class="center">게시판</h3>
         <br>
         <table width="60%">
+            <hr class="border-hr">
             <thread>
                 <tr style="background-color: rgb(230, 230, 230);">
                     <th width="10%">번호</th> <!--materialize.css 2973 line and 3027 line-->
@@ -21,11 +24,10 @@
                     <th width="15%">날짜</th>
                     <th width="15%">조회 수</th>
                 </tr>
-                <hr>
             </thread>
-            {{ $no := 0 }}
+            {{ $Maxno := 0 }}
             {{ range . }}
-            {{ $no = .No }}
+            {{ $Maxno = .Maxno }}
             <tbody>
                 <td>{{ .No }}</td>
                 <td><a href="/menu/?Handler=n_content&No={{ .No }}">{{ .Title }}</a></td>
@@ -33,26 +35,25 @@
                 <td>{{ .Date }}</td>
                 <td>{{ .Click }}</td>
             </tbody>
-            <input id="cnt" type='button' value='cnt' onclick='Count("{{ $no }}")' hidden>
+            <input id="cnt" type='button' value='cnt' onclick='Count("{{ $Maxno }}")' hidden>
             <input id="alt" type='button' value='alt' onclick='Alt()' hidden>
             {{ end }}
         </table>
         <br>
         <div class="margin-auto">
-          <a href="/menu/?Handler=n_write">글쓰기</a>
+            <div id="b_dv" class="center">
+                <button style="float: right;" onclick="location.href='/menu/?Handler=n_write'">글쓰기</button>
+            </div>
         </div>
         <br>
-        <hr>
-        <br>
-        <div id="b_dv" class="center"></div>
-        <br>
-
+        <hr class="border-hr">
+      </div>
         <script>
           var count = 0;
-          var devide;
+          var devide = 0;
           function Count(val) {
             devide = val/10;
-            if (devide < 1) {
+            if (devide <= 1) {
                 devide = 1;
             } else if (devide <= 2) {
                 devide = 2;

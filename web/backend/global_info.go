@@ -5,6 +5,7 @@ var id string = "rodvkf72"
 var pw string = "1463"
 var header string = "frontend/header.html"
 var footer string = "frontend/footer.html"
+var leftside string = "frontend/leftside.html"
 
 type dbInfo struct {
 	user     string
@@ -21,6 +22,7 @@ type notice_board_view struct {
 	Content string
 	Date    string //date
 	Click   int    //int
+	Maxno	int
 }
 
 type notice_board_total_no struct {
