@@ -3,6 +3,7 @@
         <meta http-equiv="Content-Type" content="text/html"; charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
 
+        <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
         <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
         <link href="/static/css/materialize.css" type="text/css" rel="stylesheet" media="screen,projection" />
         <link href="/static/css/style.css" type="text/css" rel="stylesheet" media="screen,projection" />
@@ -14,7 +15,13 @@
       {{ template "project_list.html" }}
       {{ template "project_contents.html" }}
 
+      <div id="wrap">
+          <a id="back-to-top"></a>
+      </div>
+      <!--<a style="position:fixed;bottom:10px;right:10px;" href="#project" title="맨 위로">맨 위로</a>-->
 
+
+      <script type="text/javascript" src="http://code.jquery.com/jquery-latest.js"></script>
       <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
       <script src="/static/js/materialize.js"></script>
       <script src="/static/js/init.js"></script>
@@ -27,6 +34,27 @@
                   $('html').animate({scrollTop : offset.top}, 400);
               });
           });
+
+          $(function(){
+              $('#back-to-top').on('click',function(e){
+                  e.preventDefault();
+                  $('html,body').animate({scrollTop:0},600);
+              });
+
+              $(window).scroll(function() {
+                  if ($(document).scrollTop() > 100) {
+                      $('#back-to-top').addClass('show');
+                  } else {
+                      $('#back-to-top').removeClass('show');
+                  }
+              });
+          });
+
+          function fnMove(seq){
+              var offset = $("#div" + seq).offset();
+              $('html, body').animate({scrollTop : offset.top-100}, 400);
+          }
+
       </script>
     </body>
 </html>
