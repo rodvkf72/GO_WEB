@@ -271,6 +271,13 @@
     visibility: visible;
 }
 
+ body {
+     -ms-overflow-style: none;
+ }
+ ::-webkit-scrollbar {
+     display: none;
+ }
+
 
  @media only screen and (max-width: 992px) {
   .margin-auto {

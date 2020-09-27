@@ -42,10 +42,28 @@ func Echo_Noticeboard_Content_View(c echo.Context) error {
 	c.Request().ParseForm()
 	resno := c.Request().FormValue("No")
 	if resno != "" {
-		var notice_view_string = "SELECT *, (SELECT MAX(No) FROM notice_board_view) FROM notice_board_view WHERE No=" + resno + ";"
-		result := SelectQuery(db1, notice_view_string)
+		var notice_view_string = ""
+		var no = "SELECT MIN(No), MAX(No) FROM notice_board_view"
+		minno, maxno := MaxSelectQuery(db1, no)
+		minno = minno + 3
+		convminno := strconv.Itoa(minno)
+		convmaxno := strconv.Itoa(maxno)
+
+		if (resno == convminno) && (resno == convmaxno) {
+			notice_view_string = "SELECT *, (SELECT MAX(No) FROM notice_board_view), (SELECT MIN(No) FROM notice_board_view), -2, (SELECT Title FROM notice_board_view WHERE No=-2), -1, (SELECT Title FROM notice_board_view WHERE No=-1) FROM notice_board_view WHERE No=" + resno + ";"
+		} else if (resno == convminno) {
+			notice_view_string = "SELECT *, (SELECT MAX(No) FROM notice_board_view), (SELECT MIN(No) FROM notice_board_view), -2, (SELECT Title FROM notice_board_view WHERE No=-2), No+1, (SELECT Title FROM notice_board_view WHERE No=" + resno + "+1) FROM notice_board_view WHERE No=" + resno + ";"
+		} else if (resno == convmaxno) {
+			notice_view_string = "SELECT *, (SELECT MAX(No) FROM notice_board_view), (SELECT MIN(No) FROM notice_board_view), No-1, (SELECT Title FROM notice_board_view WHERE No=" + resno + "-1), -1, (SELECT Title FROM notice_board_view WHERE No=-1) FROM notice_board_view WHERE No=" + resno + ";"
+		} else {
+			notice_view_string = "SELECT *, (SELECT MAX(No) FROM notice_board_view), (SELECT MIN(No) FROM notice_board_view), No-1, (SELECT Title FROM notice_board_view WHERE No=" + resno + "-1), No+1, (SELECT Title FROM notice_board_view WHERE No=" + resno + "+1) FROM notice_board_view WHERE No=" + resno + ";"
+		}
+		//var notice_view_string = "SELECT *, (SELECT MAX(No) FROM notice_board_view) FROM notice_board_view WHERE No=" + resno + ";"
+		//result := SelectQuery(db1, notice_view_string)
+		result := Noticeboard_ContentQuery(db1, notice_view_string)
 		var notice_count_update = "UPDATE notice_board_view SET Click=Click+1 WHERE No=" + resno + ";"
 		UpdateQuery(db1, notice_count_update)
+		//Echo_Noticeboard_Content_View(c)
 		return c.Render(http.StatusOK, "notice_board_contents.html", result)
 	}
 	return c.HTML(0, "ERROR")

@@ -38,26 +38,59 @@ func SelectQuery(db dbInfo, query string) []notice_board_view {
 	return Notice_board_views
 }
 
-func NoSelectQuery(db dbInfo, query string) []notice_board_total_no {
+func MaxSelectQuery(db dbInfo, query string) (int, int) {
+	dataSource := db.user + ":" + db.pwd + "@tcp(" + db.url + ")/" + db.database
+	conn, err := sql.Open(db.engine, dataSource)
+	var minno, maxno int
+	if err != nil {
+		log.Fatal(err)
+	}
+	defer conn.Close()
+	err = conn.QueryRow(query).Scan(&minno, &maxno)
+	if err != nil {
+		log.Fatal(err)
+	}
+	return minno, maxno
+}
+
+func Noticeboard_ContentQuery(db dbInfo, query string) []notice_board_content_view {
 	dataSource := db.user + ":" + db.pwd + "@tcp(" + db.url + ")/" + db.database
 	conn, err := sql.Open(db.engine, dataSource)
 	if err != nil {
 		log.Fatal(err)
 	}
 	rows, err := conn.Query(query)
-	Notice_board_total_no := notice_board_total_no{}
-	Notice_board_total_nos := []notice_board_total_no{}
+	Notice_board_content_view := notice_board_content_view{}
+	Notice_board_content_views := []notice_board_content_view{}
 	for rows.Next() {
-		var total_no int
-		err := rows.Scan(&total_no)
+		var no, click, maxno, minno, minusno, plusno int
+		var title, writer, content, date, minustitle, plustitle string
+		err := rows.Scan(&no, &title, &writer, &content, &date, &click, &maxno, &minno, &minusno, &minustitle, &plusno, &plustitle)
+		if plusno == 0 {
+			plusno = 0
+		}
+		if plustitle == "" {
+			plustitle = "다음 글이 없습니다."
+		}
 		if err != nil {
 			log.Fatal(err)
 		}
-		Notice_board_total_no.Total_no = total_no
-		Notice_board_total_nos = append(Notice_board_total_nos, Notice_board_total_no)
+		Notice_board_content_view.No = no
+		Notice_board_content_view.Title = title
+		Notice_board_content_view.Writer = writer
+		Notice_board_content_view.Content = strings.Replace(content, "\r\n", "\n", 1)
+		Notice_board_content_view.Date = date
+		Notice_board_content_view.Click = click
+		Notice_board_content_view.Maxno = maxno
+		Notice_board_content_view.Minno = minno + 3
+		Notice_board_content_view.Minusno = minusno
+		Notice_board_content_view.Minustitle = minustitle
+		Notice_board_content_view.Plusno = plusno
+		Notice_board_content_view.Plustitle = plustitle
+		Notice_board_content_views = append(Notice_board_content_views, Notice_board_content_view)
 	}
 	defer conn.Close()
-	return Notice_board_total_nos
+	return Notice_board_content_views
 }
 
 func GameSelectQuery(db dbInfo, query string) []game_view {
@@ -89,6 +122,7 @@ func GameSelectQuery(db dbInfo, query string) []game_view {
 }
 
 /* 단수 쿼리의 경우
+dataSource := db.user + ":" + db.pwd + "@tcp(" + db.url + ")/" + db.database
 conn, err := sql.Open(db.engine, dataSource)
 if err != nil {
 	log.Fatal(err)

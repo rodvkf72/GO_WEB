@@ -3,6 +3,7 @@
         <meta http-equiv="Content-Type" content="text/html"; charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
 
+        <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
         <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
         <link href="/static/css/materialize.css" type="text/css" rel="stylesheet" media="screen,projection" />
         <link href="/static/css/style.css" type="text/css" rel="stylesheet" media="screen,projection" />
@@ -11,23 +12,24 @@
     <body>
       {{ template "header.html" }}
       {{ template "leftside.html" }}
-      <div class="center content-view">
-        <h3 class="center">게시판 내용</h3>
+      <div class="content-view">
+          {{ range . }}
+        <h3>게시판 내용</h3>
         <br>
         <table>
-            
-            {{ range . }}
+
+
             <br>
             <tr>
               <th><h5>{{ .Title }}</h5></th>
             </tr>
             <tbody>
-                {{ $content := .Content}}
+                {{ $content := .Content }}
+
                 <input id="convert_button" type='button' value='conv' onclick='Inner("{{ $content }}")' hidden>
                 <td id="convert"></td>
                 <!--<td style="white-space: pre-line"><p></p></td>-->
             </tbody>
-            {{ end }}
             <script src="https://utteranc.es/client.js"
                     repo="rodvkf72/Utterances"
                     issue-term="url"
@@ -36,6 +38,35 @@
                     async>
             </script>
         </table>
+          <br>
+          <br>
+
+          <div style="float: left; width: 30%; margin-left: 20%;">
+              {{ if (eq .No .Maxno) }}
+              <span style="float: left;">
+                  다음 글이 없습니다.
+              </span>
+              {{ else }}
+              <span style="float: left;">
+                  다음 글 : <a href="/menu/?Handler=n_content&No={{ .Plusno }}"> {{ .Plustitle }} </a>
+              </span>
+              {{ end }}
+          </div>
+          <div style="display: inline-block; width: 30%; margin-right: 20%;">
+              {{ if (eq .No .Minno) }}
+              <span style="float: right;">
+                  이전 글이 없습니다.
+              </span>
+              {{ else }}
+              <span style="float: right;">
+                  이전 글 :&nbsp;<a style="float: right;" href="/menu/?Handler=n_content&No={{ .Minusno }}"> {{ .Minustitle }} </a>
+              </span>
+              {{ end }}
+          </div>
+          <br>
+          <br>
+          <br>
+          {{ end }}
       </div>
         <script>
             var ele1 = document.getElementById('convert_button');
@@ -43,7 +74,9 @@
             function Inner(txt) {
                 document.getElementById('convert').innerHTML = txt;
             }
+
         </script>
+        <script type="text/javascript" src="http://code.jquery.com/jquery-latest.js"></script>
         <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
         <script src="/static/js/materialize.js"></script>
         <script src="/static/js/init.js"></script>

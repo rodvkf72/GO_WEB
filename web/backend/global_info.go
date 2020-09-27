@@ -25,8 +25,19 @@ type notice_board_view struct {
 	Maxno	int
 }
 
-type notice_board_total_no struct {
-	Total_no int
+type notice_board_content_view struct {
+	No 			int
+	Title 		string
+	Writer 		string
+	Content 	string
+	Date 		string
+	Click 		int
+	Maxno 		int
+	Minno		int
+	Minusno 	int
+	Minustitle 	string
+	Plusno 		int
+	Plustitle 	string
 }
 
 type project_view struct {
