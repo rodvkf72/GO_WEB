@@ -1,12 +1,30 @@
 package backend
 
 import (
+	"fmt"
 	"github.com/labstack/echo"
 	"net/http"
 	"html/template"
 )
 
 func Echo_User_Index(c echo.Context) error {
+	/*
+	sess, _ := session.Get("session", c)
+	sess.Save(c.Request(), c.Response())
+	log.Println("n session : ", sess.Values["id"])
+	*/
+
+	cookie, _:= c.Cookie("rodvkf72")
+	fmt.Println( "cookie : ", cookie)
+	//fmt.Println("cookie name : ", cookie.Name)
+	//fmt.Println("cookie value : ", cookie.Value)
+
+	/*
+	for _, cookie := range c.Cookies() {
+		fmt.Println("cookie name : ", cookie.Name)
+		fmt.Println("cookie value : ", cookie.Value)
+	}
+	 */
 	return c.Render(http.StatusOK, "main.html", 0)
 }
 

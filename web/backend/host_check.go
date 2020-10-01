@@ -1,20 +1,39 @@
 package backend
 
 import (
+	"fmt"
 	"github.com/labstack/echo"
 	"net/http"
-	"fmt"
+	"time"
 )
 
 func Echo_Login_Check(c echo.Context) error {
 	resid := c.FormValue("id")
 	respw := c.FormValue("pw")
+	/*sess, _ := session.Get("session", c)
+	sess.Values["id"] = resid
+	sess.Values["pw"] = respw
+	sess.Save(c.Request(), c.Response())
+	log.Println("session : ", sess)
+	*/
+
+	cookie := new(http.Cookie)
+	cookie.Name = c.FormValue("id")
+	cookie.Value = c.FormValue("pw")
+	cookie.Path = "/"
+	cookie.Secure = false
+	cookie.HttpOnly = true
+	cookie.Expires = time.Now().Add(24 * time.Hour)
+	c.SetCookie(cookie)
+
 	if (resid == id) && (respw == pw) {
 		fmt.Println("OK")
-		http.Redirect(c.Response(), c.Request(), "/main/", http.StatusFound)
+		c.Redirect(http.StatusMovedPermanently, "/main/")
+		//http.Redirect(c.Response(), c.Request(), "/main/", http.StatusFound)
 	} else {
 		fmt.Println("U R Not Admin !")
-		http.Redirect(c.Response(), c.Request(), "/fail/", http.StatusFound)
+		c.Redirect(http.StatusMovedPermanently, "/fail/")
+		//http.Redirect(c.Response(), c.Request(), "/fail/", http.StatusFound)
 	}
 	return c.String(0, "ERROR")
 }

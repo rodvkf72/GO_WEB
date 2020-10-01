@@ -27,21 +27,50 @@ func main() {
 	e := echo.New()
 	e.Use(middleware.Logger())
 	e.Use(middleware.Recover())
+	//e.Use(session.MiddlewareWithConfig(session.Config{}))
+	//e.Use(session.Middleware(sessions.NewCookieStore([]byte("secret"))))
 	e.Static("/static/", "public")
 	e.Renderer = t
 
 	e.GET("/static/*", echo.WrapHandler(http.StripPrefix("/static/", fs)))
 	e.POST("/static/*", echo.WrapHandler(http.StripPrefix("/static/", fs)))
 	//e.POST("/static/smarteditor2/sample/photo_uploader/attach_photo.js", echo.WrapHandler(http.StripPrefix("/static/smartedit2/", fs)))
-	e.GET("/*", backend.Echo_Host_Index)
-	e.POST("/check/*", backend.Echo_Login_Check)
-	e.GET("/main/*", backend.Echo_User_Index)
-	e.GET("/fail/*", backend.Echo_Fail)
+	/*e.GET("/", func (c echo.Context) error {
+		store := sessions.NewCookieStore([]byte("secret"))
+		sess, _ := store.Get(c.Request(), "test")
+		//sess, _ := session.Get("session", c)
+		sess.Options = &sessions.Options {
+			Domain: "localhost",
+			Path: "/",
+			MaxAge: 3600 * 8,	//8 hours
+			HttpOnly: true,
+		}
+		sess.Values["foo"] = "bar"
+		sess.Save(c.Request(), c.Response())
+		log.Println("sess : ", sess)
+		e.Use(session.MiddlewareWithConfig(session.Config{Store: store}))
+		return backend.Echo_Host_Index(c)//c.NoContent(http.StatusOK)
+
+	store := sessions.NewCookieStore([]byte("secret"))
+	store.Options = &sessions.Options {
+		Domain: "localhost:9090",
+		Path: "/",
+		MaxAge: 3600 * 8, //8 hours
+		HttpOnly: true,
+	}
+	e.Use(session.MiddlewareWithConfig(session.Config{Store: store}))
+	})
+	*/
+	e.GET("/", backend.Echo_Host_Index)
+	e.POST("/check/", backend.Echo_Login_Check)
+	e.GET("/main/", backend.Echo_User_Index)
+	e.GET("/fail/", backend.Echo_Fail)
 	e.GET("/menu/*", backend.Echo_Request_Handler)
 	e.POST("/menu/g_write", backend.Echo_Game_Write_View)
 	e.POST("/menu/n_write", backend.Echo_Noticeboard_Write_View)
 	e.POST("/single_img_upload/", backend.SingleImgUpload)
 	e.POST("/multi_img_upload/", backend.MultiImgUpload)
+
 
 
 	/*e.GET("/", func(c echo.Context) error {
