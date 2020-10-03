@@ -7,11 +7,14 @@
 
 # Backend
 Language : Go - v1.15.2
+
 Framework : Echo (Go)
 
 # Frontend
 Language : HTML, CSS, Javascript
+
 Framework : Materialize - v1.0.0
+
 Tool : Smarteditor - v2
 
 Go언어를 배울 겸 웹도 짤 겸 해서 진행중인 것으로 현재 코드보다 더 나은 기술이나 방식이 있다면 알려주셨으면 합니다.
