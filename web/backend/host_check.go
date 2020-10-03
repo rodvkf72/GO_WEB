@@ -17,14 +17,27 @@ func Echo_Login_Check(c echo.Context) error {
 	log.Println("session : ", sess)
 	*/
 
-	cookie := new(http.Cookie)
-	cookie.Name = c.FormValue("id")
+	//cookie := new(http.Cookie)
+	cookie := &http.Cookie {
+		Name: c.FormValue("id"),
+		Value: c.FormValue("pw"),
+		Path: "/",
+		SameSite: http.SameSiteNoneMode,
+		Secure: true,
+		HttpOnly: false,
+		Expires: time.Now().Add(24 * time.Hour),
+	}
+	c.Request().AddCookie(cookie)
+	c.SetCookie(cookie)
+	//http.SetCookie(c.Response(), cookie)
+	/*cookie.Name = c.FormValue("id")
 	cookie.Value = c.FormValue("pw")
 	cookie.Path = "/"
-	cookie.Secure = false
-	cookie.HttpOnly = true
+	cookie.SameSite = 4
+	cookie.Secure = true
+	cookie.HttpOnly = false
 	cookie.Expires = time.Now().Add(24 * time.Hour)
-	c.SetCookie(cookie)
+	c.SetCookie(cookie)*/
 
 	if (resid == id) && (respw == pw) {
 		fmt.Println("OK")

@@ -4,6 +4,7 @@ import (
 	_ "github.com/go-sql-driver/mysql"
 	"github.com/labstack/echo"
 	"github.com/labstack/echo/middleware"
+	"golang.org/x/crypto/acme/autocert"
 	"html/template"
 	"io"
 	"net/http"
@@ -25,6 +26,7 @@ func main() {
 	fs := http.FileServer(http.Dir("./frontend/static"))
 
 	e := echo.New()
+	e.AutoTLSManager.Cache = autocert.DirCache("/static/ssl/")
 	e.Use(middleware.Logger())
 	e.Use(middleware.Recover())
 	//e.Use(session.MiddlewareWithConfig(session.Config{}))
@@ -76,10 +78,15 @@ func main() {
 	/*e.GET("/", func(c echo.Context) error {
 		return c.Render(http.StatusOK, "/static/main.html", echo.Map{"title" : "Page file title!!"})
 	})*/
+	//e.Logger.Fatal(e.StartAutoTLS(":433"))
+	e.Logger.Fatal(e.StartTLS(":433", "./frontend/static/ssl/cert.pem", "./frontend/static/ssl/key.pem"))
+
+	/*
 	err := e.Start(":9090")
 	if err != nil {
 		e.Logger.Fatal(err)
 	}
+	*/
 
 	/*
 	fs := http.FileServer(http.Dir("./frontend/static"))
