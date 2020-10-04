@@ -1,6 +1,7 @@
 package main
 
 import (
+	"crypto/tls"
 	_ "github.com/go-sql-driver/mysql"
 	"github.com/labstack/echo"
 	"github.com/labstack/echo/middleware"
@@ -79,7 +80,8 @@ func main() {
 		return c.Render(http.StatusOK, "/static/main.html", echo.Map{"title" : "Page file title!!"})
 	})*/
 	//e.Logger.Fatal(e.StartAutoTLS(":433"))
-	e.Logger.Fatal(e.StartTLS(":433", "./frontend/static/ssl/cert.pem", "./frontend/static/ssl/key.pem"))
+	tls.LoadX509KeyPair("./frontend/static/ssl/private.crt", "./frontend/static/ssl/private.key")
+	e.Logger.Fatal(e.StartTLS(":433", "./frontend/static/ssl/private.crt", "./frontend/static/ssl/private.key"))
 
 	/*
 	err := e.Start(":9090")
