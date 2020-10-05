@@ -8,6 +8,7 @@ import (
 	"fmt"
 )
 
+//스마트 에디터 파일 업로드 구현하려고 했는데 잘 안되기도 하고 굳이 사용할 일 없어서 구현 중단
 func SingleImgUpload(c echo.Context) error {
 	file, err := c.FormFile("file")
 	if err != nil {

@@ -6,12 +6,18 @@ import (
 	"net/http"
 )
 
+/*
+게임 탭의 첫 화면을 보여줌
+ */
 func Echo_Game_Index(c echo.Context) error {
 	var game_view_string = "SELECT * FROM game_view"
 	result := GameSelectQuery(db1, game_view_string)
 	return c.Render(http.StatusOK, "game.html", result)
 }
 
+/*
+게임 탭에서 게임추가 버튼 클릭 시 동작
+ */
 func Echo_Game_Write_View(c echo.Context) error {
 	if c.Request().Method == "POST" {
 		resgame := c.FormValue("game")
@@ -26,6 +32,7 @@ func Echo_Game_Write_View(c echo.Context) error {
 	return c.String(0, "ERROR")
 }
 
+//위와 같으나 http 기본 모듈로 구현
 func Game_Index(w http.ResponseWriter, r *http.Request) {
 	gameTemplate, _ := template.ParseFiles("frontend/game.html", header, footer, leftside)
 

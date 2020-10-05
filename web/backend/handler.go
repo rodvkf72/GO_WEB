@@ -5,6 +5,9 @@ import (
 	"net/http"
 )
 
+/*
+GET방식으로 넘겨지는 Hnadler의 값을 가지고 global_info.go 파일에 있는 static 함수를 호출하여 리턴된 값을 가지고 해당하는 함수를 호출
+ */
 func Echo_Request_Handler(c echo.Context) error {
 	reshandler := c.FormValue("Handler")
 	s_handle := static(reshandler)
@@ -32,7 +35,7 @@ func Echo_Request_Handler(c echo.Context) error {
 	return c.String(0, "ERROR")
 }
 
-// 메뉴 버튼 클릭 시 화면을 지정해줌
+// 이전 방식의 메뉴 버튼 클릭 시 화면 지정
 func Request_Handler(w http.ResponseWriter, r *http.Request) {
 	r.ParseForm()
 	reshandler := r.FormValue("Handler")

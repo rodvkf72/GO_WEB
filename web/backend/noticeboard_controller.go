@@ -9,7 +9,12 @@ import (
 	"strconv"
 	"time"
 )
+//handler.go 파일의 Request_handler에 의해 호출된 함수가 실행된다.
 
+/*
+게시판의 첫 화면으로써 게시글 번호, 게시글 제목, 날짜, 조회 수가 출력된다.
+페이징 기능이 적용되어 있다.
+ */
 func Echo_Noticeboard_Index(c echo.Context) error {
 	c.Request().ParseForm()
 	respage := c.FormValue("Page")
@@ -38,6 +43,10 @@ func Echo_Noticeboard_Index(c echo.Context) error {
 	return c.HTML(0, "ERROR")
 }
 
+/*
+게시글을 선택하였을 때 보여지는 화면으로써 제목과 내용이 출력된다.
+Utterances 댓글 기능과 다음 게시글, 이전 게시글로 바로 넘어갈 수 있는 기능, 그리고 24시간 쿠키를 적용하여 쿠키가 있을 경우에는 조회 수가 증가하지 않는 기능이 적용되어 있다.
+ */
 func Echo_Noticeboard_Content_View(c echo.Context) error {
 	c.Request().ParseForm()
 	resno := c.Request().FormValue("No")
@@ -62,13 +71,26 @@ func Echo_Noticeboard_Content_View(c echo.Context) error {
 		//result := SelectQuery(db1, notice_view_string)
 		result := Noticeboard_ContentQuery(db1, notice_view_string)
 		var notice_count_update = "UPDATE notice_board_view SET Click=Click+1 WHERE No=" + resno + ";"
-		UpdateQuery(db1, notice_count_update)
+
+		cookie, _:= c.Cookie(resno)
+		if cookie == nil {
+			writeCookie(c, resno, "no"+resno)
+			UpdateQuery(db1, notice_count_update)
+		}
+		//cookie.Value = cookie.Value + "test"
+		//fmt.Println("cookie test : ", cookie.Value)
+		//c.SetCookie(cookie)
+		//UpdateQuery(db1, notice_count_update)
 		//Echo_Noticeboard_Content_View(c)
 		return c.Render(http.StatusOK, "notice_board_contents.html", result)
 	}
 	return c.HTML(0, "ERROR")
 }
 
+/*
+글쓰기 버튼을 눌렀을 때 보여지는 화면으로써 작성한 제목과 내용을 POST방식으로 DB에 저장한다.
+내용 작성 창은 네이버의 스마트에디터2 를 적용하였다.
+ */
 func Echo_Noticeboard_Write_View(c echo.Context) error {
 	if c.Request().Method == "POST" {
 		dt := time.Now()
@@ -86,7 +108,7 @@ func Echo_Noticeboard_Write_View(c echo.Context) error {
 	return c.String(0, "ERROR")
 }
 
-// 게시판 첫 화면 및 페이징 기능
+// 이전 방식의 게시판 첫 화면 및 페이징 기능
 func Noticeboard_Index(w http.ResponseWriter, r *http.Request) {
 	noticeboardTemplate, _ := template.ParseFiles("frontend/notice_board.html", header, footer, leftside)
 	r.ParseForm()

@@ -6,7 +6,7 @@ import (
 	"fmt"
 )
 
-// DB insert 문
+//DB insert 문
 func InsertQuery(db dbInfo, query string) {
 	dataSource := db.user + ":" + db.pwd + "@tcp(" + db.url + ")/" + db.database
 	conn, err := sql.Open(db.engine, dataSource)

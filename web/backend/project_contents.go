@@ -4,7 +4,10 @@ import (
 
 )
 
-//게시판 기능에 DB를 연결하였으므로 프로젝트 부분은 데이터를 직접 입력 및 수정하도록 구현 -> 코드의 중복이 많이 일어남
+/*
+게시판 기능에 DB를 연결하였으므로 프로젝트 부분은 데이터를 직접 입력 및 수정하도록 구현 -> 코드의 중복이 많이 일어남
+공부하는 입장에서 여러 방식을 적용, 테스트 해 보고 싶어서 하드코딩 한 부분
+ */
 func return_contents(no string) []project_view {
 	Project_View := project_view{}
 	Project_Views := []project_view{}

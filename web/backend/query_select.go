@@ -6,7 +6,12 @@ import (
 	"strings"
 )
 
-// DB select 문
+//DB select 문
+//값을 구조체로 전달하다 보니 Scan에서 갯수가 일치하지 않는 경우 에러가 출력됨. 따라서 구조체가 다른 경우 각각의 함수를 구현
+
+/*
+게시글의 첫 화면을 출력하기 위한 select 문
+ */
 func SelectQuery(db dbInfo, query string) []notice_board_view {
 	dataSource := db.user + ":" + db.pwd + "@tcp(" + db.url + ")/" + db.database
 	conn, err := sql.Open(db.engine, dataSource)
@@ -38,6 +43,9 @@ func SelectQuery(db dbInfo, query string) []notice_board_view {
 	return Notice_board_views
 }
 
+/*
+게시글의 페이징 기능을 위한 최소값과 최대값을 가져오는 select 문
+ */
 func MaxSelectQuery(db dbInfo, query string) (int, int) {
 	dataSource := db.user + ":" + db.pwd + "@tcp(" + db.url + ")/" + db.database
 	conn, err := sql.Open(db.engine, dataSource)
@@ -53,6 +61,10 @@ func MaxSelectQuery(db dbInfo, query string) (int, int) {
 	return minno, maxno
 }
 
+/*
+선택된 게시글의 내용을 출력하기 위한 select 문
+다음 글, 이전 글 기능을 위해 구조체에 추가된 변수가 많다.
+ */
 func Noticeboard_ContentQuery(db dbInfo, query string) []notice_board_content_view {
 	dataSource := db.user + ":" + db.pwd + "@tcp(" + db.url + ")/" + db.database
 	conn, err := sql.Open(db.engine, dataSource)
@@ -93,6 +105,9 @@ func Noticeboard_ContentQuery(db dbInfo, query string) []notice_board_content_vi
 	return Notice_board_content_views
 }
 
+/*
+게임 탭의 첫 화면 출력을 위한 select 문
+ */
 func GameSelectQuery(db dbInfo, query string) []game_view {
 	dataSource := db.user + ":" + db.pwd + "@tcp(" + db.url + ")/" + db.database
 	conn, err := sql.Open(db.engine, dataSource)

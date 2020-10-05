@@ -1,12 +1,14 @@
 package backend
 
 import (
-	"fmt"
 	"github.com/labstack/echo"
 	"html/template"
 	"net/http"
 )
 
+/*
+일반 사용자가 보게 될 첫 화면
+ */
 func Echo_User_Index(c echo.Context) error {
 	/*
 	sess, _ := session.Get("session", c)
@@ -14,17 +16,22 @@ func Echo_User_Index(c echo.Context) error {
 	log.Println("n session : ", sess.Values["id"])
 	*/
 
-	cookie, _:= c.Cookie("rodvkf72")
-	fmt.Println( "cookie : ", cookie)
-	//fmt.Println("cookie name : ", cookie.Name)
-	//fmt.Println("cookie value : ", cookie.Value)
+	//쿠키가 있는지 없는지 체크하는 코드
+	/*
+	cresult := readCookie(c, "KKH")	//cn = cookie name
+	if cresult != "normal" {
+		return c.String(http.StatusOK, "cookie error")
+	}
+	*/
 
 	/*
-	for _, cookie := range c.Cookies() {
-		fmt.Println("cookie name : ", cookie.Name)
-		fmt.Println("cookie value : ", cookie.Value)
+	cookie, err := c.Cookie("KKH")
+	if err != nil {
+		return err
 	}
-	 */
+	fmt.Println(cookie.Name)
+	fmt.Println(cookie.Value)
+	*/
 	return c.Render(http.StatusOK, "main.html", 0)
 }
 

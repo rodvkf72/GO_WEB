@@ -68,21 +68,28 @@ func main() {
 	e.POST("/check/", backend.Echo_Login_Check)
 	e.GET("/main/", backend.Echo_User_Index)
 	e.GET("/fail/", backend.Echo_Fail)
+
+	//main에서는 하나로 처리하지만 컨트롤러에 의해 global_info.go와 handler.go 파일의 함수에서 여러 개로 처리
 	e.GET("/menu/*", backend.Echo_Request_Handler)
+
+	/*
+	기존 코드에서는 GET, POST 방식 구분 없이 main에서 사용이 가능했기에 핸들러 함수 하나로 처리가 가능하였으나 Echo 에서는 시작할 때
+	GET, POST 방식을 지정하므로 아래와 같이 데이터베이스에 직접적으로 데이터가 전송되는 부분은 POST 방식으로 처리
+	 */
 	e.POST("/menu/g_write", backend.Echo_Game_Write_View)
 	e.POST("/menu/n_write", backend.Echo_Noticeboard_Write_View)
 	e.POST("/single_img_upload/", backend.SingleImgUpload)
 	e.POST("/multi_img_upload/", backend.MultiImgUpload)
-
-
 
 	/*e.GET("/", func(c echo.Context) error {
 		return c.Render(http.StatusOK, "/static/main.html", echo.Map{"title" : "Page file title!!"})
 	})*/
 	//e.Logger.Fatal(e.StartAutoTLS(":433"))
 	tls.LoadX509KeyPair("./frontend/static/ssl/private.crt", "./frontend/static/ssl/private.key")
-	e.Logger.Fatal(e.StartTLS(":433", "./frontend/static/ssl/private.crt", "./frontend/static/ssl/private.key"))
+	e.Logger.Fatal(e.StartTLS(":433", "./frontend/static/ssl/private.crt", "./frontend/static/ssl/private.key"))	//https 보안연결.
 
+
+	//아래는 기존의 코드. net/http 기본 모듈 사용
 	/*
 	err := e.Start(":9090")
 	if err != nil {
@@ -99,8 +106,10 @@ func main() {
 	http.HandleFunc("/main/", backend.User_Index)
 	http.HandleFunc("/fail/", backend.Fail)
 
+	//기존 코드에서 컨트롤러 패턴을 적용한 방식
 	http.HandleFunc("/menu/", backend.Request_Handler)*/
 
+	//기존 코드에서 컨트롤러 패턴을 적용하기 이전 방식
 	/*
 	http.HandleFunc("/notice_board/", backend.Request_Handler)
 	http.HandleFunc("/notice_board_contents/", backend.Request_Handler)
