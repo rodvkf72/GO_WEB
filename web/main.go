@@ -9,7 +9,7 @@ import (
 	"html/template"
 	"io"
 	"net/http"
-	"web/backend"
+	"GO_WEB/web/backend"
 )
 
 type Template struct {
