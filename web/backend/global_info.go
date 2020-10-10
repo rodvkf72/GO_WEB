@@ -37,6 +37,7 @@ type notice_board_view struct {
 	Date    string //date
 	Click   int    //int
 	Maxno	int
+	Cookie 	string
 }
 
 /*
@@ -71,10 +72,11 @@ type project_view struct {
 게임 목록 출력에 필요한 데이터를 구조체로 정의
  */
 type game_view struct {
-	No   int
-	Name string
-	Type string
-	Root string
+	No   	int
+	Name 	string
+	Type 	string
+	Root 	string
+	Cookie 	string
 }
 
 /*

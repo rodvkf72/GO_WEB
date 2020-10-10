@@ -12,6 +12,14 @@ import (
 func Echo_Game_Index(c echo.Context) error {
 	var game_view_string = "SELECT * FROM game_view"
 	result := GameSelectQuery(db1, game_view_string)
+
+	hostcookie, _ := c.Cookie("KKH")
+	if hostcookie != nil {
+		result = append(result, game_view{Cookie: "TRUE"})
+	} else {
+		result = append(result, game_view{Cookie: "FALSE"})
+	}
+
 	return c.Render(http.StatusOK, "game.html", result)
 }
 

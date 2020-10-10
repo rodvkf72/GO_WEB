@@ -14,19 +14,31 @@
 
         <div class="center content-view">
             {{ range . }}
-            <div class="round center">
-                <img class="img-padding" src="{{ .Root }}" alter="{{ .Name }}.png">
-                <hr style="margin-top: 1%;">
-                <div style="background-color: black; color: red;">장르 : {{ .Type }} </div>
-                <hr>
-                <div style="background-color: black; color: white;">게임명 : {{ .Name }} </div>
-                <br style="line-height: 70%;">
-            </div>
+                {{ if eq .No 0 }}
+
+                {{ else }}
+                    <div class="round center">
+                        <img class="img-padding" src="{{ .Root }}" alter="{{ .Name }}.png">
+                        <hr style="margin-top: 1%;">
+                        <div style="background-color: black; color: red;">장르 : {{ .Type }} </div>
+                        <hr>
+                        <div style="background-color: black; color: white;">게임명 : {{ .Name }} </div>
+                        <br style="line-height: 70%;">
+                    </div>
+                {{ end }}
             {{ end }}
 
-            <div class="divstyle" onclick="location.href='/menu/?Handler=g_write'" style="border: 1px solid black; border-radius: 5%; background-color: mintcream">
-                <a href="#">게임 추가</a>
-            </div>
+            {{ range . }}
+                {{ if eq .Cookie "TRUE" }}
+                    <div class="divstyle" onclick="location.href='/menu/?Handler=g_write'" style="border: 1px solid black; border-radius: 5%; background-color: mintcream">
+                        <a href="#">게임 추가</a>
+                    </div>
+                {{ else if eq .Cookie "FALSE"}}
+                    <div class="divstyle" style="border: 1px solid black; border-radius: 5%; background-color: mintcream">
+                        <a>권한 없음</a>
+                    </div>
+                {{end}}
+            {{ end }}
         </div>
 
         <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>

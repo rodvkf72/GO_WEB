@@ -28,23 +28,37 @@
             {{ $Maxno := 0 }}
             {{ range . }}
             {{ $Maxno = .Maxno }}
-            <tbody>
-                <td>{{ .No }}</td>
-                <td><a href="/menu/?Handler=n_content&No={{ .No }}">{{ .Title }}</a></td>
-                <!--<td>{{ .Writer }}</td>-->
-                <td>{{ .Date }}</td>
-                <td>{{ .Click }}</td>
-            </tbody>
-            <input id="cnt" type='button' value='cnt' onclick='Count("{{ $Maxno }}")' hidden>
-            <input id="alt" type='button' value='alt' onclick='Alt()' hidden>
+                {{ if eq .No 0 }}
+
+                {{ else }}
+                    <tbody>
+                    <td>{{ .No }}</td>
+                    <td><a href="/menu/?Handler=n_content&No={{ .No }}">{{ .Title }}</a></td>
+                    <!--<td>{{ .Writer }}</td>-->
+                    <td>{{ .Date }}</td>
+                    <td>{{ .Click }}</td>
+                    </tbody>
+                    <input id="cnt" type='button' value='cnt' onclick='Count("{{ $Maxno }}")' hidden>
+                    <input id="alt" type='button' value='alt' onclick='Alt()' hidden>
+                {{ end }}
             {{ end }}
         </table>
         <br>
-        <div class="margin-auto">
-            <div id="b_dv" class="center">
-                <button style="float: right;" onclick="location.href='/menu/?Handler=n_write'">글쓰기</button>
-            </div>
-        </div>
+          {{ range . }}
+              {{ if eq .Cookie "TRUE" }}
+                  <div class="margin-auto">
+                      <div id="b_dv" class="center">
+                          <button style="float: right;" onclick="location.href='/menu/?Handler=n_write'">글쓰기</button>
+                      </div>
+                  </div>
+              {{ else if eq .Cookie "FALSE" }}
+                  <div class="margin-auto">
+                      <div id="b_dv" class="center">
+                          <span style="float: right;">관리자만 작성이 가능합니다.</span>
+                      </div>
+                  </div>
+              {{ end }}
+          {{ end }}
         <br>
         <hr class="border-hr">
       </div>

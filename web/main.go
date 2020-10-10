@@ -76,8 +76,8 @@ func main() {
 	기존 코드에서는 GET, POST 방식 구분 없이 main에서 사용이 가능했기에 핸들러 함수 하나로 처리가 가능하였으나 Echo 에서는 시작할 때
 	GET, POST 방식을 지정하므로 아래와 같이 데이터베이스에 직접적으로 데이터가 전송되는 부분은 POST 방식으로 처리
 	 */
-	e.POST("/menu/g_write", backend.Echo_Game_Write_View)
-	e.POST("/menu/n_write", backend.Echo_Noticeboard_Write_View)
+	e.POST("/menu/g_write", backend.Echo_Game_Write_View)	//POST 처리되어 있어서 게시글 작성 창 진입을 관리자가 아닌 다른 사람이 했는지 쿠키로 체크 할 필요가 없음.
+	e.POST("/menu/n_write", backend.Echo_Noticeboard_Write_View)	//html에서 관리자 쿠키가 없으면 버튼 자체가 뜨지 않게 해 놓았음
 	e.POST("/single_img_upload/", backend.SingleImgUpload)
 	e.POST("/multi_img_upload/", backend.MultiImgUpload)
 

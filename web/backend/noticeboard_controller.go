@@ -33,11 +33,27 @@ func Echo_Noticeboard_Index(c echo.Context) error {
 		fmt.Println(max_str)
 		var notice_view_string = "SELECT *, (SELECT MAX(No) FROM notice_board_view) FROM notice_board_view WHERE No <=" + max_str + " AND No >" + min_str + " ORDER BY No DESC limit 10;"
 		result := SelectQuery(db1, notice_view_string)
+
+		hostcookie, _ := c.Cookie("KKH")
+		if hostcookie != nil {
+			result = append(result, notice_board_view{Cookie: "TRUE"})
+		} else {
+			result = append(result, notice_board_view{Cookie: "FALSE"})
+		}
+
 		return c.Render(http.StatusOK, "notice_board.html", result)
 	} else {
 		//var notice_view_string = "SELECT * FROM notice_board_view WHERE No<=(SELECT MAX(No) FROM notice_board_view) AND No>(SELECT TRUNCATE((SELECT MAX(no)-1 FROM notice_board_view), -1) FROM dual) ORDER BY No DESC limit 10;"
 		var notice_view_string = "SELECT *, (SELECT MAX(No) FROM notice_board_view) FROM notice_board_view WHERE No>(SELECT TRUNCATE((SELECT MAX(no)-1 FROM notice_board_view), -1) FROM dual) ORDER BY No DESC limit 10;"
 		result := SelectQuery(db1, notice_view_string)
+
+		hostcookie, _ := c.Cookie("KKH")
+		if hostcookie != nil {
+			result = append(result, notice_board_view{Cookie: "TRUE"})
+		} else {
+			result = append(result, notice_board_view{Cookie: "FALSE"})
+		}
+
 		return c.Render(http.StatusOK, "notice_board.html", result)
 	}
 	return c.HTML(0, "ERROR")
@@ -47,6 +63,7 @@ func Echo_Noticeboard_Index(c echo.Context) error {
 게시글을 선택하였을 때 보여지는 화면으로써 제목과 내용이 출력된다.
 Utterances 댓글 기능과 다음 게시글, 이전 게시글로 바로 넘어갈 수 있는 기능, 그리고 24시간 쿠키를 적용하여 쿠키가 있을 경우에는 조회 수가 증가하지 않는 기능이 적용되어 있다.
  */
+
 func Echo_Noticeboard_Content_View(c echo.Context) error {
 	c.Request().ParseForm()
 	resno := c.Request().FormValue("No")
@@ -69,6 +86,7 @@ func Echo_Noticeboard_Content_View(c echo.Context) error {
 		}
 		//var notice_view_string = "SELECT *, (SELECT MAX(No) FROM notice_board_view) FROM notice_board_view WHERE No=" + resno + ";"
 		//result := SelectQuery(db1, notice_view_string)
+
 		result := Noticeboard_ContentQuery(db1, notice_view_string)
 		var notice_count_update = "UPDATE notice_board_view SET Click=Click+1 WHERE No=" + resno + ";"
 
