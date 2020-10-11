@@ -24,16 +24,6 @@ func Echo_Login_Check(c echo.Context) error {
 	log.Println("session : ", sess)
 	*/
 
-	cookie := new(http.Cookie)
-	cookie.Name = "KKH"
-	cookie.Value = "Blog"
-	cookie.Path = "/"
-	cookie.SameSite = http.SameSiteNoneMode
-	cookie.Secure = true
-	cookie.HttpOnly = false
-	cookie.Expires = time.Now().Add(24 * time.Hour)
-	c.SetCookie(cookie)
-
 	//http 쿠키 사용 방법
 	/*"cookie := &http.Cookie {
 		Name: c.FormValue("id"),
@@ -49,6 +39,15 @@ func Echo_Login_Check(c echo.Context) error {
 
 	if (resid == id) && (respw == pw) {
 		fmt.Println("OK")
+		cookie := new(http.Cookie)
+		cookie.Name = "KKH"
+		cookie.Value = "Blog"
+		cookie.Path = "/"
+		cookie.SameSite = http.SameSiteNoneMode
+		cookie.Secure = true
+		cookie.HttpOnly = false
+		cookie.Expires = time.Now().Add(24 * time.Hour)
+		c.SetCookie(cookie)
 		c.Redirect(http.StatusMovedPermanently, "/main/")
 		//http.Redirect(c.Response(), c.Request(), "/main/", http.StatusFound)
 	} else {

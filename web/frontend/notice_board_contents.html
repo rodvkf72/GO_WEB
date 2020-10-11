@@ -24,10 +24,10 @@
               <th><h5>{{ .Title }}</h5></th>
             </tr>
             <tbody>
-                {{ $content := .Content }}
+            {{ $content := .Content }}
 
                 <input id="convert_button" type='button' value='conv' onclick='Inner("{{ $content }}")' hidden>
-                <td id="convert"></td>
+                <td id="convert" style="text-align: left;"></td>
                 <!--<td style="white-space: pre-line"><p></p></td>-->
             </tbody>
             <script src="https://utteranc.es/client.js"
