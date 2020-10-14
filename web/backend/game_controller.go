@@ -1,14 +1,15 @@
 package backend
 
 import (
-	"github.com/labstack/echo"
 	"html/template"
 	"net/http"
+
+	"github.com/labstack/echo"
 )
 
 /*
 게임 탭의 첫 화면을 보여줌
- */
+*/
 func Echo_Game_Index(c echo.Context) error {
 	var game_view_string = "SELECT * FROM game_view"
 	result := GameSelectQuery(db1, game_view_string)
@@ -24,8 +25,8 @@ func Echo_Game_Index(c echo.Context) error {
 }
 
 /*
-게임 탭에서 게임추가 버튼 클릭 시 동작
- */
+게임 작성 란에서 게임 등록 버튼 클릭 시 동작
+*/
 func Echo_Game_Write_View(c echo.Context) error {
 	if c.Request().Method == "POST" {
 		resgame := c.FormValue("game")
