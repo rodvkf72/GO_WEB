@@ -1,12 +1,5 @@
 package backend
 
-import (
-	"fmt"
-	"github.com/labstack/echo"
-	"net/http"
-	"time"
-)
-
 //DB 정보나 구조체를 정의
 var db1 = dbInfo{"root", "1463", "localhost:3306", "mysql", "golang_web"}
 var id string = "rodvkf72"
@@ -17,7 +10,7 @@ var leftside string = "frontend/leftside.html"
 
 /*
 데이터베이스 접속에 필요한 정보를 구조체로 정의
- */
+*/
 type dbInfo struct {
 	user     string
 	pwd      string
@@ -28,7 +21,7 @@ type dbInfo struct {
 
 /*
 게시판 목록 출력에 필요한 데이터를 구조체로 정의 (일부 변수는 없어도 되긴 함)
- */
+*/
 type notice_board_view struct {
 	No      int //int
 	Title   string
@@ -36,31 +29,31 @@ type notice_board_view struct {
 	Content string
 	Date    string //date
 	Click   int    //int
-	Maxno	int
-	Cookie 	string
+	Maxno   int
+	Cookie  string
 }
 
 /*
 게시판 글 클릭 시 출력에 필요한 데이터를 구조체로 정의
- */
+*/
 type notice_board_content_view struct {
-	No 			int
-	Title 		string
-	Writer 		string
-	Content 	string
-	Date 		string
-	Click 		int
-	Maxno 		int
-	Minno		int
-	Minusno 	int
-	Minustitle 	string
-	Plusno 		int
-	Plustitle 	string
+	No         int
+	Title      string
+	Writer     string
+	Content    string
+	Date       string
+	Click      int
+	Maxno      int
+	Minno      int
+	Minusno    int
+	Minustitle string
+	Plusno     int
+	Plustitle  string
 }
 
 /*
 프로젝트 목록 출력에 필요한 데이터를 구조체로 정의
- */
+*/
 type project_view struct {
 	No      string
 	Title   string
@@ -70,44 +63,44 @@ type project_view struct {
 
 /*
 게임 목록 출력에 필요한 데이터를 구조체로 정의
- */
+*/
 type game_view struct {
-	No   	int
-	Name 	string
-	Type 	string
-	Root 	string
-	Cookie 	string
+	No     int
+	Name   string
+	Type   string
+	Root   string
+	Cookie string
 }
 
 /*
 테스트용 구조체
- */
+*/
 type hostname struct {
 	Name string
 }
 
 /*
 컨트롤러 패턴을 적용하기 위한 핸들러 함수
- */
+*/
 func static(handle string) string {
 	var reshandle string
 
 	switch handle {
-	case "n_main":	//게시판
+	case "n_main": //게시판
 		reshandle = "1"
 	case "n_content":
 		reshandle = "2"
 	case "n_write":
 		reshandle = "3"
 
-	case "p_main":	//프로젝트
+	case "p_main": //프로젝트
 		reshandle = "11"
 	case "p_content":
 		reshandle = "12"
 	case "p_write":
 		reshandle = "13"
 
-	case "g_main":	//게임
+	case "g_main": //게임
 		reshandle = "21"
 	case "g_content":
 		reshandle = "22"
@@ -116,32 +109,4 @@ func static(handle string) string {
 	}
 
 	return reshandle
-}
-
-/*
-쿠키를 생성하는 코드. cn은 쿠키명, cv는 쿠키값에 사용된다.
- */
-func writeCookie(c echo.Context, cn string, cv string) {
-	cookie := new(http.Cookie)
-	cookie.Name = cn
-	cookie.Value = cv
-	cookie.Path = "/"
-	cookie.SameSite = http.SameSiteNoneMode
-	cookie.Secure = true
-	cookie.HttpOnly = false
-	cookie.Expires = time.Now().Add(24 * time.Hour)
-	c.SetCookie(cookie)
-}
-
-/*
-쿠키를 읽는 코드. (추후 사용 예정)
- */
-func readCookie(c echo.Context, cn string) string {
-	cookie, err := c.Cookie(cn)
-	if err != nil {
-		return "cookie error"
-	}
-	fmt.Println(cookie.Name)
-	fmt.Println(cookie.Value)
-	return "normal"
 }
