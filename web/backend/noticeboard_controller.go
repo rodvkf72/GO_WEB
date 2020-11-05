@@ -19,6 +19,7 @@ func Echo_Noticeboard_Index(c echo.Context) error {
 	c.Request().ParseForm()
 	respage := c.FormValue("Page")
 	rescount := c.FormValue("Count")
+
 	if respage != "" {
 		int_respage, err := strconv.Atoi(respage)
 		int_rescount, err := strconv.Atoi(rescount)
