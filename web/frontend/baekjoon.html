@@ -7,7 +7,7 @@
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <link href="/static/css/materialize.css" type="text/css" rel="stylesheet" media="screen,projection" />
     <link href="/static/css/style.css" type="text/css" rel="stylesheet" media="screen,projection" />
-    <title>Kim's Blog - Project</title>
+    <title>Kim's Blog - Baekjoon</title>
 </head>
 <body class="box" style="background-color: rgb(255,255,255);">
 {{ template "header.html" }}
@@ -15,6 +15,26 @@
 <div class="center content-view">
     <br>
     <div style="font-size: 3em">백준 문제 풀이</div>
+    <br>
+    <br>
+    <table width="60%">
+        <thread>
+            <th width="10%">번호</th>
+            <th width="70%">문제</th>
+        </thread>
+        {{ range. }}
+            <tbody style="background-color: rgb(230,230,230);">
+                <td> {{ .No }} </td>
+                <td><a style="color: rgb(86, 152, 190);" href="/menu/?Handler=b_content&No={{ .No }}">{{ .Title }}</a></td>
+            </tbody>
+        {{ end }}
+    </table>
+    <br>
+    <div class="margin-auto">
+        <div id="b_dv" class="center">
+            <button style="float: right;" onclick="location.href='/menu/?Handler=b_write'">풀이 적기</button>
+        </div>
+    </div>
 </div>
 
 <div id="wrap">

@@ -11,7 +11,7 @@ import (
 
 /*
 게시글의 첫 화면을 출력하기 위한 select 문
- */
+*/
 func SelectQuery(db dbInfo, query string) []notice_board_view {
 	dataSource := db.user + ":" + db.pwd + "@tcp(" + db.url + ")/" + db.database
 	conn, err := sql.Open(db.engine, dataSource)
@@ -45,7 +45,7 @@ func SelectQuery(db dbInfo, query string) []notice_board_view {
 
 /*
 게시글의 페이징 기능을 위한 최소값과 최대값을 가져오는 select 문
- */
+*/
 func MaxSelectQuery(db dbInfo, query string) (int, int) {
 	dataSource := db.user + ":" + db.pwd + "@tcp(" + db.url + ")/" + db.database
 	conn, err := sql.Open(db.engine, dataSource)
@@ -64,7 +64,7 @@ func MaxSelectQuery(db dbInfo, query string) (int, int) {
 /*
 선택된 게시글의 내용을 출력하기 위한 select 문
 다음 글, 이전 글 기능을 위해 구조체에 추가된 변수가 많다.
- */
+*/
 func Noticeboard_ContentQuery(db dbInfo, query string) []notice_board_content_view {
 	dataSource := db.user + ":" + db.pwd + "@tcp(" + db.url + ")/" + db.database
 	conn, err := sql.Open(db.engine, dataSource)
@@ -107,7 +107,7 @@ func Noticeboard_ContentQuery(db dbInfo, query string) []notice_board_content_vi
 
 /*
 게임 탭의 첫 화면 출력을 위한 select 문
- */
+*/
 func GameSelectQuery(db dbInfo, query string) []game_view {
 	dataSource := db.user + ":" + db.pwd + "@tcp(" + db.url + ")/" + db.database
 	conn, err := sql.Open(db.engine, dataSource)
@@ -134,6 +134,59 @@ func GameSelectQuery(db dbInfo, query string) []game_view {
 	}
 	defer conn.Close()
 	return Game_views
+}
+
+func BaekjoonSelectQuery(db dbInfo, query string) []baekjoon_view {
+	dataSource := db.user + ":" + db.pwd + "@tcp(" + db.url + ")/" + db.database
+	conn, err := sql.Open(db.engine, dataSource)
+	if err != nil {
+		log.Fatal(err)
+	}
+	rows, err := conn.Query(query)
+
+	Baekjoon_view := baekjoon_view{}
+	Baekjoon_views := []baekjoon_view{}
+
+	for rows.Next() {
+		var no int
+		var title string
+		err := rows.Scan(&no, &title)
+		if err != nil {
+			log.Fatal(err)
+		}
+		Baekjoon_view.No = no
+		Baekjoon_view.Title = title
+		Baekjoon_views = append(Baekjoon_views, Baekjoon_view)
+	}
+	defer conn.Close()
+	return Baekjoon_views
+}
+
+func BaekjoonContentQuery(db dbInfo, query string) []baekjoon_content_view {
+	dataSource := db.user + ":" + db.pwd + "@tcp(" + db.url + ")/" + db.database
+	conn, err := sql.Open(db.engine, dataSource)
+	if err != nil {
+		log.Fatal(err)
+	}
+	rows, err := conn.Query(query)
+
+	Baekjoon_content_view := baekjoon_content_view{}
+	Baekjoon_content_views := []baekjoon_content_view{}
+
+	for rows.Next() {
+		var no int
+		var title, content string
+		err := rows.Scan(&no, &title, &content)
+		if err != nil {
+			log.Fatal(err)
+		}
+		Baekjoon_content_view.No = no
+		Baekjoon_content_view.Title = title
+		Baekjoon_content_view.Content = content
+		Baekjoon_content_views = append(Baekjoon_content_views, Baekjoon_content_view)
+	}
+	defer conn.Close()
+	return Baekjoon_content_views
 }
 
 /* 단수 쿼리의 경우

@@ -1,13 +1,14 @@
 package backend
 
 import (
-	"github.com/labstack/echo"
 	"net/http"
+
+	"github.com/labstack/echo"
 )
 
 /*
 GET방식으로 넘겨지는 Hnadler의 값을 가지고 global_info.go 파일에 있는 static 함수를 호출하여 리턴된 값을 가지고 해당하는 함수를 호출
- */
+*/
 func Echo_Request_Handler(c echo.Context) error {
 	reshandler := c.FormValue("Handler")
 	s_handle := static(reshandler)
@@ -65,8 +66,8 @@ func Request_Handler(w http.ResponseWriter, r *http.Request) {
 	case "21":
 		Game_Index(w, r)
 	/*
-	case "22":
-		Game_Content_View(w, r)
+		case "22":
+			Game_Content_View(w, r)
 	*/
 	case "23":
 		Game_Write_View(w, r)
