@@ -10,6 +10,39 @@ import (
 //값을 구조체로 전달하다 보니 Scan에서 갯수가 일치하지 않는 경우 에러가 출력됨. 따라서 구조체가 다른 경우 각각의 함수를 구현
 
 /*
+func (n notice_board_view) SelectQuery(db dbInfo, query string) []notice_board_view {
+	dataSource := db.user + ":" + db.pwd + "@tcp(" + db.url + ")/" + db.database
+	conn, err := sql.Open(db.engine, dataSource)
+	if err != nil {
+		log.Fatal(err)
+	}
+	rows, err := conn.Query(query)
+
+	//Notice_board_view := notice_board_view{}
+	Notice_board_views := []notice_board_view{}
+
+	for rows.Next() {
+		var no, click, maxno int
+		var title, writer, content, date string
+		err := rows.Scan(&no, &title, &writer, &content, &date, &click, &maxno)
+		if err != nil {
+			log.Fatal(err)
+		}
+		n.No = no
+		n.Title = title
+		n.Writer = writer
+		n.Content = strings.Replace(content, "\r\n", "\n", 1)
+		n.Date = date
+		n.Click = click
+		n.Maxno = maxno
+		Notice_board_views = append(Notice_board_views, n)
+	}
+	defer conn.Close()
+	return Notice_board_views
+}
+*/
+
+/*
 게시글의 첫 화면을 출력하기 위한 select 문
 */
 func SelectQuery(db dbInfo, query string) []notice_board_view {

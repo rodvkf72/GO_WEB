@@ -2,23 +2,27 @@ package backend
 
 import (
 	"fmt"
-	"github.com/labstack/echo"
 	"html/template"
 	"log"
 	"net/http"
 	"strconv"
 	"time"
+
+	"github.com/labstack/echo"
 )
+
 //handler.go 파일의 Request_handler에 의해 호출된 함수가 실행된다.
 
 /*
 게시판의 첫 화면으로써 게시글 번호, 게시글 제목, 날짜, 조회 수가 출력된다.
 페이징 기능이 적용되어 있다.
- */
+*/
 func Echo_Noticeboard_Index(c echo.Context) error {
 	c.Request().ParseForm()
 	respage := c.FormValue("Page")
 	rescount := c.FormValue("Count")
+
+	//var n Interf = notice_board_view{0, "1", "2", "3", "4", 5, 6, "7"}
 
 	if respage != "" {
 		int_respage, err := strconv.Atoi(respage)
@@ -33,25 +37,32 @@ func Echo_Noticeboard_Index(c echo.Context) error {
 		fmt.Println(min_str)
 		fmt.Println(max_str)
 		var notice_view_string = "SELECT *, (SELECT MAX(No) FROM notice_board_view) FROM notice_board_view WHERE No <=" + max_str + " AND No >" + min_str + " ORDER BY No DESC limit 10;"
+
+		//result := n.SelectQuery(db1, notice_view_string)
 		result := SelectQuery(db1, notice_view_string)
 
 		hostcookie, _ := c.Cookie("KKH")
 		if hostcookie != nil {
+			//result.Cookie = "TRUE"
 			result = append(result, notice_board_view{Cookie: "TRUE"})
 		} else {
+			//result.Cookie = "FALSE"
 			result = append(result, notice_board_view{Cookie: "FALSE"})
 		}
-
 		return c.Render(http.StatusOK, "notice_board.html", result)
+		//return c.Render(http.StatusOK, "notice_board.html", result)
 	} else {
 		//var notice_view_string = "SELECT * FROM notice_board_view WHERE No<=(SELECT MAX(No) FROM notice_board_view) AND No>(SELECT TRUNCATE((SELECT MAX(no)-1 FROM notice_board_view), -1) FROM dual) ORDER BY No DESC limit 10;"
 		var notice_view_string = "SELECT *, (SELECT MAX(No) FROM notice_board_view) FROM notice_board_view WHERE No>(SELECT TRUNCATE((SELECT MAX(no)-1 FROM notice_board_view), -1) FROM dual) ORDER BY No DESC limit 10;"
+		//result := n.SelectQuery(db1, notice_view_string)
 		result := SelectQuery(db1, notice_view_string)
 
 		hostcookie, _ := c.Cookie("KKH")
 		if hostcookie != nil {
+			//result.Cookie = "TRUE"
 			result = append(result, notice_board_view{Cookie: "TRUE"})
 		} else {
+			//result.Cookie = "FALSE"
 			result = append(result, notice_board_view{Cookie: "FALSE"})
 		}
 
@@ -63,7 +74,7 @@ func Echo_Noticeboard_Index(c echo.Context) error {
 /*
 게시글을 선택하였을 때 보여지는 화면으로써 제목과 내용이 출력된다.
 Utterances 댓글 기능과 다음 게시글, 이전 게시글로 바로 넘어갈 수 있는 기능, 그리고 24시간 쿠키를 적용하여 쿠키가 있을 경우에는 조회 수가 증가하지 않는 기능이 적용되어 있다.
- */
+*/
 
 func Echo_Noticeboard_Content_View(c echo.Context) error {
 	c.Request().ParseForm()
@@ -78,9 +89,9 @@ func Echo_Noticeboard_Content_View(c echo.Context) error {
 
 		if (resno == convminno) && (resno == convmaxno) {
 			notice_view_string = "SELECT *, (SELECT MAX(No) FROM notice_board_view), (SELECT MIN(No) FROM notice_board_view), -2, (SELECT Title FROM notice_board_view WHERE No=-2), -1, (SELECT Title FROM notice_board_view WHERE No=-1) FROM notice_board_view WHERE No=" + resno + ";"
-		} else if (resno == convminno) {
+		} else if resno == convminno {
 			notice_view_string = "SELECT *, (SELECT MAX(No) FROM notice_board_view), (SELECT MIN(No) FROM notice_board_view), -2, (SELECT Title FROM notice_board_view WHERE No=-2), No+1, (SELECT Title FROM notice_board_view WHERE No=" + resno + "+1) FROM notice_board_view WHERE No=" + resno + ";"
-		} else if (resno == convmaxno) {
+		} else if resno == convmaxno {
 			notice_view_string = "SELECT *, (SELECT MAX(No) FROM notice_board_view), (SELECT MIN(No) FROM notice_board_view), No-1, (SELECT Title FROM notice_board_view WHERE No=" + resno + "-1), -1, (SELECT Title FROM notice_board_view WHERE No=-1) FROM notice_board_view WHERE No=" + resno + ";"
 		} else {
 			notice_view_string = "SELECT *, (SELECT MAX(No) FROM notice_board_view), (SELECT MIN(No) FROM notice_board_view), No-1, (SELECT Title FROM notice_board_view WHERE No=" + resno + "-1), No+1, (SELECT Title FROM notice_board_view WHERE No=" + resno + "+1) FROM notice_board_view WHERE No=" + resno + ";"
@@ -91,7 +102,7 @@ func Echo_Noticeboard_Content_View(c echo.Context) error {
 		result := Noticeboard_ContentQuery(db1, notice_view_string)
 		var notice_count_update = "UPDATE notice_board_view SET Click=Click+1 WHERE No=" + resno + ";"
 
-		cookie, _:= c.Cookie(resno)
+		cookie, _ := c.Cookie(resno)
 		if cookie == nil {
 			writeCookie(c, resno, "no"+resno)
 			UpdateQuery(db1, notice_count_update)
@@ -109,7 +120,7 @@ func Echo_Noticeboard_Content_View(c echo.Context) error {
 /*
 글쓰기 버튼을 눌렀을 때 보여지는 화면으로써 작성한 제목과 내용을 POST방식으로 DB에 저장한다.
 내용 작성 창은 네이버의 스마트에디터2 를 적용하였다.
- */
+*/
 func Echo_Noticeboard_Write_View(c echo.Context) error {
 	if c.Request().Method == "POST" {
 		dt := time.Now()
@@ -168,7 +179,7 @@ func Noticeboard_Content_View(w http.ResponseWriter, r *http.Request) {
 		UpdateQuery(db1, notice_count_update)
 		noticeboardcontentsTemplate.Execute(w, result)
 	}
-	
+
 	//html 요청 부분에서 name 값을 가지고 출력
 	//resid := r.FormValue("No")
 	//respw := r.FormValue("pw")

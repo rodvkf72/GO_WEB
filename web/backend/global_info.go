@@ -20,6 +20,15 @@ type dbInfo struct {
 }
 
 /*
+Select문을 Interface로 구현
+*/
+/*
+type Interf interface {
+	SelectQuery(db dbInfo, query string) []notice_board_view
+}
+*/
+
+/*
 게시판 목록 출력에 필요한 데이터를 구조체로 정의 (일부 변수는 없어도 되긴 함)
 */
 type notice_board_view struct {
