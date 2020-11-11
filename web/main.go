@@ -79,7 +79,7 @@ func main() {
 	*/
 	e.POST("/menu/g_write", backend.Echo_Game_Write_View)        //POST 처리되어 있어서 게시글 작성 창 진입을 관리자가 아닌 다른 사람이 했는지 쿠키로 체크 할 필요가 없음.
 	e.POST("/menu/n_write", backend.Echo_Noticeboard_Write_View) //html에서 관리자 쿠키가 없으면 버튼 자체가 뜨지 않게 해 놓았음
-	e.POST("/menu/p_write", backend.Echo_Baekjoon_Write_View)
+	e.POST("/menu/b_write", backend.Echo_Baekjoon_Write_View)
 	e.POST("/single_img_upload/", backend.SingleImgUpload)
 	e.POST("/multi_img_upload/", backend.MultiImgUpload)
 

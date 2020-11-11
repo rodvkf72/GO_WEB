@@ -22,7 +22,7 @@ func Echo_Noticeboard_Index(c echo.Context) error {
 	respage := c.FormValue("Page")
 	rescount := c.FormValue("Count")
 
-	//var n Interf = notice_board_view{0, "1", "2", "3", "4", 5, 6, "7"}
+	//var n Interf = notice_board_view{}
 
 	if respage != "" {
 		int_respage, err := strconv.Atoi(respage)
@@ -38,8 +38,8 @@ func Echo_Noticeboard_Index(c echo.Context) error {
 		fmt.Println(max_str)
 		var notice_view_string = "SELECT *, (SELECT MAX(No) FROM notice_board_view) FROM notice_board_view WHERE No <=" + max_str + " AND No >" + min_str + " ORDER BY No DESC limit 10;"
 
-		//result := n.SelectQuery(db1, notice_view_string)
 		result := SelectQuery(db1, notice_view_string)
+		//result := SelectQuery(db1, notice_view_string)
 
 		hostcookie, _ := c.Cookie("KKH")
 		if hostcookie != nil {
@@ -54,8 +54,8 @@ func Echo_Noticeboard_Index(c echo.Context) error {
 	} else {
 		//var notice_view_string = "SELECT * FROM notice_board_view WHERE No<=(SELECT MAX(No) FROM notice_board_view) AND No>(SELECT TRUNCATE((SELECT MAX(no)-1 FROM notice_board_view), -1) FROM dual) ORDER BY No DESC limit 10;"
 		var notice_view_string = "SELECT *, (SELECT MAX(No) FROM notice_board_view) FROM notice_board_view WHERE No>(SELECT TRUNCATE((SELECT MAX(no)-1 FROM notice_board_view), -1) FROM dual) ORDER BY No DESC limit 10;"
-		//result := n.SelectQuery(db1, notice_view_string)
 		result := SelectQuery(db1, notice_view_string)
+		//result := SelectQuery(db1, notice_view_string)
 
 		hostcookie, _ := c.Cookie("KKH")
 		if hostcookie != nil {

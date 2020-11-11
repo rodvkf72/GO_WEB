@@ -39,6 +39,8 @@ func Echo_Request_Handler(c echo.Context) error {
 		return Echo_Baekjoon_Content_View(c)
 	case "33":
 		return Echo_Baekjoon_Write_View(c)
+	case "34":
+		return Echo_Baekjoon_Search(c)
 	}
 	return c.String(0, "ERROR")
 }

@@ -133,6 +133,8 @@ func static(handle string) string {
 		reshandle = "32"
 	case "b_write":
 		reshandle = "33"
+	case "b_search":
+		reshandle = "34"
 	}
 
 	return reshandle

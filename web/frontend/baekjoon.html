@@ -31,6 +31,12 @@
     </table>
     <br>
     <div class="margin-auto">
+        <span style="float: left">문제 번호 : &nbsp;</span>
+        <form method="GET" action="/menu/">
+            <input type="text" name="Handler" value="b_search" hidden>
+            <input type="text" style="float: left; margin-top: -10px;" size=20 name="no">
+            <input type="submit" style="float: left;" value="검색">
+        </form>
         <div id="b_dv" class="center">
             <button style="float: right;" onclick="location.href='/menu/?Handler=b_write'">풀이 적기</button>
         </div>

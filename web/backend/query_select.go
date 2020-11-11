@@ -10,7 +10,7 @@ import (
 //값을 구조체로 전달하다 보니 Scan에서 갯수가 일치하지 않는 경우 에러가 출력됨. 따라서 구조체가 다른 경우 각각의 함수를 구현
 
 /*
-func (n notice_board_view) SelectQuery(db dbInfo, query string) []notice_board_view {
+func (n notice_board_view) Select2Query(db dbInfo, query string) []notice_board_view {
 	dataSource := db.user + ":" + db.pwd + "@tcp(" + db.url + ")/" + db.database
 	conn, err := sql.Open(db.engine, dataSource)
 	if err != nil {
@@ -40,7 +40,6 @@ func (n notice_board_view) SelectQuery(db dbInfo, query string) []notice_board_v
 	defer conn.Close()
 	return Notice_board_views
 }
-*/
 
 /*
 게시글의 첫 화면을 출력하기 위한 select 문

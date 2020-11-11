@@ -39,3 +39,12 @@ func Echo_Baekjoon_Write_View(c echo.Context) error {
 	}
 	return c.String(0, "ERROR")
 }
+
+func Echo_Baekjoon_Search(c echo.Context) error {
+	resno := c.FormValue("no")
+
+	query := "SELECT no, title FROM baekjoon_solution WHERE no = " + "'" + resno + "'" + ";"
+	result := BaekjoonSelectQuery(db1, query)
+
+	return c.Render(http.StatusOK, "baekjoon.html", result)
+}
