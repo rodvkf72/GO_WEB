@@ -7,6 +7,9 @@ import (
 	"github.com/labstack/echo"
 )
 
+/*
+ 문제 풀이 선택 화면
+*/
 func Echo_Baekjoon_Index(c echo.Context) error {
 	var baekjoon_index = "SELECT no, title FROM baekjoon_solution ORDER BY no ASC"
 	result := BaekjoonSelectQuery(db1, baekjoon_index)
@@ -14,6 +17,9 @@ func Echo_Baekjoon_Index(c echo.Context) error {
 	return c.Render(http.StatusOK, "baekjoon.html", result)
 }
 
+/*
+ 문제 풀이 내용 화면
+*/
 func Echo_Baekjoon_Content_View(c echo.Context) error {
 	resno := c.FormValue("No")
 	var select_string = "SELECT no, title, content FROM baekjoon_solution WHERE no = " + "'" + resno + "';"
@@ -22,6 +28,9 @@ func Echo_Baekjoon_Content_View(c echo.Context) error {
 	return c.Render(http.StatusOK, "baekjoon_contents.html", result)
 }
 
+/*
+ 문제 풀이 작성 화면
+*/
 func Echo_Baekjoon_Write_View(c echo.Context) error {
 	if c.Request().Method == "POST" {
 		dt := time.Now()
@@ -40,6 +49,9 @@ func Echo_Baekjoon_Write_View(c echo.Context) error {
 	return c.String(0, "ERROR")
 }
 
+/*
+ 데이터베이스에 있는 문제 검색 기능
+*/
 func Echo_Baekjoon_Search(c echo.Context) error {
 	resno := c.FormValue("no")
 

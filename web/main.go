@@ -13,10 +13,19 @@ import (
 	"golang.org/x/crypto/acme/autocert"
 )
 
+/*
+ template 기능을 사용하기 위한 구조체
+*/
 type Template struct {
 	templates *template.Template
 }
 
+/*
+ template 기능을 사용하기 위한 함수
+ w : http.status
+ name : html 명
+ data : 전달하고자 하는 데이터
+*/
 func (t *Template) Render(w io.Writer, name string, data interface{}, c echo.Context) error {
 	return t.templates.ExecuteTemplate(w, name, data)
 }
