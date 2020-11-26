@@ -6,7 +6,7 @@
 이때까지 진행해 왔던 프로젝트를 정리해놓은 블로그 입니다.
 <br>
 
-<b><stroked>따라서 아직까지는</stroked> 접속 할 수 없습니다.</b> -> Docker - Database 연결 및 이미지 깨짐 현상 수정 중입니다.
+<b><strike>따라서 아직까지는</strike> 접속 할 수 없습니다.</b> -> Docker - Database 연결 및 이미지 깨짐 현상 수정 중입니다.
 <br>
 
 # Backend
