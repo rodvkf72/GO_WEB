@@ -1,4 +1,4 @@
-# 프로젝트가 PHP로 분류되는 이유는 스마트 에디터 파일이 PHP로 되어 있기 때문입니다.
+## 프로젝트가 PHP로 분류되는 이유는 스마트 에디터 파일이 PHP로 되어 있기 때문입니다.
 <br>
 
 ## 아직은 활성화되지 않은 언어다 보니 기능 추가 이외에 구조 변경이 있을 수 있습니다.
@@ -10,7 +10,7 @@
 <br>
 <br>
 
-# Backend
+## Backend
 Language : Go - v1.15.2
 
 Framework : Echo (Go)
@@ -18,7 +18,7 @@ Framework : Echo (Go)
 
 <br>
 
-# Frontend
+## Frontend
 Language : HTML, CSS, Javascript
 
 Framework : Materialize - v1.0.0
@@ -34,23 +34,23 @@ Tool : Smarteditor - v2
 
 <br>
 
-# 메인화면
+## 메인화면
 ![image](https://user-images.githubusercontent.com/48707324/94990580-2783c300-05b8-11eb-95d0-be515c788f4f.png)
 <br>
 
 <br>
 
-# 게시판
+## 게시판
 ![image](https://user-images.githubusercontent.com/48707324/94990653-ca3c4180-05b8-11eb-9fbf-f9e500f69f40.png)
 <br>
 
 <br>
 
-# 프로젝트
+## 프로젝트
 ![image](https://user-images.githubusercontent.com/48707324/94990992-0c668280-05bb-11eb-84bb-d219fc243f72.png)
 <br>
 
 <br>
 
-# 정보(팝업)
+## 정보(팝업)
 ![image](https://user-images.githubusercontent.com/48707324/94991342-7718bd80-05bd-11eb-9de8-df829601654f.png)
