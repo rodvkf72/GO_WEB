@@ -35,22 +35,41 @@ Tool : Smarteditor - v2
 <br>
 
 ## 메인화면
-![image](https://user-images.githubusercontent.com/48707324/94990580-2783c300-05b8-11eb-95d0-be515c788f4f.png)
+![첫화면](https://user-images.githubusercontent.com/48707324/100629165-532ee980-336c-11eb-8bcc-61e3244af466.PNG)
 <br>
 
 <br>
 
-## 게시판
-![image](https://user-images.githubusercontent.com/48707324/94990653-ca3c4180-05b8-11eb-9fbf-f9e500f69f40.png)
+## 게시판 목록
+![게시판1](https://user-images.githubusercontent.com/48707324/100629289-73f73f00-336c-11eb-8cee-0d29b4f1a03f.PNG)
+<br>
+
+<br>
+
+## 게시판 내용
+![게시판2](https://user-images.githubusercontent.com/48707324/100629387-938e6780-336c-11eb-9200-17788f986caa.PNG)
 <br>
 
 <br>
 
 ## 프로젝트
-![image](https://user-images.githubusercontent.com/48707324/94990992-0c668280-05bb-11eb-84bb-d219fc243f72.png)
+![프로젝트](https://user-images.githubusercontent.com/48707324/100629409-9be6a280-336c-11eb-9d97-69feb1c7037f.PNG)
+<br>
+
+<br>
+
+## 코딩문제 목록
+![코딩1](https://user-images.githubusercontent.com/48707324/100630017-58406880-336d-11eb-86ab-486d2663a38b.PNG)
+<br>
+
+<br>
+
+## 코딩문제 내용
+![코딩2](https://user-images.githubusercontent.com/48707324/100630037-5ecee000-336d-11eb-903b-9103bdd6d66e.PNG)
 <br>
 
 <br>
 
 ## 정보(팝업)
-![image](https://user-images.githubusercontent.com/48707324/94991342-7718bd80-05bd-11eb-9de8-df829601654f.png)
+![모달](https://user-images.githubusercontent.com/48707324/100630061-67271b00-336d-11eb-8d45-b7ee8f034b3d.PNG)
+
