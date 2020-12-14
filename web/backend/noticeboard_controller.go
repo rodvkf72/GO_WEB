@@ -39,23 +39,17 @@ func Echo_Noticeboard_Index(c echo.Context) error {
 		var notice_view_string = "SELECT *, (SELECT MAX(No) FROM notice_board_view) FROM notice_board_view WHERE No <=" + max_str + " AND No >" + min_str + " ORDER BY No DESC limit 10;"
 
 		result := SelectQuery(db1, notice_view_string)
-		//result := SelectQuery(db1, notice_view_string)
 
 		hostcookie, _ := c.Cookie("KKH")
 		if hostcookie != nil {
-			//result.Cookie = "TRUE"
 			result = append(result, notice_board_view{Cookie: "TRUE"})
 		} else {
-			//result.Cookie = "FALSE"
 			result = append(result, notice_board_view{Cookie: "FALSE"})
 		}
 		return c.Render(http.StatusOK, "notice_board.html", result)
-		//return c.Render(http.StatusOK, "notice_board.html", result)
 	} else {
-		//var notice_view_string = "SELECT * FROM notice_board_view WHERE No<=(SELECT MAX(No) FROM notice_board_view) AND No>(SELECT TRUNCATE((SELECT MAX(no)-1 FROM notice_board_view), -1) FROM dual) ORDER BY No DESC limit 10;"
 		var notice_view_string = "SELECT *, (SELECT MAX(No) FROM notice_board_view) FROM notice_board_view WHERE No>(SELECT TRUNCATE((SELECT MAX(no)-1 FROM notice_board_view), -1) FROM dual) ORDER BY No DESC limit 10;"
 		result := SelectQuery(db1, notice_view_string)
-		//result := SelectQuery(db1, notice_view_string)
 
 		hostcookie, _ := c.Cookie("KKH")
 		if hostcookie != nil {
@@ -96,8 +90,6 @@ func Echo_Noticeboard_Content_View(c echo.Context) error {
 		} else {
 			notice_view_string = "SELECT *, (SELECT MAX(No) FROM notice_board_view), (SELECT MIN(No) FROM notice_board_view), No-1, (SELECT Title FROM notice_board_view WHERE No=" + resno + "-1), No+1, (SELECT Title FROM notice_board_view WHERE No=" + resno + "+1) FROM notice_board_view WHERE No=" + resno + ";"
 		}
-		//var notice_view_string = "SELECT *, (SELECT MAX(No) FROM notice_board_view) FROM notice_board_view WHERE No=" + resno + ";"
-		//result := SelectQuery(db1, notice_view_string)
 
 		result := Noticeboard_ContentQuery(db1, notice_view_string)
 		var notice_count_update = "UPDATE notice_board_view SET Click=Click+1 WHERE No=" + resno + ";"
@@ -107,11 +99,6 @@ func Echo_Noticeboard_Content_View(c echo.Context) error {
 			writeCookie(c, resno, "no"+resno)
 			UpdateQuery(db1, notice_count_update)
 		}
-		//cookie.Value = cookie.Value + "test"
-		//fmt.Println("cookie test : ", cookie.Value)
-		//c.SetCookie(cookie)
-		//UpdateQuery(db1, notice_count_update)
-		//Echo_Noticeboard_Content_View(c)
 		return c.Render(http.StatusOK, "notice_board_contents.html", result)
 	}
 	return c.HTML(0, "ERROR")

@@ -17,4 +17,9 @@ RUN set -eux; \
 	export GOROOT = "$ (go env GOROOT)" ; \
 	./run-tool-which-requires-GOROOT-set.sh
 
+RUN cd $GOPATH/src && git clone https://github.com/rodvkf72/Makers.git
+RUN go get github.com/labstack/echo
+RUN go get github.com/dgrijalva/jwt-go
+RUN go get github.com/go-sql-driver/mysql
+
 WORKDIR $GOPATH

@@ -1,0 +1,25 @@
+version: '2.2'
+
+services:
+  web:
+    image: rodvkf72/golang:cross
+    ports:
+      - "433:433"
+    depends_on:
+      - database
+    tty: true
+
+  database:
+    image: mysql
+    command: --default-authentication-plugin=mysql_native_password
+    environment:
+      MYSQL_ROOT_PASSWORD: 1463
+      MYSQL_USER: root
+      MYSQL_PASSWORD: 1463
+      MYSQL_DATABASE: golang_web
+    ports:
+      - "3306:3306"
+    volumes:
+      - data:/var/lib/mysql
+volumes:
+  data:
