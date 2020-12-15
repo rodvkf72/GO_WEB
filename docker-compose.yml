@@ -5,9 +5,10 @@ services:
     image: rodvkf72/golang:cross
     ports:
       - "433:433"
-    depends_on:
-      - database
     tty: true
+    networks:
+      - default
+      - our_net
 
   database:
     image: mysql
@@ -21,5 +22,10 @@ services:
       - "3306:3306"
     volumes:
       - data:/var/lib/mysql
+
+networks:
+  our_net:
+    driver: bridge
+
 volumes:
   data:
