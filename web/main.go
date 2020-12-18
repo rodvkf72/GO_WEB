@@ -96,6 +96,7 @@ func main() {
 		return c.Render(http.StatusOK, "/static/main.html", echo.Map{"title" : "Page file title!!"})
 	})*/
 	//e.Logger.Fatal(e.StartAutoTLS(":433"))
+
 	tls.LoadX509KeyPair("./frontend/static/ssl/private.crt", "./frontend/static/ssl/private.key")
 	e.Logger.Fatal(e.StartTLS(":433", "./frontend/static/ssl/private.crt", "./frontend/static/ssl/private.key")) //https 보안연결.
 

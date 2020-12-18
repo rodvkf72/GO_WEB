@@ -2,16 +2,18 @@ package backend
 
 import (
 	"fmt"
-	"github.com/labstack/echo"
+	"html/template"
 	"net/http"
 	"time"
+
+	"github.com/labstack/echo"
 )
 
 /*
 관리자가 로그인 시 아이디와 비밀번호를 체크하는 기능이다.
 KKH라는 이름의 쿠키를 생성한다.
 로그인 성공 시 /main/으로 이동하며 실패 시 /fail/로 이동한다.
- */
+*/
 func Echo_Login_Check(c echo.Context) error {
 	resid := c.FormValue("id")
 	respw := c.FormValue("pw")
@@ -89,7 +91,7 @@ func Login_Check(w http.ResponseWriter, r *http.Request) {
 			}
 		}
 	}*/
-	
+
 	// 아이디 비밀번호 확인
 	r.ParseForm()
 	if r.Method == "POST" {
@@ -103,4 +105,17 @@ func Login_Check(w http.ResponseWriter, r *http.Request) {
 			http.Redirect(w, r, "/fail/", http.StatusFound)
 		}
 	}
+}
+
+/*
+로그인 실패 시 동작
+*/
+func Echo_Fail(c echo.Context) error {
+	return c.Render(http.StatusOK, "fail.html", "0")
+}
+
+//이전 방식
+func Fail(w http.ResponseWriter, r *http.Request) {
+	failTemplate, _ := template.ParseFiles("frontend/fail.html")
+	failTemplate.Execute(w, nil)
 }

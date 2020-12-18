@@ -2,12 +2,41 @@ package backend
 
 import (
 	"database/sql"
+	"fmt"
 	"log"
 	"strings"
 )
 
-//DB select 문
+//DB query 문
 //값을 구조체로 전달하다 보니 Scan에서 갯수가 일치하지 않는 경우 에러가 출력됨. 따라서 구조체가 다른 경우 각각의 함수를 구현
+
+//DB insert 문
+func InsertQuery(db dbInfo, query string) {
+	dataSource := db.user + ":" + db.pwd + "@tcp(" + db.url + ")/" + db.database
+	conn, err := sql.Open(db.engine, dataSource)
+	if err != nil {
+		log.Fatal(err)
+	}
+	result, err := conn.Exec(query)
+
+	if err != nil {
+		log.Fatal(err)
+	}
+	nRow, err := result.RowsAffected()
+	fmt.Println("insert count : ", nRow)
+	conn.Close()
+}
+
+// DB update 문
+func UpdateQuery(db dbInfo, query string) {
+	dataSource := db.user + ":" + db.pwd + "@tcp(" + db.url + ")/" + db.database
+	conn, err := sql.Open(db.engine, dataSource)
+	if err != nil {
+		log.Fatal(err)
+	}
+	conn.Exec(query)
+	conn.Close()
+}
 
 /*
 func (n notice_board_view) Select2Query(db dbInfo, query string) []notice_board_view {
