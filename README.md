@@ -1,4 +1,4 @@
-## [블로그](http://rodvkf72.ga)
+## Link : [rodvkf72.ga](http://rodvkf72.ga)
 github 버튼은 보안 때문인지 로컬에서는 동작하나 도메인에서는 연결이 거부됩니다.  
 <br>
 
