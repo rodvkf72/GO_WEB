@@ -82,8 +82,9 @@ type game_view struct {
 }
 
 type baekjoon_view struct {
-	No    int
-	Title string
+	No     int
+	Title  string
+	Cookie string
 }
 
 type baekjoon_content_view struct {

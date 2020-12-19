@@ -23,10 +23,14 @@
             <th width="70%">문제</th>
         </thread>
         {{ range. }}
-            <tbody style="background-color: rgba(240,240,240, 0.5);">
-                <td> {{ .No }} </td>
-                <td><a style="color: rgb(86, 152, 190);" href="/menu/?Handler=b_content&No={{ .No }}">{{ .Title }}</a></td>
-            </tbody>
+            {{ if eq .No 0 }}
+
+            {{ else }}
+                <tbody style="background-color: rgba(240,240,240, 0.5);">
+                    <td> {{ .No }} </td>
+                    <td><a style="color: rgb(86, 152, 190);" href="/menu/?Handler=b_content&No={{ .No }}">{{ .Title }}</a></td>
+                </tbody>
+            {{ end }}
         {{ end }}
     </table>
     <br>
@@ -37,9 +41,17 @@
             <input type="text" style="float: left; margin-top: -10px;" size=20 name="no">
             <input type="submit" style="float: left;" value="검색">
         </form>
-        <div id="b_dv" class="center">
-            <button style="float: right;" onclick="location.href='/menu/?Handler=b_write'">풀이 적기</button>
-        </div>
+        {{ range . }}
+            {{ if eq .Cookie "TRUE" }}
+                <div id="b_dv" class="center">
+                    <button style="float: right;" onclick="location.href='/menu/?Handler=b_write'">풀이 적기</button>
+                </div>
+            {{ else if eq .Cookie "FALSE" }}
+                <div id="b_dv" class="right">
+                    <span sytle="float: right; text-align: right;">관리자만 작성 가능합니다.</span>
+                </div>
+            {{ end }}
+        {{ end }}
     </div>
 </div>
 

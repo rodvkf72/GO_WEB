@@ -14,6 +14,15 @@ func Echo_Baekjoon_Index(c echo.Context) error {
 	var baekjoon_index = "SELECT no, title FROM baekjoon_solution ORDER BY no ASC"
 	result := BaekjoonSelectQuery(db1, baekjoon_index)
 
+	hostcookie, _ := c.Cookie("KKH")
+	if hostcookie != nil {
+		//result.Cookie = "TRUE"
+		result = append(result, baekjoon_view{Cookie: "TRUE"})
+	} else {
+		//result.Cookie = "FALSE"
+		result = append(result, baekjoon_view{Cookie: "FALSE"})
+	}
+
 	return c.Render(http.StatusOK, "baekjoon.html", result)
 }
 
