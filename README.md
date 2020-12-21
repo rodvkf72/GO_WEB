@@ -1,10 +1,12 @@
-## Link : [rodvkf72.ga](http://rodvkf72.ga)
+## Link : [rodvkf72.ga](https://rodvkf72.ga)
 이때까지 진행해 왔던 프로젝트 정리 및 코딩 문제 풀이를 작성중인 블로그 입니다.  
 github 버튼은 보안 때문인지 로컬에서는 동작하나 도메인에서는 연결이 거부됩니다.  
 <br>
 
 서버 오픈 시간 : 12:00 ~ 18:00  
+freenom 오류인지 URL Frame cloacking이 적용되지 않아 수정 작업으로 인해 일시적으로 제한될 수 있습니다.  
 <br>
+
 ## 프로젝트가 PHP로 분류되는 이유는 스마트 에디터 파일이 PHP로 되어 있기 때문입니다.
 <br>
 
