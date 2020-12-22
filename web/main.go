@@ -100,7 +100,6 @@ func main() {
 	tls.LoadX509KeyPair("./frontend/static/ssl/private.crt", "./frontend/static/ssl/private.key")
 	e.Logger.Fatal(e.StartTLS(":433", "./frontend/static/ssl/private.crt", "./frontend/static/ssl/private.key")) //https 보안연결.
 
-	//아래는 기존의 코드. net/http 기본 모듈 사용
 	/*
 		err := e.Start(":9090")
 		if err != nil {
@@ -108,6 +107,7 @@ func main() {
 		}
 	*/
 
+	//아래는 기존의 코드. net/http 기본 모듈 사용
 	/*
 		fs := http.FileServer(http.Dir("./frontend/static"))
 		http.Handle("/static/", http.StripPrefix("/static/", fs))
