@@ -1,9 +1,10 @@
 package backend
 
 //DB 정보나 구조체를 정의
-var db1 = dbInfo{"root", "1463", "localhost:3306", "mysql", "golang_web"}
+var db1 = dbInfo{"root", "1463", "localhost:3306" /*docker : "172.30.1.19:3306"*/, "mysql", "golang_web"}
 var id string = "rodvkf72"
 var pw string = "1463"
+var head string = "frontend/head.html"
 var header string = "frontend/header.html"
 var footer string = "frontend/footer.html"
 var leftside string = "frontend/leftside.html"

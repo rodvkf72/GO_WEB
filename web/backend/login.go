@@ -45,8 +45,8 @@ func Echo_Login_Check(c echo.Context) error {
 		cookie.Name = "KKH"
 		cookie.Value = "Blog"
 		cookie.Path = "/"
-		cookie.SameSite = http.SameSiteNoneMode
-		cookie.Secure = true
+		cookie.SameSite = http.SameSiteLaxMode
+		cookie.Secure = false
 		cookie.HttpOnly = false
 		cookie.Expires = time.Now().Add(24 * time.Hour)
 		c.SetCookie(cookie)

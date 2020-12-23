@@ -16,8 +16,8 @@ func writeCookie(c echo.Context, cn string, cv string) {
 	cookie.Name = cn
 	cookie.Value = cv
 	cookie.Path = "/"
-	cookie.SameSite = http.SameSiteNoneMode
-	cookie.Secure = true
+	cookie.SameSite = http.SameSiteLaxMode //http.SameSiteNoneMode
+	cookie.Secure = false
 	cookie.HttpOnly = false
 	cookie.Expires = time.Now().Add(24 * time.Hour)
 	c.SetCookie(cookie)

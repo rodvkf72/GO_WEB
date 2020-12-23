@@ -2,15 +2,15 @@ package main
 
 import (
 	"GO_WEB/web/backend"
-	"crypto/tls"
 	"html/template"
 	"io"
+	"io/ioutil"
 	"net/http"
+	"strings"
 
 	_ "github.com/go-sql-driver/mysql"
 	"github.com/labstack/echo"
 	"github.com/labstack/echo/middleware"
-	"golang.org/x/crypto/acme/autocert"
 )
 
 /*
@@ -18,6 +18,20 @@ import (
 */
 type Template struct {
 	templates *template.Template
+}
+
+func GetTempFilesFromFolders(folders []string) []string {
+	var filepaths []string
+	for _, folder := range folders {
+		files, _ := ioutil.ReadDir(folder)
+
+		for _, file := range files {
+			if strings.Contains(file.Name(), ".html") {
+				filepaths = append(filepaths, folder+file.Name())
+			}
+		}
+	}
+	return filepaths
 }
 
 /*
@@ -31,15 +45,19 @@ func (t *Template) Render(w io.Writer, name string, data interface{}, c echo.Con
 }
 
 func main() {
+	dirs := []string{"./frontend/", "./frontend/static/include/"}
+	tempfiles := GetTempFilesFromFolders(dirs)
 	t := &Template{
-		templates: template.Must(template.ParseGlob("./frontend/*.html")),
+		//templates: template.Must(template.ParseGlob("./frontend/*.html")),
+		templates: template.Must(template.ParseFiles(tempfiles...)),
 	}
+
 	fs := http.FileServer(http.Dir("./frontend/static")) //파일 서버를 지정
 
 	e := echo.New()
-	e.AutoTLSManager.Cache = autocert.DirCache("/static/ssl/") //TLS의 캐시 위치를 지정
-	e.Use(middleware.Logger())                                 //미들웨어에서 로거를 사용
-	e.Use(middleware.Recover())                                //미들웨어에서 복구를 사용
+	//e.AutoTLSManager.Cache = autocert.DirCache("/static/ssl/") //TLS의 캐시 위치를 지정
+	e.Use(middleware.Logger())  //미들웨어에서 로거를 사용
+	e.Use(middleware.Recover()) //미들웨어에서 복구를 사용
 	//e.Use(session.MiddlewareWithConfig(session.Config{}))
 	//e.Use(session.Middleware(sessions.NewCookieStore([]byte("secret"))))
 	e.Static("/static/", "public")
@@ -97,15 +115,13 @@ func main() {
 	})*/
 	//e.Logger.Fatal(e.StartAutoTLS(":433"))
 
-	tls.LoadX509KeyPair("./frontend/static/ssl/private.crt", "./frontend/static/ssl/private.key")
-	e.Logger.Fatal(e.StartTLS(":433", "./frontend/static/ssl/private.crt", "./frontend/static/ssl/private.key")) //https 보안연결.
+	//tls.LoadX509KeyPair("./frontend/static/ssl/private.crt", "./frontend/static/ssl/private.key")
+	//e.Logger.Fatal(e.StartTLS(":433", "./frontend/static/ssl/private.crt", "./frontend/static/ssl/private.key")) //https 보안연결.
 
-	/*
-		err := e.Start(":9090")
-		if err != nil {
-			e.Logger.Fatal(err)
-		}
-	*/
+	err := e.Start(":9090")
+	if err != nil {
+		e.Logger.Fatal(err)
+	}
 
 	//아래는 기존의 코드. net/http 기본 모듈 사용
 	/*

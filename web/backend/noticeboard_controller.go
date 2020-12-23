@@ -34,8 +34,6 @@ func Echo_Noticeboard_Index(c echo.Context) error {
 		max_int := min_int + 10
 		min_str := strconv.Itoa(min_int)
 		max_str := strconv.Itoa(max_int)
-		fmt.Println(min_str)
-		fmt.Println(max_str)
 		var notice_view_string = "SELECT *, (SELECT MAX(No) FROM notice_board_view) FROM notice_board_view WHERE No <=" + max_str + " AND No >" + min_str + " ORDER BY No DESC limit 10;"
 
 		result := SelectQuery(db1, notice_view_string)
@@ -52,6 +50,7 @@ func Echo_Noticeboard_Index(c echo.Context) error {
 		result := SelectQuery(db1, notice_view_string)
 
 		hostcookie, _ := c.Cookie("KKH")
+		fmt.Println(hostcookie)
 		if hostcookie != nil {
 			//result.Cookie = "TRUE"
 			result = append(result, notice_board_view{Cookie: "TRUE"})
@@ -94,9 +93,11 @@ func Echo_Noticeboard_Content_View(c echo.Context) error {
 		result := Noticeboard_ContentQuery(db1, notice_view_string)
 		var notice_count_update = "UPDATE notice_board_view SET Click=Click+1 WHERE No=" + resno + ";"
 
-		cookie, _ := c.Cookie(resno)
-		if cookie == nil {
-			writeCookie(c, resno, "no"+resno)
+		cookie := readCookie(c, resno)
+		fmt.Println(c.Cookie(resno))
+
+		if cookie == "cookie error" {
+			writeCookie(c, resno, "no"+resno) //only used on 433 port(https) - chrome security policy.
 			UpdateQuery(db1, notice_count_update)
 		}
 		return c.Render(http.StatusOK, "notice_board_contents.html", result)
