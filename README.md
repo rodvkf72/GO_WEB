@@ -1,4 +1,4 @@
-## Link : [rodvkf72.ga](https://rodvkf72.ga)
+## Link : [rodvkf72.ga](http://rodvkf72.ga)
 이때까지 진행해 왔던 프로젝트 정리 및 코딩 문제 풀이를 작성중인 블로그 입니다.  
 github 버튼은 보안 때문인지 로컬에서는 동작하나 도메인에서는 연결이 거부됩니다.  
 <br>
