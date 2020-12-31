@@ -24,6 +24,17 @@ func Echo_Game_Index(c echo.Context) error {
 	return c.Render(http.StatusOK, "game.html", result)
 }
 
+func Echo_Game_Content_View(c echo.Context) error {
+	resno := c.Request().FormValue("No")
+	if c.Request().Method == "POST" {
+		var game_content_view = "SELECT " + resno + " FROM game_view"
+		result := GameSelectQuery(db1, game_content_view)
+		return c.Render(http.StatusOK, "game_contents.html", result)
+	} else {
+		return c.Render(http.StatusOK, "error.html", "0")
+	}
+}
+
 /*
 게임 작성 란에서 게임 등록 버튼 클릭 시 동작
 */

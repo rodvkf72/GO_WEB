@@ -30,6 +30,8 @@ func Echo_Request_Handler(c echo.Context) error {
 
 	case "21":
 		return Echo_Game_Index(c)
+	case "22":
+		return Echo_Game_Content_View(c)
 	case "23":
 		return Echo_Game_Write_View(c)
 
