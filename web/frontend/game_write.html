@@ -6,10 +6,9 @@
 
       <div class="center content-view">
         <br><br><br>
-    
-        <div class="writestyle" id="write_form">
-            <form method="POST" action="/menu/g_write">
-            <!--<form method="POST" action="/menu/?Handler=g_write"> 기존 코드-->
+          <div class="writestyle" id="write_form">
+            <form method="POST" action="/menu/g_write" onclick="getText()">
+            <!--<form method="POST" action="/menu/?Handler=n_write" onclick="getText()"> 기존 코드-->
                 <br>
                 <b>Game : </b><input class="center" type="text" name="game">
                 <br><br><br>
@@ -17,10 +16,45 @@
                 <br><br><br>
                 <b>Src : </b><input class="center" type="text" name="root">
                 <br><br>
-                <input type="submit" value="게임 등록">
+  
+                <textarea name="ir1" id="ir1" rows="20" cols="100"></textarea>
+  
+                <!--<div class="selectable-icons autosize" onkeydown="resize(this)" onkeyup="resize(this)" id="cont" contenteditable="true"></div><br>
+                <textarea id="con" name="content" rows="7" cols="40" hidden></textarea>-->
+                <!--Content : <textarea name="content" rows="7" cols="40"></textarea><br>-->
+                <br><br>
+                <input id="enroll" type="submit" value="게시글 등록">
             </form>
         </div>
       </div>
-        {{ template "script.html" }}
+      <style>
+        textarea.autosize { min-height: 50px; }
+      </style>
+      <script>
+        var oEditors = [];
+        nhn.husky.EZCreator.createInIFrame({
+            oAppRef: oEditors,
+            elPlaceHolder: "ir1",
+            sSkinURI: "/static/smarteditor2/SmartEditor2Skin.html",
+            fCreator: "createSEditor2",
+            bSkipXssFilter : true,
+            htParams: { fOnBeforeUnload : function(){} }
+        });
+
+        function getText() {
+            //document.getElementById('ir1').value = document.getElementById('ir1').innerText;
+            oEditors.getById["ir1"].exec("UPDATE_CONTENTS_FIELD", []);
+            //alert(document.getElementById('ir1').innerText);
+            //document.getElementById('ir1').value = oEditors;
+        }
+        /*
+        function resize(obj) {
+          obj.style.height = "1px";
+          obj.style.height = (20+obj.scrollHeight)+"px";
+        }
+        */
+
+      </script>
+      {{ template "script.html" }}
     </body>
 </html>

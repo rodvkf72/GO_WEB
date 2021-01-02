@@ -182,15 +182,44 @@ func GameSelectQuery(db dbInfo, query string) []game_view {
 
 	for rows.Next() {
 		var no int
-		var name, types, root string
-		err := rows.Scan(&no, &name, &types, &root)
+		var game, types, root string
+		err := rows.Scan(&no, &game, &types, &root)
 		if err != nil {
 			log.Fatal(err)
 		}
 		Game_view.No = no
-		Game_view.Name = name
+		Game_view.Game = game
 		Game_view.Type = types
 		Game_view.Root = root
+		Game_views = append(Game_views, Game_view)
+	}
+	defer conn.Close()
+	return Game_views
+}
+
+func GameContentQuery(db dbInfo, query string) []game_view {
+	dataSource := db.user + ":" + db.pwd + "@tcp(" + db.url + ")/" + db.database
+	conn, err := sql.Open(db.engine, dataSource)
+	if err != nil {
+		log.Fatal(err)
+	}
+	rows, err := conn.Query(query)
+
+	Game_view := game_view{}
+	Game_views := []game_view{}
+
+	for rows.Next() {
+		var no int
+		var game, types, root, content string
+		err := rows.Scan(&no, &game, &types, &root, &content)
+		if err != nil {
+			log.Fatal(err)
+		}
+		Game_view.No = no
+		Game_view.Game = game
+		Game_view.Type = types
+		Game_view.Root = root
+		Game_view.Content = content
 		Game_views = append(Game_views, Game_view)
 	}
 	defer conn.Close()

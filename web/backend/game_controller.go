@@ -11,7 +11,7 @@ import (
 게임 탭의 첫 화면을 보여줌
 */
 func Echo_Game_Index(c echo.Context) error {
-	var game_view_string = "SELECT * FROM game_view"
+	var game_view_string = "SELECT no, game, type, root FROM game_view"
 	result := GameSelectQuery(db1, game_view_string)
 
 	hostcookie, _ := c.Cookie("KKH")
@@ -25,10 +25,10 @@ func Echo_Game_Index(c echo.Context) error {
 }
 
 func Echo_Game_Content_View(c echo.Context) error {
-	resno := c.Request().FormValue("No")
-	if c.Request().Method == "POST" {
-		var game_content_view = "SELECT " + resno + " FROM game_view"
-		result := GameSelectQuery(db1, game_content_view)
+	resno := c.FormValue("no")
+	if resno != "" {
+		var game_content_view = "SELECT * FROM game_view WHERE no=" + "'" + resno + "'" + ";"
+		result := GameContentQuery(db1, game_content_view)
 		return c.Render(http.StatusOK, "game_contents.html", result)
 	} else {
 		return c.Render(http.StatusOK, "error.html", "0")
@@ -43,7 +43,8 @@ func Echo_Game_Write_View(c echo.Context) error {
 		resgame := c.FormValue("game")
 		restype := c.FormValue("type")
 		resroot := c.FormValue("root")
-		var insert_string = "INSERT INTO game_view (Game, Type, Root) VALUES (" + "'" + resgame + "'" + "," + "'" + restype + "'" + "," + "'" + resroot + "'" + ");"
+		rescontent := c.FormValue("ir1")
+		var insert_string = "INSERT INTO game_view (Game, Type, Root, Content) VALUES (" + "'" + resgame + "'" + "," + "'" + restype + "'" + "," + "'" + resroot + "'" + "," + "'" + rescontent + "'" + ");"
 		InsertQuery(db1, insert_string)
 		http.Redirect(c.Response(), c.Request(), "/menu/?Handler=g_main", http.StatusFound)
 	} else {
