@@ -10,7 +10,7 @@ import (
 //DB query 문
 //값을 구조체로 전달하다 보니 Scan에서 갯수가 일치하지 않는 경우 에러가 출력됨. 따라서 구조체가 다른 경우 각각의 함수를 구현
 
-//DB insert 문
+//InsertQuery is mysql Insert Query
 func InsertQuery(db dbInfo, query string) {
 	dataSource := db.user + ":" + db.pwd + "@tcp(" + db.url + ")/" + db.database
 	conn, err := sql.Open(db.engine, dataSource)
@@ -27,7 +27,7 @@ func InsertQuery(db dbInfo, query string) {
 	conn.Close()
 }
 
-// DB update 문
+//UpdateQuery is mysql Update Query
 func UpdateQuery(db dbInfo, query string) {
 	dataSource := db.user + ":" + db.pwd + "@tcp(" + db.url + ")/" + db.database
 	conn, err := sql.Open(db.engine, dataSource)
@@ -38,72 +38,67 @@ func UpdateQuery(db dbInfo, query string) {
 	conn.Close()
 }
 
+//NoticeSelectQuery is notice board index view and notice board content view query
 /*
-func (n notice_board_view) Select2Query(db dbInfo, query string) []notice_board_view {
-	dataSource := db.user + ":" + db.pwd + "@tcp(" + db.url + ")/" + db.database
-	conn, err := sql.Open(db.engine, dataSource)
-	if err != nil {
-		log.Fatal(err)
-	}
-	rows, err := conn.Query(query)
-
-	//Notice_board_view := notice_board_view{}
-	Notice_board_views := []notice_board_view{}
-
-	for rows.Next() {
-		var no, click, maxno int
-		var title, writer, content, date string
-		err := rows.Scan(&no, &title, &writer, &content, &date, &click, &maxno)
-		if err != nil {
-			log.Fatal(err)
-		}
-		n.No = no
-		n.Title = title
-		n.Writer = writer
-		n.Content = strings.Replace(content, "\r\n", "\n", 1)
-		n.Date = date
-		n.Click = click
-		n.Maxno = maxno
-		Notice_board_views = append(Notice_board_views, n)
-	}
-	defer conn.Close()
-	return Notice_board_views
-}
-
-/*
-게시글의 첫 화면을 출력하기 위한 select 문
+게시글의 첫 화면, 선택된 게시글 내용을 출력하기 위한 select 문
+다음 글, 이전 글 기능을 위해 구조체에 추가된 변수가 많다.
 */
-func SelectQuery(db dbInfo, query string) []notice_board_view {
+func NoticeSelectQuery(db dbInfo, query string, sel string) []notice_board_content_view {
 	dataSource := db.user + ":" + db.pwd + "@tcp(" + db.url + ")/" + db.database
 	conn, err := sql.Open(db.engine, dataSource)
 	if err != nil {
 		log.Fatal(err)
 	}
 	rows, err := conn.Query(query)
-
-	Notice_board_view := notice_board_view{}
-	Notice_board_views := []notice_board_view{}
-
+	Notice_board_content_view := notice_board_content_view{}
+	Notice_board_content_views := []notice_board_content_view{}
 	for rows.Next() {
-		var no, click, maxno int
-		var title, writer, content, date string
-		err := rows.Scan(&no, &title, &writer, &content, &date, &click, &maxno)
-		if err != nil {
-			log.Fatal(err)
+		var no, click, maxno, minno, minusno, plusno int
+		var title, writer, content, date, minustitle, plustitle string
+		if sel == "index" {
+			err := rows.Scan(&no, &title, &writer, &content, &date, &click, &maxno)
+			if err != nil {
+				log.Fatal(err)
+			}
+			Notice_board_content_view.No = no
+			Notice_board_content_view.Title = title
+			Notice_board_content_view.Writer = writer
+			Notice_board_content_view.Content = strings.Replace(content, "\r\n", "\n", 1)
+			Notice_board_content_view.Date = date
+			Notice_board_content_view.Click = click
+			Notice_board_content_view.Maxno = maxno
+			Notice_board_content_views = append(Notice_board_content_views, Notice_board_content_view)
+		} else {
+			err := rows.Scan(&no, &title, &writer, &content, &date, &click, &maxno, &minno, &minusno, &minustitle, &plusno, &plustitle)
+			if plusno == 0 {
+				plusno = 0
+			}
+			if plustitle == "" {
+				plustitle = "다음 글이 없습니다."
+			}
+			if err != nil {
+				log.Fatal(err)
+			}
+			Notice_board_content_view.No = no
+			Notice_board_content_view.Title = title
+			Notice_board_content_view.Writer = writer
+			Notice_board_content_view.Content = strings.Replace(content, "\r\n", "\n", 1)
+			Notice_board_content_view.Date = date
+			Notice_board_content_view.Click = click
+			Notice_board_content_view.Maxno = maxno
+			Notice_board_content_view.Minno = minno + 3
+			Notice_board_content_view.Minusno = minusno
+			Notice_board_content_view.Minustitle = minustitle
+			Notice_board_content_view.Plusno = plusno
+			Notice_board_content_view.Plustitle = plustitle
+			Notice_board_content_views = append(Notice_board_content_views, Notice_board_content_view)
 		}
-		Notice_board_view.No = no
-		Notice_board_view.Title = title
-		Notice_board_view.Writer = writer
-		Notice_board_view.Content = strings.Replace(content, "\r\n", "\n", 1)
-		Notice_board_view.Date = date
-		Notice_board_view.Click = click
-		Notice_board_view.Maxno = maxno
-		Notice_board_views = append(Notice_board_views, Notice_board_view)
 	}
 	defer conn.Close()
-	return Notice_board_views
+	return Notice_board_content_views
 }
 
+//MaxSelectQuery is find the ninimum and maximum value of the post number
 /*
 게시글의 페이징 기능을 위한 최소값과 최대값을 가져오는 select 문
 */
@@ -122,50 +117,7 @@ func MaxSelectQuery(db dbInfo, query string) (int, int) {
 	return minno, maxno
 }
 
-/*
-선택된 게시글의 내용을 출력하기 위한 select 문
-다음 글, 이전 글 기능을 위해 구조체에 추가된 변수가 많다.
-*/
-func Noticeboard_ContentQuery(db dbInfo, query string) []notice_board_content_view {
-	dataSource := db.user + ":" + db.pwd + "@tcp(" + db.url + ")/" + db.database
-	conn, err := sql.Open(db.engine, dataSource)
-	if err != nil {
-		log.Fatal(err)
-	}
-	rows, err := conn.Query(query)
-	Notice_board_content_view := notice_board_content_view{}
-	Notice_board_content_views := []notice_board_content_view{}
-	for rows.Next() {
-		var no, click, maxno, minno, minusno, plusno int
-		var title, writer, content, date, minustitle, plustitle string
-		err := rows.Scan(&no, &title, &writer, &content, &date, &click, &maxno, &minno, &minusno, &minustitle, &plusno, &plustitle)
-		if plusno == 0 {
-			plusno = 0
-		}
-		if plustitle == "" {
-			plustitle = "다음 글이 없습니다."
-		}
-		if err != nil {
-			log.Fatal(err)
-		}
-		Notice_board_content_view.No = no
-		Notice_board_content_view.Title = title
-		Notice_board_content_view.Writer = writer
-		Notice_board_content_view.Content = strings.Replace(content, "\r\n", "\n", 1)
-		Notice_board_content_view.Date = date
-		Notice_board_content_view.Click = click
-		Notice_board_content_view.Maxno = maxno
-		Notice_board_content_view.Minno = minno + 3
-		Notice_board_content_view.Minusno = minusno
-		Notice_board_content_view.Minustitle = minustitle
-		Notice_board_content_view.Plusno = plusno
-		Notice_board_content_view.Plustitle = plustitle
-		Notice_board_content_views = append(Notice_board_content_views, Notice_board_content_view)
-	}
-	defer conn.Close()
-	return Notice_board_content_views
-}
-
+//GameSelectQuery is game tab inex view query
 /*
 게임 탭의 첫 화면 출력을 위한 select 문
 */
@@ -197,6 +149,7 @@ func GameSelectQuery(db dbInfo, query string) []game_view {
 	return Game_views
 }
 
+//GameContentQuery is game tab content view query
 func GameContentQuery(db dbInfo, query string) []game_view {
 	dataSource := db.user + ":" + db.pwd + "@tcp(" + db.url + ")/" + db.database
 	conn, err := sql.Open(db.engine, dataSource)
@@ -226,7 +179,8 @@ func GameContentQuery(db dbInfo, query string) []game_view {
 	return Game_views
 }
 
-func BaekjoonSelectQuery(db dbInfo, query string) []baekjoon_view {
+//BaekjoonSelectQuery is coding tab index view query
+func BaekjoonSelectQuery(db dbInfo, query string, sel string) []baekjoon_content_view {
 	dataSource := db.user + ":" + db.pwd + "@tcp(" + db.url + ")/" + db.database
 	conn, err := sql.Open(db.engine, dataSource)
 	if err != nil {
@@ -234,24 +188,36 @@ func BaekjoonSelectQuery(db dbInfo, query string) []baekjoon_view {
 	}
 	rows, err := conn.Query(query)
 
-	Baekjoon_view := baekjoon_view{}
-	Baekjoon_views := []baekjoon_view{}
+	Baekjoon_content_view := baekjoon_content_view{}
+	Baekjoon_content_views := []baekjoon_content_view{}
 
 	for rows.Next() {
 		var no int
-		var title string
-		err := rows.Scan(&no, &title)
-		if err != nil {
-			log.Fatal(err)
+		var title, content string
+		if sel == "index" {
+			err := rows.Scan(&no, &title)
+			if err != nil {
+				log.Fatal(err)
+			}
+			Baekjoon_content_view.No = no
+			Baekjoon_content_view.Title = title
+			Baekjoon_content_views = append(Baekjoon_content_views, Baekjoon_content_view)
+		} else {
+			err := rows.Scan(&no, &title, &content)
+			if err != nil {
+				log.Fatal(err)
+			}
+			Baekjoon_content_view.No = no
+			Baekjoon_content_view.Title = title
+			Baekjoon_content_view.Content = content
+			Baekjoon_content_views = append(Baekjoon_content_views, Baekjoon_content_view)
 		}
-		Baekjoon_view.No = no
-		Baekjoon_view.Title = title
-		Baekjoon_views = append(Baekjoon_views, Baekjoon_view)
 	}
 	defer conn.Close()
-	return Baekjoon_views
+	return Baekjoon_content_views
 }
 
+//BaekjoonContentQuery is coding tab content view query
 func BaekjoonContentQuery(db dbInfo, query string) []baekjoon_content_view {
 	dataSource := db.user + ":" + db.pwd + "@tcp(" + db.url + ")/" + db.database
 	conn, err := sql.Open(db.engine, dataSource)

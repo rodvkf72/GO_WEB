@@ -30,21 +30,7 @@ type Interf interface {
 */
 
 /*
-게시판 목록 출력에 필요한 데이터를 구조체로 정의 (일부 변수는 없어도 되긴 함)
-*/
-type notice_board_view struct {
-	No      int //int
-	Title   string
-	Writer  string
-	Content string
-	Date    string //date
-	Click   int    //int
-	Maxno   int
-	Cookie  string
-}
-
-/*
-게시판 글 클릭 시 출력에 필요한 데이터를 구조체로 정의
+게시판 목록, 글 클릭 시 출력에 필요한 데이터를 구조체로 정의
 */
 type notice_board_content_view struct {
 	No         int
@@ -59,6 +45,7 @@ type notice_board_content_view struct {
 	Minustitle string
 	Plusno     int
 	Plustitle  string
+	Cookie     string
 }
 
 /*
@@ -83,16 +70,11 @@ type game_view struct {
 	Cookie  string
 }
 
-type baekjoon_view struct {
-	No     int
-	Title  string
-	Cookie string
-}
-
 type baekjoon_content_view struct {
 	No      int
 	Title   string
 	Content string
+	Cookie  string
 }
 
 /*

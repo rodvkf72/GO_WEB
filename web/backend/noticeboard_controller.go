@@ -36,27 +36,27 @@ func Echo_Noticeboard_Index(c echo.Context) error {
 		max_str := strconv.Itoa(max_int)
 		var notice_view_string = "SELECT *, (SELECT MAX(No) FROM notice_board_view) FROM notice_board_view WHERE No <=" + max_str + " AND No >" + min_str + " ORDER BY No DESC limit 10;"
 
-		result := SelectQuery(db1, notice_view_string)
+		result := NoticeSelectQuery(db1, notice_view_string, "index")
 
 		hostcookie, _ := c.Cookie("KKH")
 		if hostcookie != nil {
-			result = append(result, notice_board_view{Cookie: "TRUE"})
+			result = append(result, notice_board_content_view{Cookie: "TRUE"})
 		} else {
-			result = append(result, notice_board_view{Cookie: "FALSE"})
+			result = append(result, notice_board_content_view{Cookie: "FALSE"})
 		}
 		return c.Render(http.StatusOK, "notice_board.html", result)
 	} else {
 		var notice_view_string = "SELECT *, (SELECT MAX(No) FROM notice_board_view) FROM notice_board_view WHERE No>(SELECT TRUNCATE((SELECT MAX(no)-1 FROM notice_board_view), -1) FROM dual) ORDER BY No DESC limit 10;"
-		result := SelectQuery(db1, notice_view_string)
+		result := NoticeSelectQuery(db1, notice_view_string, "index")
 
 		hostcookie, _ := c.Cookie("KKH")
 		fmt.Println(hostcookie)
 		if hostcookie != nil {
 			//result.Cookie = "TRUE"
-			result = append(result, notice_board_view{Cookie: "TRUE"})
+			result = append(result, notice_board_content_view{Cookie: "TRUE"})
 		} else {
 			//result.Cookie = "FALSE"
-			result = append(result, notice_board_view{Cookie: "FALSE"})
+			result = append(result, notice_board_content_view{Cookie: "FALSE"})
 		}
 
 		return c.Render(http.StatusOK, "notice_board.html", result)
@@ -90,11 +90,10 @@ func Echo_Noticeboard_Content_View(c echo.Context) error {
 			notice_view_string = "SELECT *, (SELECT MAX(No) FROM notice_board_view), (SELECT MIN(No) FROM notice_board_view), No-1, (SELECT Title FROM notice_board_view WHERE No=" + resno + "-1), No+1, (SELECT Title FROM notice_board_view WHERE No=" + resno + "+1) FROM notice_board_view WHERE No=" + resno + ";"
 		}
 
-		result := Noticeboard_ContentQuery(db1, notice_view_string)
+		result := NoticeSelectQuery(db1, notice_view_string, "content")
 		var notice_count_update = "UPDATE notice_board_view SET Click=Click+1 WHERE No=" + resno + ";"
 
 		cookie := readCookie(c, resno)
-		fmt.Println(c.Cookie(resno))
 
 		if cookie == "cookie error" {
 			writeCookie(c, resno, "no"+resno) //only used on 433 port(https) - chrome security policy.
@@ -145,12 +144,12 @@ func Noticeboard_Index(w http.ResponseWriter, r *http.Request) {
 		fmt.Println(min_str)
 		fmt.Println(max_str)
 		var notice_view_string = "SELECT *, (SELECT MAX(No) FROM notice_board_view) FROM notice_board_view WHERE No <=" + max_str + " AND No >" + min_str + " ORDER BY No DESC limit 10;"
-		result := SelectQuery(db1, notice_view_string)
+		result := NoticeSelectQuery(db1, notice_view_string, "index")
 		noticeboardTemplate.Execute(w, result)
 	} else {
 		//var notice_view_string = "SELECT * FROM notice_board_view WHERE No<=(SELECT MAX(No) FROM notice_board_view) AND No>(SELECT TRUNCATE((SELECT MAX(no)-1 FROM notice_board_view), -1) FROM dual) ORDER BY No DESC limit 10;"
 		var notice_view_string = "SELECT *, (SELECT MAX(No) FROM notice_board_view) FROM notice_board_view WHERE No>(SELECT TRUNCATE((SELECT MAX(no)-1 FROM notice_board_view), -1) FROM dual) ORDER BY No DESC limit 10;"
-		result := SelectQuery(db1, notice_view_string)
+		result := NoticeSelectQuery(db1, notice_view_string, "index")
 		noticeboardTemplate.Execute(w, result)
 	}
 }
@@ -162,7 +161,7 @@ func Noticeboard_Content_View(w http.ResponseWriter, r *http.Request) {
 	resno := r.FormValue("No")
 	if resno != "" {
 		var notice_view_string = "SELECT *, (SELECT MAX(No) FROM notice_board_view) FROM notice_board_view WHERE No=" + resno + ";"
-		result := SelectQuery(db1, notice_view_string)
+		result := NoticeSelectQuery(db1, notice_view_string, "index")
 		var notice_count_update = "UPDATE notice_board_view SET Click=Click+1 WHERE No=" + resno + ";"
 		UpdateQuery(db1, notice_count_update)
 		noticeboardcontentsTemplate.Execute(w, result)
