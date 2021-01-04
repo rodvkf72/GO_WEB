@@ -12,13 +12,13 @@ import (
 */
 func Echo_Game_Index(c echo.Context) error {
 	var game_view_string = "SELECT no, game, type, root FROM game_view"
-	result := GameSelectQuery(db1, game_view_string)
+	result := GameSelectQuery(db1, game_view_string, "index")
 
 	hostcookie, _ := c.Cookie("KKH")
 	if hostcookie != nil {
-		result = append(result, game_view{Cookie: "TRUE"})
+		result = append(result, game_content_view{Cookie: "TRUE"})
 	} else {
-		result = append(result, game_view{Cookie: "FALSE"})
+		result = append(result, game_content_view{Cookie: "FALSE"})
 	}
 
 	return c.Render(http.StatusOK, "game.html", result)
@@ -58,7 +58,7 @@ func Game_Index(w http.ResponseWriter, r *http.Request) {
 	gameTemplate, _ := template.ParseFiles("frontend/game.html", header, footer, leftside)
 
 	var game_view_string = "SELECT * FROM game_view"
-	result := GameSelectQuery(db1, game_view_string)
+	result := GameSelectQuery(db1, game_view_string, "index")
 	gameTemplate.Execute(w, result)
 }
 

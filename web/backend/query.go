@@ -121,7 +121,7 @@ func MaxSelectQuery(db dbInfo, query string) (int, int) {
 /*
 게임 탭의 첫 화면 출력을 위한 select 문
 */
-func GameSelectQuery(db dbInfo, query string) []game_view {
+func GameSelectQuery(db dbInfo, query string, sel string) []game_content_view {
 	dataSource := db.user + ":" + db.pwd + "@tcp(" + db.url + ")/" + db.database
 	conn, err := sql.Open(db.engine, dataSource)
 	if err != nil {
@@ -129,28 +129,41 @@ func GameSelectQuery(db dbInfo, query string) []game_view {
 	}
 	rows, err := conn.Query(query)
 
-	Game_view := game_view{}
-	Game_views := []game_view{}
+	Game_view := game_content_view{}
+	Game_views := []game_content_view{}
 
 	for rows.Next() {
 		var no int
-		var game, types, root string
-		err := rows.Scan(&no, &game, &types, &root)
-		if err != nil {
-			log.Fatal(err)
+		var game, types, root, content string
+		if sel == "index" {
+			err := rows.Scan(&no, &game, &types, &root)
+			if err != nil {
+				log.Fatal(err)
+			}
+			Game_view.No = no
+			Game_view.Game = game
+			Game_view.Type = types
+			Game_view.Root = root
+			Game_views = append(Game_views, Game_view)
+		} else {
+			err := rows.Scan(&no, &game, &types, &root, &content)
+			if err != nil {
+				log.Fatal(err)
+			}
+			Game_view.No = no
+			Game_view.Game = game
+			Game_view.Type = types
+			Game_view.Root = root
+			Game_view.Content = content
+			Game_views = append(Game_views, Game_view)
 		}
-		Game_view.No = no
-		Game_view.Game = game
-		Game_view.Type = types
-		Game_view.Root = root
-		Game_views = append(Game_views, Game_view)
 	}
 	defer conn.Close()
 	return Game_views
 }
 
 //GameContentQuery is game tab content view query
-func GameContentQuery(db dbInfo, query string) []game_view {
+func GameContentQuery(db dbInfo, query string) []game_content_view {
 	dataSource := db.user + ":" + db.pwd + "@tcp(" + db.url + ")/" + db.database
 	conn, err := sql.Open(db.engine, dataSource)
 	if err != nil {
@@ -158,8 +171,8 @@ func GameContentQuery(db dbInfo, query string) []game_view {
 	}
 	rows, err := conn.Query(query)
 
-	Game_view := game_view{}
-	Game_views := []game_view{}
+	Game_view := game_content_view{}
+	Game_views := []game_content_view{}
 
 	for rows.Next() {
 		var no int
@@ -212,34 +225,6 @@ func BaekjoonSelectQuery(db dbInfo, query string, sel string) []baekjoon_content
 			Baekjoon_content_view.Content = content
 			Baekjoon_content_views = append(Baekjoon_content_views, Baekjoon_content_view)
 		}
-	}
-	defer conn.Close()
-	return Baekjoon_content_views
-}
-
-//BaekjoonContentQuery is coding tab content view query
-func BaekjoonContentQuery(db dbInfo, query string) []baekjoon_content_view {
-	dataSource := db.user + ":" + db.pwd + "@tcp(" + db.url + ")/" + db.database
-	conn, err := sql.Open(db.engine, dataSource)
-	if err != nil {
-		log.Fatal(err)
-	}
-	rows, err := conn.Query(query)
-
-	Baekjoon_content_view := baekjoon_content_view{}
-	Baekjoon_content_views := []baekjoon_content_view{}
-
-	for rows.Next() {
-		var no int
-		var title, content string
-		err := rows.Scan(&no, &title, &content)
-		if err != nil {
-			log.Fatal(err)
-		}
-		Baekjoon_content_view.No = no
-		Baekjoon_content_view.Title = title
-		Baekjoon_content_view.Content = content
-		Baekjoon_content_views = append(Baekjoon_content_views, Baekjoon_content_view)
 	}
 	defer conn.Close()
 	return Baekjoon_content_views

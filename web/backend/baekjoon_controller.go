@@ -12,15 +12,15 @@ import (
 */
 func Echo_Baekjoon_Index(c echo.Context) error {
 	var baekjoon_index = "SELECT no, title FROM baekjoon_solution ORDER BY no ASC"
-	result := BaekjoonSelectQuery(db1, baekjoon_index)
+	result := BaekjoonSelectQuery(db1, baekjoon_index, "index")
 
 	hostcookie, _ := c.Cookie("KKH")
 	if hostcookie != nil {
 		//result.Cookie = "TRUE"
-		result = append(result, baekjoon_view{Cookie: "TRUE"})
+		result = append(result, baekjoon_content_view{Cookie: "TRUE"})
 	} else {
 		//result.Cookie = "FALSE"
-		result = append(result, baekjoon_view{Cookie: "FALSE"})
+		result = append(result, baekjoon_content_view{Cookie: "FALSE"})
 	}
 
 	return c.Render(http.StatusOK, "baekjoon.html", result)
@@ -32,7 +32,7 @@ func Echo_Baekjoon_Index(c echo.Context) error {
 func Echo_Baekjoon_Content_View(c echo.Context) error {
 	resno := c.FormValue("No")
 	var select_string = "SELECT no, title, content FROM baekjoon_solution WHERE no = " + "'" + resno + "';"
-	result := BaekjoonContentQuery(db1, select_string)
+	result := BaekjoonSelectQuery(db1, select_string, "content")
 
 	return c.Render(http.StatusOK, "baekjoon_contents.html", result)
 }
@@ -65,7 +65,7 @@ func Echo_Baekjoon_Search(c echo.Context) error {
 	resno := c.FormValue("no")
 
 	query := "SELECT no, title FROM baekjoon_solution WHERE no = " + "'" + resno + "'" + ";"
-	result := BaekjoonSelectQuery(db1, query)
+	result := BaekjoonSelectQuery(db1, query, "index")
 
 	return c.Render(http.StatusOK, "baekjoon.html", result)
 }
