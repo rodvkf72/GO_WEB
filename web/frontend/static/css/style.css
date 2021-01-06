@@ -112,7 +112,6 @@
  }
 
  .content-view {
-
      text-align: center;
      float: right;
      width: 76%;
@@ -129,6 +128,16 @@
    border-left: 1px solid gray;
    border-right: 1px solid gray;
       */
+ }
+
+ .content-detail {
+   text-align: center;
+   float: right;
+   margin-right: 10%;
+   width: 80%;
+   height: auto;
+   overflow: hidden;
+   background: white;
  }
 
  .explanation {
@@ -321,6 +330,16 @@
       height: auto;
       overflow: hidden;
       background: white;
+  }
+
+  .content-detail {
+    text-align: center;
+    float: right;
+    margin-right: 10%;
+    width: 80%;
+    height: auto;
+    overflow: hidden;
+    background: white;
   }
 
   .other-box1 {
