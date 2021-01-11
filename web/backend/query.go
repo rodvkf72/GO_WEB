@@ -43,15 +43,15 @@ func UpdateQuery(db dbInfo, query string) {
 게시글의 첫 화면, 선택된 게시글 내용을 출력하기 위한 select 문
 다음 글, 이전 글 기능을 위해 구조체에 추가된 변수가 많다.
 */
-func NoticeSelectQuery(db dbInfo, query string, sel string) []notice_board_content_view {
+func NoticeSelectQuery(db dbInfo, query string, sel string) []noticeboardcontentview {
 	dataSource := db.user + ":" + db.pwd + "@tcp(" + db.url + ")/" + db.database
 	conn, err := sql.Open(db.engine, dataSource)
 	if err != nil {
 		log.Fatal(err)
 	}
 	rows, err := conn.Query(query)
-	Notice_board_content_view := notice_board_content_view{}
-	Notice_board_content_views := []notice_board_content_view{}
+	Noticeboardcontentview := noticeboardcontentview{}
+	Noticeboardcontentviews := []noticeboardcontentview{}
 	for rows.Next() {
 		var no, click, maxno, minno, minusno, plusno int
 		var title, writer, content, date, minustitle, plustitle string
@@ -60,14 +60,14 @@ func NoticeSelectQuery(db dbInfo, query string, sel string) []notice_board_conte
 			if err != nil {
 				log.Fatal(err)
 			}
-			Notice_board_content_view.No = no
-			Notice_board_content_view.Title = title
-			Notice_board_content_view.Writer = writer
-			Notice_board_content_view.Content = strings.Replace(content, "\r\n", "\n", 1)
-			Notice_board_content_view.Date = date
-			Notice_board_content_view.Click = click
-			Notice_board_content_view.Maxno = maxno
-			Notice_board_content_views = append(Notice_board_content_views, Notice_board_content_view)
+			Noticeboardcontentview.No = no
+			Noticeboardcontentview.Title = title
+			Noticeboardcontentview.Writer = writer
+			Noticeboardcontentview.Content = strings.Replace(content, "\r\n", "\n", 1)
+			Noticeboardcontentview.Date = date
+			Noticeboardcontentview.Click = click
+			Noticeboardcontentview.Maxno = maxno
+			Noticeboardcontentviews = append(Noticeboardcontentviews, Noticeboardcontentview)
 		} else {
 			err := rows.Scan(&no, &title, &writer, &content, &date, &click, &maxno, &minno, &minusno, &minustitle, &plusno, &plustitle)
 			if plusno == 0 {
@@ -79,23 +79,23 @@ func NoticeSelectQuery(db dbInfo, query string, sel string) []notice_board_conte
 			if err != nil {
 				log.Fatal(err)
 			}
-			Notice_board_content_view.No = no
-			Notice_board_content_view.Title = title
-			Notice_board_content_view.Writer = writer
-			Notice_board_content_view.Content = strings.Replace(content, "\r\n", "\n", 1)
-			Notice_board_content_view.Date = date
-			Notice_board_content_view.Click = click
-			Notice_board_content_view.Maxno = maxno
-			Notice_board_content_view.Minno = minno + 3
-			Notice_board_content_view.Minusno = minusno
-			Notice_board_content_view.Minustitle = minustitle
-			Notice_board_content_view.Plusno = plusno
-			Notice_board_content_view.Plustitle = plustitle
-			Notice_board_content_views = append(Notice_board_content_views, Notice_board_content_view)
+			Noticeboardcontentview.No = no
+			Noticeboardcontentview.Title = title
+			Noticeboardcontentview.Writer = writer
+			Noticeboardcontentview.Content = strings.Replace(content, "\r\n", "\n", 1)
+			Noticeboardcontentview.Date = date
+			Noticeboardcontentview.Click = click
+			Noticeboardcontentview.Maxno = maxno
+			Noticeboardcontentview.Minno = minno + 3
+			Noticeboardcontentview.Minusno = minusno
+			Noticeboardcontentview.Minustitle = minustitle
+			Noticeboardcontentview.Plusno = plusno
+			Noticeboardcontentview.Plustitle = plustitle
+			Noticeboardcontentviews = append(Noticeboardcontentviews, Noticeboardcontentview)
 		}
 	}
 	defer conn.Close()
-	return Notice_board_content_views
+	return Noticeboardcontentviews
 }
 
 //MaxSelectQuery is find the ninimum and maximum value of the post number
@@ -121,7 +121,7 @@ func MaxSelectQuery(db dbInfo, query string) (int, int) {
 /*
 게임 탭의 첫 화면 출력을 위한 select 문
 */
-func GameSelectQuery(db dbInfo, query string, sel string) []game_content_view {
+func GameSelectQuery(db dbInfo, query string, sel string) []gamecontentview {
 	dataSource := db.user + ":" + db.pwd + "@tcp(" + db.url + ")/" + db.database
 	conn, err := sql.Open(db.engine, dataSource)
 	if err != nil {
@@ -129,8 +129,8 @@ func GameSelectQuery(db dbInfo, query string, sel string) []game_content_view {
 	}
 	rows, err := conn.Query(query)
 
-	Game_view := game_content_view{}
-	Game_views := []game_content_view{}
+	Gameview := gamecontentview{}
+	Gameviews := []gamecontentview{}
 
 	for rows.Next() {
 		var no int
@@ -140,30 +140,30 @@ func GameSelectQuery(db dbInfo, query string, sel string) []game_content_view {
 			if err != nil {
 				log.Fatal(err)
 			}
-			Game_view.No = no
-			Game_view.Game = game
-			Game_view.Type = types
-			Game_view.Root = root
-			Game_views = append(Game_views, Game_view)
+			Gameview.No = no
+			Gameview.Game = game
+			Gameview.Type = types
+			Gameview.Root = root
+			Gameviews = append(Gameviews, Gameview)
 		} else {
 			err := rows.Scan(&no, &game, &types, &root, &content)
 			if err != nil {
 				log.Fatal(err)
 			}
-			Game_view.No = no
-			Game_view.Game = game
-			Game_view.Type = types
-			Game_view.Root = root
-			Game_view.Content = content
-			Game_views = append(Game_views, Game_view)
+			Gameview.No = no
+			Gameview.Game = game
+			Gameview.Type = types
+			Gameview.Root = root
+			Gameview.Content = content
+			Gameviews = append(Gameviews, Gameview)
 		}
 	}
 	defer conn.Close()
-	return Game_views
+	return Gameviews
 }
 
 //GameContentQuery is game tab content view query
-func GameContentQuery(db dbInfo, query string) []game_content_view {
+func GameContentQuery(db dbInfo, query string) []gamecontentview {
 	dataSource := db.user + ":" + db.pwd + "@tcp(" + db.url + ")/" + db.database
 	conn, err := sql.Open(db.engine, dataSource)
 	if err != nil {
@@ -171,8 +171,8 @@ func GameContentQuery(db dbInfo, query string) []game_content_view {
 	}
 	rows, err := conn.Query(query)
 
-	Game_view := game_content_view{}
-	Game_views := []game_content_view{}
+	Gameview := gamecontentview{}
+	Gameviews := []gamecontentview{}
 
 	for rows.Next() {
 		var no int
@@ -181,19 +181,19 @@ func GameContentQuery(db dbInfo, query string) []game_content_view {
 		if err != nil {
 			log.Fatal(err)
 		}
-		Game_view.No = no
-		Game_view.Game = game
-		Game_view.Type = types
-		Game_view.Root = root
-		Game_view.Content = content
-		Game_views = append(Game_views, Game_view)
+		Gameview.No = no
+		Gameview.Game = game
+		Gameview.Type = types
+		Gameview.Root = root
+		Gameview.Content = content
+		Gameviews = append(Gameviews, Gameview)
 	}
 	defer conn.Close()
-	return Game_views
+	return Gameviews
 }
 
 //BaekjoonSelectQuery is coding tab index view query
-func BaekjoonSelectQuery(db dbInfo, query string, sel string) []baekjoon_content_view {
+func BaekjoonSelectQuery(db dbInfo, query string, sel string) []baekjooncontentview {
 	dataSource := db.user + ":" + db.pwd + "@tcp(" + db.url + ")/" + db.database
 	conn, err := sql.Open(db.engine, dataSource)
 	if err != nil {
@@ -201,8 +201,8 @@ func BaekjoonSelectQuery(db dbInfo, query string, sel string) []baekjoon_content
 	}
 	rows, err := conn.Query(query)
 
-	Baekjoon_content_view := baekjoon_content_view{}
-	Baekjoon_content_views := []baekjoon_content_view{}
+	Baekjooncontentview := baekjooncontentview{}
+	Baekjooncontentviews := []baekjooncontentview{}
 
 	for rows.Next() {
 		var no int
@@ -212,22 +212,22 @@ func BaekjoonSelectQuery(db dbInfo, query string, sel string) []baekjoon_content
 			if err != nil {
 				log.Fatal(err)
 			}
-			Baekjoon_content_view.No = no
-			Baekjoon_content_view.Title = title
-			Baekjoon_content_views = append(Baekjoon_content_views, Baekjoon_content_view)
+			Baekjooncontentview.No = no
+			Baekjooncontentview.Title = title
+			Baekjooncontentviews = append(Baekjooncontentviews, Baekjooncontentview)
 		} else {
 			err := rows.Scan(&no, &title, &content)
 			if err != nil {
 				log.Fatal(err)
 			}
-			Baekjoon_content_view.No = no
-			Baekjoon_content_view.Title = title
-			Baekjoon_content_view.Content = content
-			Baekjoon_content_views = append(Baekjoon_content_views, Baekjoon_content_view)
+			Baekjooncontentview.No = no
+			Baekjooncontentview.Title = title
+			Baekjooncontentview.Content = content
+			Baekjooncontentviews = append(Baekjooncontentviews, Baekjooncontentview)
 		}
 	}
 	defer conn.Close()
-	return Baekjoon_content_views
+	return Baekjooncontentviews
 }
 
 /* 단수 쿼리의 경우

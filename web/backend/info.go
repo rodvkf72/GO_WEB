@@ -32,7 +32,7 @@ type Interf interface {
 /*
 게시판 목록, 글 클릭 시 출력에 필요한 데이터를 구조체로 정의
 */
-type notice_board_content_view struct {
+type noticeboardcontentview struct {
 	No         int
 	Title      string
 	Writer     string
@@ -51,7 +51,7 @@ type notice_board_content_view struct {
 /*
 프로젝트 목록 출력에 필요한 데이터를 구조체로 정의
 */
-type project_view struct {
+type projectview struct {
 	No      string
 	Title   string
 	Content string
@@ -61,7 +61,7 @@ type project_view struct {
 /*
 게임 목록 출력에 필요한 데이터를 구조체로 정의
 */
-type game_content_view struct {
+type gamecontentview struct {
 	No      int
 	Game    string
 	Type    string
@@ -70,7 +70,7 @@ type game_content_view struct {
 	Cookie  string
 }
 
-type baekjoon_content_view struct {
+type baekjooncontentview struct {
 	No      int
 	Title   string
 	Content string

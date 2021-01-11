@@ -1,79 +1,44 @@
 package backend
 
 import (
-	"net/http"
-
 	"github.com/labstack/echo"
 )
 
-/*
-GET방식으로 넘겨지는 Hnadler의 값을 가지고 global_info.go 파일에 있는 static 함수를 호출하여 리턴된 값을 가지고 해당하는 함수를 호출
-*/
-func Echo_Request_Handler(c echo.Context) error {
+//EchoRequestHandler is call the static function in the 'info.go' file with the Hnadler value passed in the GET method, and call the corresponding function with the returned value.
+func EchoRequestHandler(c echo.Context) error {
 	reshandler := c.FormValue("Handler")
-	s_handle := static(reshandler)
+	shandle := static(reshandler)
 
-	switch s_handle {
+	switch shandle {
 	case "1":
-		return Echo_Noticeboard_Index(c)
+		return EchoNoticeboardIndex(c)
 	case "2":
-		return Echo_Noticeboard_Content_View(c)
+		return EchoNoticeboardContentView(c)
 	case "3":
-		return Echo_Noticeboard_Write_View(c)
+		return EchoNoticeboardWriteView(c)
 
 	case "11":
-		return Echo_Project_Index(c)
+		return EchoProjectIndex(c)
 	case "12":
-		return Echo_Project_Content_View(c)
+		return EchoProjectContentView(c)
 	case "13":
-		return Echo_Project_Write_View(c)
+		return EchoProjectWriteView(c)
 
 	case "21":
-		return Echo_Game_Index(c)
+		return EchoGameIndex(c)
 	case "22":
-		return Echo_Game_Content_View(c)
+		return EchoGameContentView(c)
 	case "23":
-		return Echo_Game_Write_View(c)
+		return EchoGameWriteView(c)
 
 	case "31":
-		return Echo_Baekjoon_Index(c)
+		return EchoBaekjoonIndex(c)
 	case "32":
-		return Echo_Baekjoon_Content_View(c)
+		return EchoBaekjoonContentView(c)
 	case "33":
-		return Echo_Baekjoon_Write_View(c)
+		return EchoBaekjoonWriteView(c)
 	case "34":
-		return Echo_Baekjoon_Search(c)
+		return EchoBaekjoonSearch(c)
 	}
 	return c.String(0, "ERROR")
-}
-
-// 이전 방식의 메뉴 버튼 클릭 시 화면 지정
-func Request_Handler(w http.ResponseWriter, r *http.Request) {
-	r.ParseForm()
-	reshandler := r.FormValue("Handler")
-	s_handle := static(reshandler)
-	switch s_handle {
-	case "1":
-		Noticeboard_Index(w, r)
-	case "2":
-		Noticeboard_Content_View(w, r)
-	case "3":
-		Noticeboard_Write_View(w, r)
-
-	case "11":
-		Project_Index(w, r)
-	case "12":
-		Project_Content_View(w, r)
-	case "13":
-		Project_Write_View(w, r)
-
-	case "21":
-		Game_Index(w, r)
-	/*
-		case "22":
-			Game_Content_View(w, r)
-	*/
-	case "23":
-		Game_Write_View(w, r)
-	}
 }

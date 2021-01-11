@@ -2,19 +2,19 @@ package backend
 
 import (
 	"fmt"
-	"html/template"
 	"net/http"
 	"time"
 
 	"github.com/labstack/echo"
 )
 
+//EchoLoginCheck is manager login check function
 /*
 관리자가 로그인 시 아이디와 비밀번호를 체크하는 기능이다.
 KKH라는 이름의 쿠키를 생성한다.
 로그인 성공 시 /main/으로 이동하며 실패 시 /fail/로 이동한다.
 */
-func Echo_Login_Check(c echo.Context) error {
+func EchoLoginCheck(c echo.Context) error {
 	resid := c.FormValue("id")
 	respw := c.FormValue("pw")
 
@@ -77,45 +77,10 @@ func Ip_Check(c echo.Context) {
 }
 */
 
-//이전의 로그인 방식
-func Login_Check(w http.ResponseWriter, r *http.Request) {
-	//ip 주소 검색
-	/*addrs, err := net.InterfaceAddrs()
-	if err != nil {
-		log.Fatal(err)
-	}
-	for _, a := range addrs {
-		if ipnet, ok := a.(*net.IPNet); ok && !ipnet.IP.IsLoopback() {
-			if ipnet.IP.To4() != nil {
-				fmt.Println(ipnet.IP.String() + "\n")
-			}
-		}
-	}*/
-
-	// 아이디 비밀번호 확인
-	r.ParseForm()
-	if r.Method == "POST" {
-		resid := r.FormValue("id")
-		respw := r.FormValue("pw")
-		if (resid == id) && (respw == pw) {
-			fmt.Println("OK")
-			http.Redirect(w, r, "/main/", http.StatusFound)
-		} else {
-			fmt.Println("U R Not Admin !")
-			http.Redirect(w, r, "/fail/", http.StatusFound)
-		}
-	}
-}
-
+//EchoFail is works when login fails
 /*
 로그인 실패 시 동작
 */
-func Echo_Fail(c echo.Context) error {
+func EchoFail(c echo.Context) error {
 	return c.Render(http.StatusOK, "fail.html", "0")
-}
-
-//이전 방식
-func Fail(w http.ResponseWriter, r *http.Request) {
-	failTemplate, _ := template.ParseFiles("frontend/fail.html")
-	failTemplate.Execute(w, nil)
 }

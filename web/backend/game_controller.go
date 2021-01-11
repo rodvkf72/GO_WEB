@@ -1,79 +1,50 @@
 package backend
 
 import (
-	"html/template"
 	"net/http"
 
 	"github.com/labstack/echo"
 )
 
-/*
-게임 탭의 첫 화면을 보여줌
-*/
-func Echo_Game_Index(c echo.Context) error {
-	var game_view_string = "SELECT no, game, type, root FROM game_view"
-	result := GameSelectQuery(db1, game_view_string, "index")
+//EchoGameIndex is shows the game tab index
+func EchoGameIndex(c echo.Context) error {
+	var gameviewstring = "SELECT no, game, type, root FROM game_view"
+	result := GameSelectQuery(db1, gameviewstring, "index")
 
 	hostcookie, _ := c.Cookie("KKH")
 	if hostcookie != nil {
-		result = append(result, game_content_view{Cookie: "TRUE"})
+		result = append(result, gamecontentview{Cookie: "TRUE"})
 	} else {
-		result = append(result, game_content_view{Cookie: "FALSE"})
+		result = append(result, gamecontentview{Cookie: "FALSE"})
 	}
 
 	return c.Render(http.StatusOK, "game.html", result)
 }
 
-func Echo_Game_Content_View(c echo.Context) error {
+//EchoGameContentView is shows selected game content
+func EchoGameContentView(c echo.Context) error {
 	resno := c.FormValue("no")
 	if resno != "" {
-		var game_content_view = "SELECT * FROM game_view WHERE no=" + "'" + resno + "'" + ";"
-		result := GameContentQuery(db1, game_content_view)
+		var gamecontentview = "SELECT * FROM game_view WHERE no=" + "'" + resno + "'" + ";"
+		result := GameContentQuery(db1, gamecontentview)
 		return c.Render(http.StatusOK, "game_contents.html", result)
 	} else {
 		return c.Render(http.StatusOK, "error.html", "0")
 	}
 }
 
-/*
-게임 작성 란에서 게임 등록 버튼 클릭 시 동작
-*/
-func Echo_Game_Write_View(c echo.Context) error {
+//EchoGameWriteView is shows game write view and insert the written content into the database
+func EchoGameWriteView(c echo.Context) error {
 	if c.Request().Method == "POST" {
 		resgame := c.FormValue("game")
 		restype := c.FormValue("type")
 		resroot := c.FormValue("root")
 		rescontent := c.FormValue("ir1")
-		var insert_string = "INSERT INTO game_view (Game, Type, Root, Content) VALUES (" + "'" + resgame + "'" + "," + "'" + restype + "'" + "," + "'" + resroot + "'" + "," + "'" + rescontent + "'" + ");"
-		InsertQuery(db1, insert_string)
+		var insertstring = "INSERT INTO game_view (Game, Type, Root, Content) VALUES (" + "'" + resgame + "'" + "," + "'" + restype + "'" + "," + "'" + resroot + "'" + "," + "'" + rescontent + "'" + ");"
+		InsertQuery(db1, insertstring)
 		http.Redirect(c.Response(), c.Request(), "/menu/?Handler=g_main", http.StatusFound)
 	} else {
 		return c.Render(http.StatusOK, "game_write.html", "0")
 	}
 	return c.String(0, "ERROR")
-}
-
-//위와 같으나 http 기본 모듈로 구현
-func Game_Index(w http.ResponseWriter, r *http.Request) {
-	gameTemplate, _ := template.ParseFiles("frontend/game.html", header, footer, leftside)
-
-	var game_view_string = "SELECT * FROM game_view"
-	result := GameSelectQuery(db1, game_view_string, "index")
-	gameTemplate.Execute(w, result)
-}
-
-func Game_Write_View(w http.ResponseWriter, r *http.Request) {
-	gamewriteTemplate, _ := template.ParseFiles("frontend/game_write.html", header, footer, leftside)
-
-	r.ParseForm()
-	if r.Method == "POST" {
-		resgame := r.FormValue("game")
-		restype := r.FormValue("type")
-		resroot := r.FormValue("root")
-		var insert_string = "INSERT INTO game_view (Game, Type, Root) VALUES (" + "'" + resgame + "'" + "," + "'" + restype + "'" + "," + "'" + resroot + "'" + ");"
-		InsertQuery(db1, insert_string)
-		http.Redirect(w, r, "/menu/?Handler=g_main", http.StatusFound)
-	} else {
-		gamewriteTemplate.Execute(w, nil)
-	}
 }
