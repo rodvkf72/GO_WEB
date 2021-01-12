@@ -49,7 +49,7 @@ func EchoBaekjoonWriteView(c echo.Context) error {
 	} else {
 		return c.Render(http.StatusOK, "baekjoon_write.html", 0)
 	}
-	return c.String(0, "ERROR")
+	return c.Render(http.StatusOK, "error.html", 0)
 }
 
 //EchoBaekjoonSearch is problem search function

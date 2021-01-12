@@ -29,7 +29,7 @@ func EchoGameContentView(c echo.Context) error {
 		result := GameContentQuery(db1, gamecontentview)
 		return c.Render(http.StatusOK, "game_contents.html", result)
 	} else {
-		return c.Render(http.StatusOK, "error.html", "0")
+		return c.Render(http.StatusOK, "error.html", 0)
 	}
 }
 
@@ -46,5 +46,5 @@ func EchoGameWriteView(c echo.Context) error {
 	} else {
 		return c.Render(http.StatusOK, "game_write.html", "0")
 	}
-	return c.String(0, "ERROR")
+	return c.Render(http.StatusOK, "error.html", 0)
 }

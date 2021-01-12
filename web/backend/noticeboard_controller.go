@@ -100,7 +100,7 @@ func EchoNoticeboardContentView(c echo.Context) error {
 		}
 		return c.Render(http.StatusOK, "notice_board_contents.html", result)
 	}
-	return c.HTML(0, "ERROR")
+	return c.Render(http.StatusOK, "error.html", 0)
 }
 
 //EchoNoticeboardWriteView is shows noticeboard write view and insert the written content into the database
@@ -122,5 +122,5 @@ func EchoNoticeboardWriteView(c echo.Context) error {
 	} else {
 		return c.Render(http.StatusOK, "notice_board_write.html", "0")
 	}
-	return c.String(0, "ERROR")
+	return c.Render(http.StatusOK, "error.html", 0)
 }

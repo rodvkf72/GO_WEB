@@ -1,6 +1,8 @@
 package backend
 
 import (
+	"net/http"
+
 	"github.com/labstack/echo"
 )
 
@@ -40,5 +42,6 @@ func EchoRequestHandler(c echo.Context) error {
 	case "34":
 		return EchoBaekjoonSearch(c)
 	}
-	return c.String(0, "ERROR")
+	return c.Render(http.StatusOK, "error.html", 0)
+	//return c.String(0, "ERROR")
 }
