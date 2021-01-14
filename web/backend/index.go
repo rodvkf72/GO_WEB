@@ -2,7 +2,10 @@ package backend
 
 import (
 	"fmt"
+	"log"
+	"net"
 	"net/http"
+	"os"
 
 	"github.com/labstack/echo"
 )
@@ -16,6 +19,28 @@ func EchoHostIndex(c echo.Context) error {
 	} else {
 		//return c.Render(http.StatusOK, "index.html", "0")
 	}
+	f, err := os.OpenFile("iplog.txt", os.O_RDWR|os.O_CREATE|os.O_APPEND, 0666)
+
+	if err != nil {
+		log.Fatalf("error opening file: %v", err)
+	}
+	defer f.Close()
+
+	log.SetOutput(f)
+
+	addrs, err := net.InterfaceAddrs()
+	if err != nil {
+		log.Fatal(err)
+	}
+	for _, a := range addrs {
+		if ipnet, ok := a.(*net.IPNet); ok && !ipnet.IP.IsLoopback() {
+			if ipnet.IP.To4() != nil {
+				log.Println(ipnet.IP.String())
+			}
+		}
+	}
+	log.Println("-----------------")
+
 	return c.Render(http.StatusOK, "index.html", "0")
 }
 
