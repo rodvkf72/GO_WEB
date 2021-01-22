@@ -20,21 +20,31 @@ import (
 func EchoNoticeboardIndex(c echo.Context) error {
 	c.Request().ParseForm()
 	respage := c.FormValue("Page")
-	rescount := c.FormValue("Count")
+	//rescount := c.FormValue("Count")
 
 	//var n Interf = notice_board_view{}
 
 	if respage != "" {
+		/*
+			intrespage, err := strconv.Atoi(respage)
+			intrescount, err := strconv.Atoi(rescount)
+			if err != nil {
+				log.Fatal(err)
+			}
+			minint := (intrescount * 10) - (intrespage * 10)
+			maxint := minint + 10
+			minstr := strconv.Itoa(minint)
+			maxstr := strconv.Itoa(maxint)
+			var noticeviewstring = "SELECT *, (SELECT MAX(No) FROM notice_board_view) FROM notice_board_view WHERE No <=" + maxstr + " AND No >" + minstr + " ORDER BY No DESC limit 10;"
+		*/
+
 		intrespage, err := strconv.Atoi(respage)
-		intrescount, err := strconv.Atoi(rescount)
 		if err != nil {
 			log.Fatal(err)
 		}
-		minint := (intrescount * 10) - (intrespage * 10)
-		maxint := minint + 10
-		minstr := strconv.Itoa(minint)
-		maxstr := strconv.Itoa(maxint)
-		var noticeviewstring = "SELECT *, (SELECT MAX(No) FROM notice_board_view) FROM notice_board_view WHERE No <=" + maxstr + " AND No >" + minstr + " ORDER BY No DESC limit 10;"
+		intrespage = (intrespage * 10) - 10
+		page := strconv.Itoa(intrespage)
+		var noticeviewstring = "SELECT *, (SELECT MAX(No) FROM notice_board_view) FROM notice_board_view WHERE No > 0 ORDER BY No DESC limit 10 OFFSET " + page + ";"
 
 		result := NoticeSelectQuery(db1, noticeviewstring, "index")
 
