@@ -13,7 +13,9 @@
             <th width="10%">번호</th>
             <th width="70%">문제</th>
         </thread>
+        {{ $Count := 0 }}
         {{ range. }}
+        {{ $Count = .Count }}
             {{ if eq .No 0 }}
 
             {{ else }}
@@ -21,6 +23,8 @@
                     <td> {{ .No }} </td>
                     <td><a style="color: rgb(86, 152, 190);" href="/menu/?Handler=b_content&No={{ .No }}">{{ .Title }}</a></td>
                 </tbody>
+                <input id="cnt" type='button' value='cnt' onclick='Count("{{ $Count }}")' hidden>
+                <input id="alt" type='button' value='alt' onclick='Alt()' hidden>
             {{ end }}
         {{ end }}
     </table>
@@ -44,6 +48,25 @@
             {{ end }}
         {{ end }}
     </div>
+    <script>
+        var count = 0;
+        var devide = 0;
+        function Count(val) {
+            devide = val/10;
+            devide = Math.ceil(devide);
+            count = parseInt(devide);
+        }
+        function Alt() {
+            for (var i = 1; i <= count; i++) {
+                var list = document.querySelector("#b_dv");
+                list.innerHTML += "<input type='button' value=" + "'" + i + "'" + "onclick=" + "location.href='/menu/?Handler=b_main&Page=" + i + "&Count=" + count + "'" + "> &nbsp;";
+            }
+        }
+        var ele1 = document.getElementById('cnt');
+        var ele2 = document.getElementById('alt');
+        ele1.click();
+        ele2.click();
+    </script>
 </div>
 
 <div id="wrap">

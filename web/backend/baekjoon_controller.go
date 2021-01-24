@@ -1,7 +1,9 @@
 package backend
 
 import (
+	"log"
 	"net/http"
+	"strconv"
 	"time"
 
 	"github.com/labstack/echo"
@@ -9,19 +11,43 @@ import (
 
 //EchoBaekjoonIndex is shows the coding problem
 func EchoBaekjoonIndex(c echo.Context) error {
-	var baekjoonindex = "SELECT no, title FROM baekjoon_solution ORDER BY no ASC"
-	result := BaekjoonSelectQuery(db1, baekjoonindex, "index")
+	respage := c.FormValue("Page")
+	if respage != "" {
+		intrespage, err := strconv.Atoi(respage)
+		if err != nil {
+			log.Fatal(err)
+		}
+		intrespage = (intrespage * 10) - 10
+		page := strconv.Itoa(intrespage)
+		var baekjoonindex = "SELECT no, title, (SELECT COUNT(NO) FROM baekjoon_solution) FROM baekjoon_solution ORDER BY no ASC limit 10 OFFSET " + page + ";"
+		result := BaekjoonSelectQuery(db1, baekjoonindex, "index")
 
-	hostcookie, _ := c.Cookie("KKH")
-	if hostcookie != nil {
-		//result.Cookie = "TRUE"
-		result = append(result, baekjooncontentview{Cookie: "TRUE"})
+		hostcookie, _ := c.Cookie("KKH")
+		if hostcookie != nil {
+			//result.Cookie = "TRUE"
+			result = append(result, baekjooncontentview{Cookie: "TRUE"})
+		} else {
+			//result.Cookie = "FALSE"
+			result = append(result, baekjooncontentview{Cookie: "FALSE"})
+		}
+
+		return c.Render(http.StatusOK, "baekjoon.html", result)
 	} else {
-		//result.Cookie = "FALSE"
-		result = append(result, baekjooncontentview{Cookie: "FALSE"})
-	}
+		//var baekjoonindex = "SELECT no, title, (SELECT COUNT(No) FROM baekjoon_solution) FROM baekjoon_solution WHERE No>(SELECT TRUNCATE((SELECT COUNT(no)-1 FROM baekjoon_solution), -1) FROM dual) ORDER BY No ASC limit 10;"
+		var baekjoonindex = "SELECT no, title, (SELECT COUNT(No) FROM baekjoon_solution) FROM baekjoon_solution ORDER BY No ASC limit 10;"
+		result := BaekjoonSelectQuery(db1, baekjoonindex, "index")
 
-	return c.Render(http.StatusOK, "baekjoon.html", result)
+		hostcookie, _ := c.Cookie("KKH")
+		if hostcookie != nil {
+			//result.Cookie = "TRUE"
+			result = append(result, baekjooncontentview{Cookie: "TRUE"})
+		} else {
+			//result.Cookie = "FALSE"
+			result = append(result, baekjooncontentview{Cookie: "FALSE"})
+		}
+
+		return c.Render(http.StatusOK, "baekjoon.html", result)
+	}
 }
 
 //EchoBaekjoonContentView is shows the content of the selected problem

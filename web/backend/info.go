@@ -74,6 +74,7 @@ type baekjooncontentview struct {
 	No      int
 	Title   string
 	Content string
+	Count   int
 	Cookie  string
 }
 

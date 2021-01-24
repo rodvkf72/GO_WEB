@@ -205,15 +205,16 @@ func BaekjoonSelectQuery(db dbInfo, query string, sel string) []baekjooncontentv
 	Baekjooncontentviews := []baekjooncontentview{}
 
 	for rows.Next() {
-		var no int
+		var no, count int
 		var title, content string
 		if sel == "index" {
-			err := rows.Scan(&no, &title)
+			err := rows.Scan(&no, &title, &count)
 			if err != nil {
 				log.Fatal(err)
 			}
 			Baekjooncontentview.No = no
 			Baekjooncontentview.Title = title
+			Baekjooncontentview.Count = count
 			Baekjooncontentviews = append(Baekjooncontentviews, Baekjooncontentview)
 		} else {
 			err := rows.Scan(&no, &title, &content)
