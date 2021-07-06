@@ -2,7 +2,6 @@ package main
 
 import (
 	"GO_WEB/web/backend"
-	"crypto/tls"
 	"html/template"
 	"io"
 	"io/ioutil"
@@ -50,7 +49,14 @@ func (t *Template) Render(w io.Writer, name string, data interface{}, c echo.Con
 }
 
 func main() {
-	dirs := []string{"./frontend/", "./frontend/static/include/"}
+	dirs := []string{"./frontend/",
+		"./frontend/static/include/",
+		"./frontend/baekjoon/",
+		"./frontend/error/",
+		"./frontend/game/",
+		"./frontend/notice_board/",
+		"./frontend/project/"}
+
 	tempfiles := GetTempFilesFromFolders(dirs)
 	t := &Template{
 		//templates: template.Must(template.ParseGlob("./frontend/*.html")),
@@ -85,14 +91,14 @@ func main() {
 	e.POST("/menu/b_write", backend.EchoBaekjoonWriteView)
 	e.POST("/single_img_upload/", backend.SingleImgUpload)
 	e.POST("/multi_img_upload/", backend.MultiImgUpload)
+	e.POST("/codemirror", backend.CodeAjax)
 
-	tls.LoadX509KeyPair("./frontend/static/ssl/private.crt", "./frontend/static/ssl/private.key")
-	e.Logger.Fatal(e.StartTLS(":433", "./frontend/static/ssl/private.crt", "./frontend/static/ssl/private.key")) //https 보안연결.
+	//tls.LoadX509KeyPair("./frontend/static/ssl/private.crt", "./frontend/static/ssl/private.key")
+	//e.Logger.Fatal(e.StartTLS(":433", "./frontend/static/ssl/private.crt", "./frontend/static/ssl/private.key")) //https 보안연결.
 
-	/*
-		err := e.Start(":9090")
-		if err != nil {
-			e.Logger.Fatal(err)
-		}
-	*/
+	err := e.Start(":9090")
+	if err != nil {
+		e.Logger.Fatal(err)
+	}
+
 }
