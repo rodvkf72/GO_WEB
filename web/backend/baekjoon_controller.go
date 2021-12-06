@@ -82,7 +82,7 @@ func EchoBaekjoonWriteView(c echo.Context) error {
 func EchoBaekjoonSearch(c echo.Context) error {
 	resno := c.FormValue("no")
 
-	query := "SELECT no, title FROM baekjoon_solution WHERE no = " + "'" + resno + "'" + ";"
+	query := "SELECT no, title, (SELECT COUNT(NO) FROM baekjoon_solution) FROM baekjoon_solution WHERE no = " + "'" + resno + "'" + ";"
 	result := BaekjoonSelectQuery(db1, query, "index")
 
 	return c.Render(http.StatusOK, "baekjoon.html", result)
