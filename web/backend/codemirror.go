@@ -42,7 +42,8 @@ func sieve() {
 }
 
 func sendChannel(ch chan<- string, code string) {
-	imp := "package main \n\n import \"fmt\" \n\n func main() {\n fmt.Println(\"" + code + "\")\n }"
+	//imp := "package main \n\n import \"fmt\" \n\n func main() {\n fmt.Println(\"" + code + "\")\n }"
+	imp := "package main \n\n" + code
 	ch <- imp
 }
 
@@ -52,20 +53,27 @@ func receiveChannel(ch <-chan string, file string) string {
 	bytes = []byte(data)
 
 	filename := strings.Replace(file, ".", "", -1)
-	err := ioutil.WriteFile("./webCompile/"+filename+".go", bytes, 0644)
+	filename = strings.Replace(filename, ":", "", -1)
+	err := ioutil.WriteFile("./webCompile/"+filename+".go", bytes, 0777)
 	check(err)
 
-	exec.Command("D:/GOWRK/src/GO_WEB/web/webCompile/build.bat", filename).CombinedOutput()
+	test := exec.Command("go", "build", filename + ".go")
+	test.Dir = "C:/Users/Kwang/Go/src/GO_WEB/web/webCompile"
+	test.Run()
+
+	//exec.Command("D:/GOWRK/src/GO_WEB/web/webCompile/build.bat", filename).CombinedOutput()
 
 	//out, _ := exec.Command("D:/GOWRK/src/GO_WEB/web/webCompile/go run test.go").Output()
 	//cmd := exec.CommandContext("D:/GOWRK/src/GO_WEB/web/webCompile", "go run test.go")
 
 	//cmd := exec.Command("D:/GOWRK/src/GO_WEB/web/webCompile/" + filename + ".exe")
-	cmd := exec.Command("D:/GOWRK/src/GO_WEB/web/webCompile/" + filename + ".exe")
 
-	byteOutput, _ := cmd.Output()
-	data = string(byteOutput)
+	cmd := exec.Command("C:/Users/Kwang/Go/src/GO_WEB/web/webCompile/" + filename + ".exe")
+	output, _ := cmd.Output()
 
+	data = string(output[:])
+
+	fmt.Println("data : " + data)
 	return data
 }
 
@@ -76,7 +84,7 @@ func check(e error) {
 }
 
 func CodeAjax(c echo.Context) error {
-	rescode := c.FormValue("code")
+	rescode := c.FormValue("textarea")
 
 	channel := make(chan string, 1)
 	sendChannel(channel, rescode)
@@ -92,12 +100,20 @@ func CodeAjax(c echo.Context) error {
 		}
 	}
 
+	fmt.Println("test")
+	fmt.Println(file)
 	result := receiveChannel(channel, file)
 
 	fmt.Println(result)
 	return c.String(http.StatusOK, result)
 }
 
+func WebCompiler(c echo.Context) error {
+	textarea := c.FormValue("textarea")
+
+	fmt.Println(textarea)
+	return c.Render(http.StatusOK, "webcompiler.html", 0)
+}
 /*
 func getOutboundIP() net.IP {
 	conn, err := net.Dial("udp", "8.8.8.8:80")

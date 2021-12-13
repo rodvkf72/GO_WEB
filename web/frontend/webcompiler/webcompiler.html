@@ -1,0 +1,47 @@
+<html lang="ko">
+{{ template "head.html" }}
+<body class="box" style="background-color: rgb(255,255,255);">
+{{ template "header.html" }}
+{{ template "leftside.html" }}
+<div class="center content-view">
+    <br>
+    <div style="font-size: 3em">Golang Web Compiler</div>
+    <br>
+    <br>
+    <textarea style="width:70%; height:50%;" id="textarea" name="textarea" rows="200" cols="300"></textarea>
+    <br>
+    <br>
+    <button style="text-align: center;" onclick="Compile(); return false;">컴파일</button>
+</div>
+<div class="center content-view">
+    <br>
+    <textarea style="width:70%; height:30%;" id="resultarea" name="resultarea" rows="200" cols="300"></textarea>
+    <br><br>
+</div>
+<br><br>
+<!--<a style="position:fixed;bottom:10px;right:10px;" href="#project" title="맨 위로">맨 위로</a>-->
+
+<script>
+
+    function Compile() {
+        var textarea = document.getElementById("textarea").value;
+        console.log(textarea);
+        $.ajax({
+            url: '/menu/webcompiler',
+            type: 'post',
+            dataType: 'text',
+            data: {"textarea" : textarea},
+            success: function(data) {
+                document.getElementById("resultarea").innerHTML = data;
+                console.log(data);
+            },
+            error: function(data) {
+                console.log(data);
+            }
+        });
+    }
+</script>
+
+{{ template "script.html" }}
+</body>
+</html>

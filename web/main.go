@@ -55,7 +55,8 @@ func main() {
 		"./frontend/error/",
 		"./frontend/game/",
 		"./frontend/notice_board/",
-		"./frontend/project/"}
+		"./frontend/project/",
+		"./frontend/webcompiler/"}
 
 	tempfiles := GetTempFilesFromFolders(dirs)
 	t := &Template{
@@ -91,7 +92,8 @@ func main() {
 	e.POST("/menu/b_write", backend.EchoBaekjoonWriteView)
 	e.POST("/single_img_upload/", backend.SingleImgUpload)
 	e.POST("/multi_img_upload/", backend.MultiImgUpload)
-	e.POST("/codemirror", backend.CodeAjax)
+	e.GET("/menu/webcompiler_index", backend.WebCompiler)
+	e.POST("/menu/webcompiler", backend.CodeAjax)
 
 	//tls.LoadX509KeyPair("./frontend/static/ssl/private.crt", "./frontend/static/ssl/private.key")
 	//e.Logger.Fatal(e.StartTLS(":433", "./frontend/static/ssl/private.crt", "./frontend/static/ssl/private.key")) //https 보안연결.
