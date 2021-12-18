@@ -1,4 +1,4 @@
-## Link : [rodvkf72.ga](http://rodvkf72.ga)
+## Link : [rodvkf72.cf](http://rodvkf72.cf)
 이때까지 진행해 왔던 프로젝트 정리 및 코딩 문제 풀이를 작성중인 블로그 입니다.  
 <br>
 
