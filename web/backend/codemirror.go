@@ -61,13 +61,6 @@ func receiveChannel(ch <-chan string, file string) string {
 	test.Dir = "C:/Users/Kwang/Go/src/GO_WEB/web/webCompile"
 	test.Run()
 
-	//exec.Command("D:/GOWRK/src/GO_WEB/web/webCompile/build.bat", filename).CombinedOutput()
-
-	//out, _ := exec.Command("D:/GOWRK/src/GO_WEB/web/webCompile/go run test.go").Output()
-	//cmd := exec.CommandContext("D:/GOWRK/src/GO_WEB/web/webCompile", "go run test.go")
-
-	//cmd := exec.Command("D:/GOWRK/src/GO_WEB/web/webCompile/" + filename + ".exe")
-
 	cmd := exec.Command("C:/Users/Kwang/Go/src/GO_WEB/web/webCompile/" + filename + ".exe")
 	output, _ := cmd.Output()
 

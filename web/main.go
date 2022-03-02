@@ -7,6 +7,9 @@ import (
 	"io/ioutil"
 	"net/http"
 	"strings"
+	"time"
+	"os"
+	"fmt"
 
 	_ "github.com/go-sql-driver/mysql"
 	"github.com/labstack/echo"
@@ -68,8 +71,26 @@ func main() {
 
 	e := echo.New()
 	e.AutoTLSManager.Cache = autocert.DirCache("/static/ssl/") //TLS의 캐시 위치를 지정
-	e.Use(middleware.Logger())                                 //미들웨어에서 로거를 사용
+	//e.Use(middleware.Logger())                                 //미들웨어에서 로거를 사용
+	//로거 파일 처리
+	now := time.Now();
+	custom := now.Format("2006-01-02")
+	fileName := custom + "_log.txt"
+
+	f, file := os.OpenFile("./logs/" + fileName, os.O_RDWR|os.O_CREATE|os.O_APPEND, 0666)
+	if file != nil {
+		panic(fmt.Sprintf("error opening file : %v", file))
+	}
+	defer f.Close()
+
+	e.Use(middleware.LoggerWithConfig(middleware.LoggerConfig{
+		Format: `{"time":"${time_rfc3339}", "remote_ip":"${remote_ip}", ` +
+		`"host":"${host}", "method":"${method}", "uri":"${uri}", "user_agent":"${user_agent}",` +
+		`"status":${status}, ` + "\n",
+		Output: f,
+	}))
 	e.Use(middleware.Recover())                                //미들웨어에서 복구를 사용
+
 	e.Static("/static/", "public")
 	e.Renderer = t
 
