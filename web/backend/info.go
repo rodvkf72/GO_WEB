@@ -121,6 +121,11 @@ func static(handle string) string {
 		reshandle = "33"
 	case "b_search":
 		reshandle = "34"
+
+	case "webcompiler_index":
+		reshandle = "41"
+	case "webcompiler":
+		reshandle = "42"
 	}
 
 	return reshandle

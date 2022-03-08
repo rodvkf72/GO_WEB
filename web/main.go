@@ -7,6 +7,9 @@ import (
 	"io/ioutil"
 	"net/http"
 	"strings"
+	"time"
+	"os"
+	"fmt"
 
 	_ "github.com/go-sql-driver/mysql"
 	"github.com/labstack/echo"
@@ -55,7 +58,8 @@ func main() {
 		"./frontend/error/",
 		"./frontend/game/",
 		"./frontend/notice_board/",
-		"./frontend/project/"}
+		"./frontend/project/",
+		"./frontend/webcompiler/"}
 
 	tempfiles := GetTempFilesFromFolders(dirs)
 	t := &Template{
@@ -67,8 +71,26 @@ func main() {
 
 	e := echo.New()
 	e.AutoTLSManager.Cache = autocert.DirCache("/static/ssl/") //TLS의 캐시 위치를 지정
-	e.Use(middleware.Logger())                                 //미들웨어에서 로거를 사용
+	//e.Use(middleware.Logger())                                 //미들웨어에서 로거를 사용
+	//로거 파일 처리
+	now := time.Now();
+	custom := now.Format("2006-01-02")
+	fileName := custom + "_log.txt"
+
+	f, file := os.OpenFile("./logs/" + fileName, os.O_RDWR|os.O_CREATE|os.O_APPEND, 0666)
+	if file != nil {
+		panic(fmt.Sprintf("error opening file : %v", file))
+	}
+	defer f.Close()
+
+	e.Use(middleware.LoggerWithConfig(middleware.LoggerConfig{
+		Format: `{"time":"${time_rfc3339}", "remote_ip":"${remote_ip}", ` +
+		`"host":"${host}", "method":"${method}", "uri":"${uri}", "user_agent":"${user_agent}",` +
+		`"status":${status}, ` + "\n",
+		Output: f,
+	}))
 	e.Use(middleware.Recover())                                //미들웨어에서 복구를 사용
+
 	e.Static("/static/", "public")
 	e.Renderer = t
 
@@ -91,7 +113,8 @@ func main() {
 	e.POST("/menu/b_write", backend.EchoBaekjoonWriteView)
 	e.POST("/single_img_upload/", backend.SingleImgUpload)
 	e.POST("/multi_img_upload/", backend.MultiImgUpload)
-	e.POST("/codemirror", backend.CodeAjax)
+	e.GET("/menu/webcompiler_index", backend.WebCompiler)
+	e.POST("/menu/webcompiler", backend.CodeAjax)
 
 	//tls.LoadX509KeyPair("./frontend/static/ssl/private.crt", "./frontend/static/ssl/private.key")
 	//e.Logger.Fatal(e.StartTLS(":433", "./frontend/static/ssl/private.crt", "./frontend/static/ssl/private.key")) //https 보안연결.

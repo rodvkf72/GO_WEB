@@ -41,6 +41,11 @@ func EchoRequestHandler(c echo.Context) error {
 		return EchoBaekjoonWriteView(c)
 	case "34":
 		return EchoBaekjoonSearch(c)
+
+	case "41":
+		return WebCompiler(c)
+	case "42":
+		return CodeAjax(c)
 	}
 	return c.Render(http.StatusOK, "error.html", 0)
 	//return c.String(0, "ERROR")
