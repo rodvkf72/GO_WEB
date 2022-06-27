@@ -15,6 +15,8 @@
 
 프로젝트가 PHP로 분류되는 이유는 스마트 에디터 파일이 PHP로 되어 있기 때문입니다.
 <br>
+네이버 스마트에디터2 깃 주소 : <a href="https://github.com/naver/smarteditor2">https://github.com/naver/smarteditor2</a>
+<br><br>
 아직은 활성화되지 않은 언어다 보니 기능 추가 이외에 구조 변경이 있을 수 있습니다.
 <br>
 
